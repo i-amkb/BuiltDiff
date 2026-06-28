@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
   --bg: #06060a;
@@ -2185,33 +2186,19 @@ async function doLogin(){
 }
 
 let _socialProvider='';
+let _socialEmail='';
+let _socialName='';
 let _srGender='Male';
 
 async function doSocialAuth(type){
-  _socialProvider=type;
-  const providerEmail=type+'_social@builtdiff.local';
-  // Check if this provider account already exists
-  const existing=await dbGet('users',providerEmail);
-  if(existing){
-    // Returning user — just log them in
-    A.user.name=existing.name; A.user.username=existing.username; A.user.email=existing.email;
-    await loadFromDB();
-    ['loginEmail','loginPass','regName','regUsername','regEmail','regPass','regPassConfirm'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-    showScreen('app'); initApp();
-    return;
-  }
-  // New user — send to social register flow
-  const label=type==='google'?'Google':'Apple';
-  document.getElementById('socialRegTitle').textContent='Finish signing up with '+label+'.';
-  document.getElementById('socialRegSub').textContent='Set up your BuiltDiff account. Just a few details and you\'re in.';
-  document.getElementById('socialRegErr').style.display='none';
-  document.getElementById('socialStep1').style.display='';
-  document.getElementById('socialStep2').style.display='none';
-  // clear fields
-  ['srName','srUsername','srPass','srPassConfirm','srAge','srWeight','srHeight'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  _srGender='Male';
-  document.querySelectorAll('.sr-gender-btn').forEach(b=>b.classList.toggle('active',b.dataset.g==='Male'));
-  showScreen('social-register');
+  const provider=type==='apple'?'apple':'google';
+  const {error}=await _supabase.auth.signInWithOAuth({
+    provider,
+    options:{
+      redirectTo: window.location.origin+window.location.pathname
+    }
+  });
+  if(error) toast('Auth error: '+error.message);
 }
 
 function setSRGender(el){
@@ -2256,7 +2243,7 @@ async function doSocialRegister(){
   const taken=await dbGet('users',ukey);
   if(taken){err.textContent='That username is taken. Try another.';err.style.display='block';socialRegBack();return;}
 
-  const providerEmail=_socialProvider+'_social@builtdiff.local';
+  const providerEmail=_socialEmail||(_socialProvider+'_social@builtdiff.local');
   const passHash=await hashPass(pass);
   const userObj={key:providerEmail,email:providerEmail,name,username,passHash,provider:_socialProvider,gender:_srGender,age,weight,height,tier:'free',created:Date.now()};
   await dbPut('users',userObj);
@@ -3020,14 +3007,14 @@ async function handleCoachUpload(e){
     reader.onload=async(ev)=>{
       const b64=ev.target.result.split(',')[1];
       const mime=type;
-      const apiKey='AIzaSyBoQZ7vxXtAmQ19nJ8VU0zr5tUk50Zb1Hg';
+      const sys='You are DIFF, a fitness coach. Analyze this workout image/document the user uploaded. Give specific, actionable feedback based on their goal: '+(A.goal||'general fitness')+'. Be direct and helpful.';
       try{
-        const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='+apiKey,{
+        const res=await fetch('/api/ai',{
           method:'POST',headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({contents:[{role:'user',parts:[{inline_data:{mime_type:mime,data:b64}},{text:'You are DIFF, a fitness coach. Analyze this workout image/document the user uploaded. Give specific, actionable feedback based on their goal: '+( A.goal||'general fitness')+'. Be direct and helpful.'}]}],generationConfig:{maxOutputTokens:800}})
+          body:JSON.stringify({prompt:'Analyze the uploaded fitness image and give coaching feedback.',system:sys,max_tokens:1000})
         });
         const data=await res.json();
-        const r=data.candidates?.[0]?.content?.parts?.[0]?.text||'Could not analyze image.';
+        const r=data.content?.[0]?.text||'Could not analyze image.';
         appendCoachMsg('chatBodyTab','DIFF',r);
       }catch(err){ appendCoachMsg('chatBodyTab','DIFF','Could not analyze image. Try again.'); }
     };
@@ -4056,23 +4043,14 @@ async function analyzeBody(){
       const apiKey="AIzaSyBoQZ7vxXtAmQ19nJ8VU0zr5tUk50Zb1Hg";
       const b64=_imgBase64.split(',')[1];
       const mime=_imgBase64.split(';')[0].split(':')[1]||'image/jpeg';
-      const sys=`You are BuiltDiff AI fitness engine. Analyze the uploaded physique photo and the user's stats to generate a transformation roadmap. Format in clean HTML using only: h2,h3,p,ul,li,strong,hr tags.`;
-      const prompt=`Analyze this person's physique photo. Their goal: ${A.goal}. Weight: ${A.sel.weight||'?'}${A.user.units==='imperial'?'lbs':'kg'}. Height: ${A.sel.height||'?'}${A.user.units==='imperial'?'ft':'cm'}. Age: ${A.sel.age||'?'}. Level: ${A.sel.lvl}.
-
-From what you see in the photo + their stats, create:
-1. Current physique assessment (be honest but respectful)
-2. Month 1: First changes they'll notice
-3. Month 2-3: Visible differences
-4. Month 4-6: Major transformation  
-5. 6-12 months: Goal achieved
-
-Be specific, honest, motivating. Clean HTML only.`;
-      const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='+apiKey,{
+      const prompt=`Analyze this person's physique. Their goal: ${A.goal}. Weight: ${A.sel.weight||'?'}${A.user.units==='imperial'?'lbs':'kg'}. Height: ${A.sel.height||'?'}${A.user.units==='imperial'?'ft':'cm'}. Age: ${A.sel.age||'?'}. Level: ${A.sel.lvl}.\n\nCreate:\n1. Current physique assessment (honest but respectful)\n2. Month 1: First changes they'll notice\n3. Month 2-3: Visible differences\n4. Month 4-6: Major transformation\n5. 6-12 months: Goal achieved\n\nBe specific, honest, motivating. Clean HTML only.`;
+      const sys=`You are BuiltDiff AI fitness engine. Analyze the user's physique stats and generate a transformation roadmap. Format in clean HTML using only: h2,h3,p,ul,li,strong,hr tags.`;
+      const res=await fetch('/api/ai',{
         method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({contents:[{role:'user',parts:[{inline_data:{mime_type:mime,data:b64}},{text:sys+'\n\n'+prompt}]}],generationConfig:{maxOutputTokens:1200}})
+        body:JSON.stringify({prompt,system:sys,max_tokens:2000})
       });
       const data=await res.json();
-      r=data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+      r=data.content?.[0]?.text||'';
     } else {
       r=await ai(`Based on the user's goal (${A.goal}), weight (${A.sel.weight||'?'}kg), height (${A.sel.height||'?'}cm), age (${A.sel.age||'?'}), and fitness level (${A.sel.lvl}): Create a detailed body transformation roadmap. Include: 1.Current assessment 2.Month 1 changes 3.Month 2-3 4.Month 4-6 5.6-12 months. Be specific, honest, motivating. Clean HTML: h2,h3,p,ul,li,strong only.`);
     }
@@ -4677,6 +4655,43 @@ function checkin(type){
 }
 
 // ─── INDEXEDDB LOCAL DATABASE ────────────────────────────────────────
+// ─── SUPABASE ────────────────────────────────────────────────────────
+const SUPABASE_URL='https://zwrsntsqxebsuavquexu.supabase.co';
+const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3cnNudHNxeGVic3VhdnF1ZXh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjYyNzgsImV4cCI6MjA5ODIwMjI3OH0.PB0wpJ7Y_WAWpovuB3hO5ipph-l1EYtU_XCqZqvxyCo';
+const _supabase=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+
+// Handle OAuth callback on page load
+(async()=>{
+  const {data:{session}}=await _supabase.auth.getSession();
+  if(session){
+    const u=session.user;
+    const meta=u.user_metadata||{};
+    // Check if user already has a BuiltDiff profile in IDB
+    const existing=await dbGet('users',u.email).catch(()=>null);
+    if(existing){
+      // Returning user — load their data
+      A.user.name=existing.name; A.user.username=existing.username; A.user.email=existing.email;
+      await loadFromDB();
+      showScreen('app'); initApp();
+    } else {
+      // New social user — send to social register to complete profile
+      _socialProvider=session.user.app_metadata?.provider||'google';
+      _socialEmail=u.email;
+      _socialName=meta.full_name||meta.name||'';
+      document.getElementById('socialRegTitle').textContent='Almost there.';
+      document.getElementById('socialRegSub').textContent='Set a username and a few body stats to personalise your experience.';
+      document.getElementById('socialRegErr').style.display='none';
+      document.getElementById('socialStep1').style.display='';
+      document.getElementById('socialStep2').style.display='none';
+      ['srName','srUsername','srPass','srPassConfirm','srAge','srWeight','srHeight'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+      if(_socialName) { const el=document.getElementById('srName'); if(el) el.value=_socialName; }
+      _srGender='Male';
+      document.querySelectorAll('.sr-gender-btn').forEach(b=>b.classList.toggle('active',b.dataset.g==='Male'));
+      showScreen('social-register');
+    }
+  }
+})();
+
 const DB_NAME='BuiltDiffDB', DB_VER=3;
 let _db=null;
 function openDB(){
@@ -4925,44 +4940,35 @@ function toggleTheme(){
 applyTheme(isDark);
 
 // ─── AI CALL ─────────────────────────────────────────────────────────
-async function ai(prompt,json=false,sysOverride=null,histOverride=null){
-  const apiKey="AIzaSyBoQZ7vxXtAmQ19nJ8VU0zr5tUk50Zb1Hg"; // Your Gemini API key - REPLACE THIS
+async function ai(prompt,json=false,sysOverride=null){
   const sys=sysOverride||("You are BuiltDiff AI fitness engine. Be direct, specific, practical. "+(json?"Return ONLY valid JSON, no markdown, no explanation.":"Format in clean HTML using only: h2,h3,p,ul,li,strong,hr tags."));
-  
+
   const makeRequest=async(retryCount=0)=>{
-    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,{
+    const res=await fetch('/api/ai',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        contents:[{role:'user',parts:[{text:`${sys}\n\n${prompt}`}]}],
-        generationConfig:{maxOutputTokens:2500}
-      })
+      body:JSON.stringify({prompt,system:sys,json,max_tokens:4096})
     });
-    
-    if((res.status===429 || res.status===503) && retryCount<3){
+
+    if((res.status===429||res.status===503)&&retryCount<3){
       const waitTime=(retryCount+1)*2000;
-      console.log(`API busy. Retrying in ${waitTime}ms...`);
       await new Promise(r=>setTimeout(r,waitTime));
       return makeRequest(retryCount+1);
     }
 
     if(!res.ok){
-      const errText = await res.text().catch(()=>res.statusText||`HTTP ${res.status}`);
-      let errMsg = errText;
-      try { const errJson = JSON.parse(errText); errMsg = errJson.error?.message || errText; } catch(e){}
-      if(res.status===429 || res.status===503){
-        throw new Error('The Gemini model is currently experiencing high demand. Please try again in a few seconds.');
-      }
-      throw new Error(errMsg || `Request failed: ${res.status}`);
+      const errText=await res.text().catch(()=>res.statusText||`HTTP ${res.status}`);
+      let errMsg=errText;
+      try{const errJson=JSON.parse(errText);errMsg=errJson.error?.message||errText;}catch(e){}
+      throw new Error(errMsg||`Request failed: ${res.status}`);
     }
-
     return res;
   };
-  
+
   const res=await makeRequest();
   const data=await res.json();
-  if(data.error) throw new Error(data.error.message);
-  return data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+  if(data.error) throw new Error(data.error.message||JSON.stringify(data.error));
+  return data.content?.[0]?.text||'';
 }
 
 // ─── TOAST ───────────────────────────────────────────────────────────
