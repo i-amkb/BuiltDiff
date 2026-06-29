@@ -2078,7 +2078,10 @@ const EMAILJS_WAITLIST_TEMPLATE = 'YOUR_WAITLIST_TEMPLATE_ID';
 const EMAILJS_LAUNCH_TEMPLATE   = 'YOUR_LAUNCH_TEMPLATE_ID';
 try { emailjs.init(EMAILJS_PUBLIC_KEY); } catch(e){}
 
+let _oauthInProgress=false;
+
 setTimeout(async()=>{
+  if(_oauthInProgress) return; // OAuth callback is handling the screen
   await loadFromDB();
   if(A.user.name){
     // Returning user — show welcome back screen
@@ -4666,6 +4669,7 @@ _supabase.auth.onAuthStateChange(async(event,session)=>{
   if(_oauthHandled) return;
   if((event==='SIGNED_IN'||event==='INITIAL_SESSION')&&session){
     _oauthHandled=true;
+    _oauthInProgress=true; // stop the splash timeout from overriding us
     try{
       const u=session.user;
       const meta=u.user_metadata||{};
