@@ -4660,48 +4660,51 @@ const SUPABASE_URL='https://zwrsntsqxebsuavquexu.supabase.co';
 const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3cnNudHNxeGVic3VhdnF1ZXh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjYyNzgsImV4cCI6MjA5ODIwMjI3OH0.PB0wpJ7Y_WAWpovuB3hO5ipph-l1EYtU_XCqZqvxyCo';
 const _supabase=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 
-// Handle OAuth callback on page load — wait for DOM + IDB to be ready
-async function handleOAuthCallback(){
-  try{
-    const {data:{session}}=await _supabase.auth.getSession();
-    if(!session) return; // no session, normal landing page load
-    const u=session.user;
-    const meta=u.user_metadata||{};
-    // Wait for IDB to be ready
-    await openDB();
-    // Check if user already has a BuiltDiff profile in IDB
-    const existing=await dbGet('users',u.email).catch(()=>null);
-    if(existing){
-      // Returning user — load their data
-      A.user.name=existing.name; A.user.username=existing.username; A.user.email=existing.email;
-      await loadFromDB();
-      showScreen('app'); initApp();
-    } else {
-      // New social user — send to social register to complete profile
-      _socialProvider=u.app_metadata?.provider||'google';
-      _socialEmail=u.email;
-      _socialName=meta.full_name||meta.name||'';
-      const titleEl=document.getElementById('socialRegTitle');
-      const subEl=document.getElementById('socialRegSub');
-      const errEl=document.getElementById('socialRegErr');
-      if(titleEl) titleEl.textContent='Almost there.';
-      if(subEl) subEl.textContent='Set a username and a few body stats to personalise your experience.';
-      if(errEl) errEl.style.display='none';
-      const s1=document.getElementById('socialStep1');
-      const s2=document.getElementById('socialStep2');
-      if(s1) s1.style.display='';
-      if(s2) s2.style.display='none';
-      ['srName','srUsername','srPass','srPassConfirm','srAge','srWeight','srHeight'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-      if(_socialName){const el=document.getElementById('srName');if(el)el.value=_socialName;}
-      _srGender='Male';
-      document.querySelectorAll('.sr-gender-btn').forEach(b=>b.classList.toggle('active',b.dataset.g==='Male'));
-      showScreen('social-register');
+// Handle OAuth callback — use onAuthStateChange so it fires after Supabase processes the URL token
+let _oauthHandled=false;
+_supabase.auth.onAuthStateChange(async(event,session)=>{
+  if(_oauthHandled) return;
+  if((event==='SIGNED_IN'||event==='INITIAL_SESSION')&&session){
+    _oauthHandled=true;
+    try{
+      const u=session.user;
+      const meta=u.user_metadata||{};
+      // Wait for DOM + IDB
+      await new Promise(r=>{
+        if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',r);
+        else r();
+      });
+      await openDB();
+      const existing=await dbGet('users',u.email).catch(()=>null);
+      if(existing){
+        A.user.name=existing.name; A.user.username=existing.username; A.user.email=existing.email;
+        await loadFromDB();
+        showScreen('app'); initApp();
+      } else {
+        _socialProvider=u.app_metadata?.provider||'google';
+        _socialEmail=u.email;
+        _socialName=meta.full_name||meta.name||'';
+        const titleEl=document.getElementById('socialRegTitle');
+        const subEl=document.getElementById('socialRegSub');
+        const errEl=document.getElementById('socialRegErr');
+        if(titleEl) titleEl.textContent='Almost there.';
+        if(subEl) subEl.textContent='Set a username and a few body stats to personalise your experience.';
+        if(errEl) errEl.style.display='none';
+        const s1=document.getElementById('socialStep1');
+        const s2=document.getElementById('socialStep2');
+        if(s1) s1.style.display='';
+        if(s2) s2.style.display='none';
+        ['srName','srUsername','srPass','srPassConfirm','srAge','srWeight','srHeight'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+        if(_socialName){const el=document.getElementById('srName');if(el)el.value=_socialName;}
+        _srGender='Male';
+        document.querySelectorAll('.sr-gender-btn').forEach(b=>b.classList.toggle('active',b.dataset.g==='Male'));
+        showScreen('social-register');
+      }
+    }catch(err){
+      console.warn('OAuth callback error:',err);
     }
-  }catch(err){
-    console.warn('OAuth callback error:',err);
   }
-}
-document.addEventListener('DOMContentLoaded', handleOAuthCallback);
+});
 
 const DB_NAME='BuiltDiffDB', DB_VER=3;
 let _db=null;
