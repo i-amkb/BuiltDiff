@@ -77,7 +77,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 .ld-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
 .ld-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--acc);text-transform:uppercase;margin-bottom:20px;border:1px solid var(--acc3);display:inline-block;padding:6px 16px;border-radius:20px;background:var(--acc2);}
 .ld-h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(52px,12vw,96px);line-height:.95;text-transform:uppercase;color:#fff;margin-bottom:16px;}
-.ld-h1 span{color:#fff;}
+.ld-h1 span{color:var(--acc);}
 .ld-sub{font-size:clamp(15px,3vw,18px);color:var(--txt2);max-width:480px;line-height:1.6;margin-bottom:36px;}
 .ld-ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
 .ld-cta-primary{background:var(--acc);color:#000;border:none;border-radius:12px;padding:16px 32px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:transform .15s,box-shadow .15s;}
@@ -148,6 +148,10 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 .as-social{display:flex;flex-direction:column;gap:10px;}
 .sr-gender-btn{background:var(--s2);border:1px solid var(--bdr);border-radius:10px;padding:9px 16px;color:var(--txt2);cursor:pointer;font-size:13px;font-weight:600;transition:all .15s;}
 .sr-gender-btn.active{background:var(--acc2);border-color:var(--acc);color:var(--acc);}
+.pass-strength{margin-top:8px;}
+.pass-strength-bar{height:4px;border-radius:4px;background:var(--s3);overflow:hidden;margin-bottom:4px;}
+.pass-strength-fill{height:100%;border-radius:4px;width:0%;transition:width .3s,background .3s;}
+.pass-strength-label{font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:1px;}
 .as-social-btn{width:100%;background:var(--s2);border:1px solid var(--bdr2);border-radius:10px;padding:12px;color:var(--txt);font-family:'DM Sans',sans-serif;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:border-color .2s;}
 .as-social-btn:hover{border-color:var(--bdr2);}
 .as-link{text-align:center;font-size:13px;color:var(--txt2);margin-top:20px;}
@@ -1087,8 +1091,12 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
         <div class="as-inp-grp">
           <label class="as-inp-lbl">Set a Password</label>
           <div class="as-inp-row">
-            <input class="as-inp" id="srPass" type="password" placeholder="Min 8 characters" style="padding-right:42px;" autocomplete="new-password"/>
+            <input class="as-inp" id="srPass" type="password" placeholder="Min 8 characters" style="padding-right:42px;" autocomplete="new-password" oninput="checkSRPassStrength(this.value)"/>
             <button class="as-eye" onclick="togglePassVis('srPass',this)">👁</button>
+          </div>
+          <div class="pass-strength" id="srPassStrength" style="display:none;">
+            <div class="pass-strength-bar"><div class="pass-strength-fill" id="srPassFill"></div></div>
+            <div class="pass-strength-label" id="srPassLabel"></div>
           </div>
         </div>
         <div class="as-inp-grp">
@@ -2202,6 +2210,32 @@ async function doSocialAuth(type){
     }
   });
   if(error) toast('Auth error: '+error.message);
+}
+
+function checkSRPassStrength(val){
+  const bar=document.getElementById('srPassStrength');
+  const fill=document.getElementById('srPassFill');
+  const label=document.getElementById('srPassLabel');
+  if(!val){bar.style.display='none';return;}
+  bar.style.display='';
+  let score=0;
+  if(val.length>=8) score++;
+  if(val.length>=12) score++;
+  if(/[A-Z]/.test(val)) score++;
+  if(/[0-9]/.test(val)) score++;
+  if(/[^A-Za-z0-9]/.test(val)) score++;
+  const levels=[
+    {w:'20%',color:'#ff3b5c',txt:'WEAK'},
+    {w:'40%',color:'#ff6b35',txt:'FAIR'},
+    {w:'60%',color:'#f7c948',txt:'GOOD'},
+    {w:'80%',color:'#4cd964',txt:'STRONG'},
+    {w:'100%',color:'#00e5cc',txt:'VERY STRONG'},
+  ];
+  const l=levels[Math.min(score,4)];
+  fill.style.width=l.w;
+  fill.style.background=l.color;
+  label.style.color=l.color;
+  label.textContent=l.txt;
 }
 
 function setSRGender(el){
