@@ -957,7 +957,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 
   <div class="ld-footer">
     <div class="ld-footer-brand">BUILT<span>DIFF</span></div>
-    <div class="ld-footer-txt">© 2025 BUILTDIFF · TRAIN DIFFERENT. LOOK DIFFERENT.</div>
+    <div class="ld-footer-txt">© 2026 BUILTDIFF · TRAIN DIFFERENT. LOOK DIFFERENT.</div>
   </div>
 </div>
 
@@ -3289,8 +3289,8 @@ function genGeoMeals(lat,lon){
   if(!mr) return;
   const budgetText=A.budgetCustom?'Budget: '+A.budgetCustom+'.':'Budget: '+A.budget+'.';
   mr.innerHTML='<div class="meals-card"><div style="text-align:center;padding:20px;"><div class="lring" style="margin:0 auto 10px;"></div><div class="ltxt">Loading local dishes...</div></div></div>';
-  const priceCtx='IMPORTANT: Use REAL current 2025 Nigerian market prices in NGN. Inflation has been severe — rice is ₦1,200-1,800/cup, eggs ₦300-400 each, chicken ₦2,000-3,500/kg, fish ₦1,500-3,000 each, beans ₦800-1,200/cup, plantain ₦500-800 each. Do NOT use outdated pre-2024 prices. Be honest about costs.';
-  return ai('You are a Nigerian fitness nutritionist. Generate a local meal plan for someone near latitude '+lat+', longitude '+lon+'. Goal: '+A.goal+'. '+budgetText+' '+priceCtx+' List 10-12 specific local foods/dishes with: name, brief description, macros (protein/carb/fat), and realistic 2025 NGN price estimate. Include street foods, local markets, and traditional Nigerian dishes where relevant. Format clean HTML using only h3,p,ul,li,strong tags.',false,'You are a Nigerian fitness nutritionist. Return only clean HTML. Use real 2025 NGN prices.')
+  const priceCtx='IMPORTANT: Use REAL current 2026 Nigerian market prices in NGN. Inflation has been severe — rice is ₦1,200-1,800/cup, eggs ₦300-400 each, chicken ₦2,000-3,500/kg, fish ₦1,500-3,000 each, beans ₦800-1,200/cup, plantain ₦500-800 each. Do NOT use outdated pre-2025 prices. Be honest about costs.';
+  return ai('You are a Nigerian fitness nutritionist. Generate a local meal plan for someone near latitude '+lat+', longitude '+lon+'. Goal: '+A.goal+'. '+budgetText+' '+priceCtx+' List 10-12 specific local foods/dishes with: name, brief description, macros (protein/carb/fat), and realistic 2026 NGN price estimate. Include street foods, local markets, and traditional Nigerian dishes where relevant. Format clean HTML using only h3,p,ul,li,strong tags.',false,'You are a Nigerian fitness nutritionist. Return only clean HTML. Use real 2026 NGN prices.')
     .then(r=>{ mr.innerHTML='<div class="meals-card"><div class="mc-top"><div class="mc-ic">📍</div><div class="mc-ttl">Local Meals Near You</div><div style="margin-left:auto;font-family:\'JetBrains Mono\',monospace;font-size:8px;color:var(--txt3);letter-spacing:1px;">GPS</div></div><div class="pout">'+r+'</div></div>'; })
     .catch(e=>{
       mr.innerHTML='<div class="err-box" style="text-align:center;">'
@@ -4057,7 +4057,7 @@ async function genFreeMeals(region,country){
   mr.innerHTML=`<div class="meals-card"><div style="text-align:center;padding:20px;"><div class="lring" style="margin:0 auto 10px;"></div><div class="ltxt">Loading ${loc} dishes...</div></div></div>`;
   try {
     const isNg=loc.toLowerCase().includes('nigeria')||loc.toLowerCase().includes('lagos')||loc.toLowerCase().includes('abuja')||loc.toLowerCase().includes('port harcourt')||loc.toLowerCase().includes('kano');
-    const priceCtx=isNg?'IMPORTANT: Use REAL current 2025 NGN prices. Inflation is severe — rice ₦1,200-1,800/cup, eggs ₦300-400 each, chicken ₦2,000-3,500/kg. Use honest 2025 prices only.':'Use realistic local prices for '+loc+'.';
+    const priceCtx=isNg?'IMPORTANT: Use REAL current 2026 NGN prices. Inflation is severe — rice ₦1,200-1,800/cup, eggs ₦300-400 each, chicken ₦2,000-3,500/kg. Use honest 2026 prices only.':'Use realistic local prices for '+loc+'.';
     const r=await ai('You are a fitness nutritionist. Generate a local meal plan for someone in '+loc+'. Goal: '+A.goal+'. '+budgetText+' '+priceCtx+' List 10-12 specific foods/dishes with name, description, macros, and price estimate. Include traditional local dishes. Format clean HTML using h3,p,ul,li,strong only.',false,'You are a nutrition expert. Return only clean HTML. Use real current prices.');
     mr.innerHTML=`<div class="meals-card"><div class="mc-top"><div class="mc-ic">${country?'🏳️':'🌍'}</div><div class="mc-ttl">${loc} — Dishes</div><div style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--txt3);letter-spacing:1px;">FREE</div></div><div class="pout">${r}</div></div>`;
   } catch(e){ mr.innerHTML=`<div class="err-box">Couldn't load dishes. Check connection.</div>`; }
