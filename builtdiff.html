@@ -148,10 +148,6 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 .as-social{display:flex;flex-direction:column;gap:10px;}
 .sr-gender-btn{background:var(--s2);border:1px solid var(--bdr);border-radius:10px;padding:9px 16px;color:var(--txt2);cursor:pointer;font-size:13px;font-weight:600;transition:all .15s;}
 .sr-gender-btn.active{background:var(--acc2);border-color:var(--acc);color:var(--acc);}
-.pass-strength{margin-top:8px;}
-.pass-strength-bar{height:4px;border-radius:4px;background:var(--s3);overflow:hidden;margin-bottom:4px;}
-.pass-strength-fill{height:100%;border-radius:4px;width:0%;transition:width .3s,background .3s;}
-.pass-strength-label{font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:1px;}
 .as-social-btn{width:100%;background:var(--s2);border:1px solid var(--bdr2);border-radius:10px;padding:12px;color:var(--txt);font-family:'DM Sans',sans-serif;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:border-color .2s;}
 .as-social-btn:hover{border-color:var(--bdr2);}
 .as-link{text-align:center;font-size:13px;color:var(--txt2);margin-top:20px;}
@@ -883,7 +879,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
     <div class="ld-hero-bg"></div>
     <div class="ld-hero-grid"></div>
     <div class="ld-eyebrow">⚡ AI-Powered Fitness</div>
-    <div class="ld-h1">TRAIN<br><span>DIFFERENT.</span><br>LOOK<br>DIFFERENT.</div>
+    <div class="ld-h1">TRAIN<br><span>DIFFERENT.</span><br>LOOK<br><span>DIFFERENT.</span></div>
     <div class="ld-sub">BuiltDiff builds your exact plan — personalized workouts, nutrition, a local meal guide, and an AI coach that actually gives a damn.</div>
     <div class="ld-ctas">
       <button class="ld-cta-primary" onclick="showScreen('register')">GET SNEAK PEEK →</button>
@@ -961,7 +957,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 
   <div class="ld-footer">
     <div class="ld-footer-brand">BUILT<span>DIFF</span></div>
-    <div class="ld-footer-txt">© 2026 BUILTDIFF · TRAIN DIFFERENT. LOOK DIFFERENT.</div>
+    <div class="ld-footer-txt">© 2025 BUILTDIFF · TRAIN DIFFERENT. LOOK DIFFERENT.</div>
   </div>
 </div>
 
@@ -1091,12 +1087,8 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
         <div class="as-inp-grp">
           <label class="as-inp-lbl">Set a Password</label>
           <div class="as-inp-row">
-            <input class="as-inp" id="srPass" type="password" placeholder="Min 8 characters" style="padding-right:42px;" autocomplete="new-password" oninput="checkSRPassStrength(this.value)"/>
+            <input class="as-inp" id="srPass" type="password" placeholder="Min 8 characters" style="padding-right:42px;" autocomplete="new-password"/>
             <button class="as-eye" onclick="togglePassVis('srPass',this)">👁</button>
-          </div>
-          <div class="pass-strength" id="srPassStrength" style="display:none;">
-            <div class="pass-strength-bar"><div class="pass-strength-fill" id="srPassFill"></div></div>
-            <div class="pass-strength-label" id="srPassLabel"></div>
           </div>
         </div>
         <div class="as-inp-grp">
@@ -1757,7 +1749,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
     <div id="mNg">
       <div class="pgrid2">
         <div class="pc2 sel" onclick="selP(this,'ng-basic')" data-p="ng-basic"><div class="pc2-plan">Basic</div><div class="pc2-amt b">₦3,000</div><div class="pc2-per">/month · State</div></div>
-        <div class="pc2" onclick="selP(this,'ng-pro')" data-p="ng-pro"><div class="pc2-plan">Pro</div><div class="pc2-amt g">₦5,499</div><div class="pc2-per">/month · City+Town</div></div>
+        <div class="pc2" onclick="selP(this,'ng-pro')" data-p="ng-pro"><div class="pc2-plan">Pro</div><div class="pc2-amt g">₦3,500</div><div class="pc2-per">/month · City+Town</div></div>
         <div class="pc2" onclick="selP(this,'ng-ann')" data-p="ng-ann"><div class="pc2-save">SAVE 67%</div><div class="pc2-plan">Annual</div><div class="pc2-amt g">₦14,000</div><div class="pc2-per">/year · Pro level</div></div>
       </div>
     </div>
@@ -1856,8 +1848,151 @@ function getRand(arr, used){
 
 // ─── EXERCISE DATA ───────────────────────────────────────────────────
 const EX={
-  // ── CHEST · GYM ──
   "Barbell Bench Press":{sets:"4×8",muscle:"Chest / Triceps / Shoulders",timed:false,rest:120,cat:"Chest",env:"gym",img:"https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&q=80"},
+  "Incline Bench Press":{sets:"4×10",muscle:"Upper Chest / Shoulders",timed:false,rest:90,cat:"Chest",env:"gym",img:"https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&q=80"},
+  "Decline Bench Press":{sets:"3×10",muscle:"Lower Chest / Triceps",timed:false,rest:90,cat:"Chest",env:"gym",img:"https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&q=80"},
+  "Dumbbell Flyes":{sets:"3×12",muscle:"Chest / Pecs",timed:false,rest:60,cat:"Chest",env:"gym",img:"https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?w=400&q=80"},
+  "Cable Crossover":{sets:"4×15",muscle:"Chest / Inner Pec",timed:false,rest:60,cat:"Chest",env:"gym",img:"https://images.unsplash.com/photo-1597452485669-2c7bb5fef90d?w=400&q=80"},
+  "Pec Deck Machine":{sets:"3×15",muscle:"Chest / Pecs",timed:false,rest:60,cat:"Chest",env:"gym",img:"https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&q=80"},
+  "Incline Dumbbell Press":{sets:"4×10",muscle:"Upper Chest",timed:false,rest:90,cat:"Chest",env:"gym",img:"https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?w=400&q=80"},
+  "Chest Dip":{sets:"4×max",muscle:"Lower Chest / Triceps",timed:false,rest:90,cat:"Chest",env:"gym",img:"https://images.unsplash.com/photo-1598971639058-fab3c3109a37?w=400&q=80"},
+  "Push-ups":{sets:"4×20",muscle:"Chest / Triceps",timed:false,rest:60,cat:"Chest",env:"home",img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80"},
+  "Wide Push-ups":{sets:"4×15",muscle:"Outer Chest",timed:false,rest:60,cat:"Chest",env:"home",img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80"},
+  "Diamond Push-ups":{sets:"4×12",muscle:"Inner Chest / Triceps",timed:false,rest:60,cat:"Chest",env:"home",img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80"},
+  "Decline Push-ups":{sets:"4×15",muscle:"Upper Chest",timed:false,rest:60,cat:"Chest",env:"home",img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80"},
+  "Incline Push-ups":{sets:"4×15",muscle:"Lower Chest",timed:false,rest:60,cat:"Chest",env:"home",img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80"},
+  "Plyometric Push-ups":{sets:"4×10",muscle:"Chest / Power",timed:false,rest:75,cat:"Chest",env:"home",img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80"},
+  "Isometric Wall Push":{sets:"3×20s",muscle:"Chest / Shoulders",timed:true,timerSec:20,rest:30,cat:"Chest",env:"home",img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80"},
+  "Deadlift":{sets:"4×5",muscle:"Full Back / Glutes / Hamstrings",timed:false,rest:180,cat:"Back",env:"gym",img:"https://images.unsplash.com/photo-1517343985841-f8b2d66e010b?w=400&q=80"},
+  "Barbell Row":{sets:"4×8",muscle:"Mid Back / Lats / Biceps",timed:false,rest:120,cat:"Back",env:"gym",img:"https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=400&q=80"},
+  "Lat Pulldown":{sets:"4×10",muscle:"Lats / Biceps",timed:false,rest:90,cat:"Back",env:"gym",img:"https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&q=80"},
+  "Cable Row":{sets:"4×10",muscle:"Mid Back / Rhomboids",timed:false,rest:90,cat:"Back",env:"gym",img:"https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=400&q=80"},
+  "T-Bar Row":{sets:"4×8",muscle:"Thickness / Mid Back",timed:false,rest:120,cat:"Back",env:"gym",img:"https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=400&q=80"},
+  "Single Arm Dumbbell Row":{sets:"4×10 each",muscle:"Lats / Mid Back",timed:false,rest:60,cat:"Back",env:"gym",img:"https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?w=400&q=80"},
+  "Shrugs":{sets:"4×15",muscle:"Traps / Upper Back",timed:false,rest:60,cat:"Back",env:"gym",img:"https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&q=80"},
+  "Romanian Deadlift":{sets:"4×10",muscle:"Hamstrings / Lower Back / Glutes",timed:false,rest:90,cat:"Back",env:"gym",img:"https://images.unsplash.com/photo-1517343985841-f8b2d66e010b?w=400&q=80"},
+  "Hyperextensions":{sets:"3×15",muscle:"Lower Back / Glutes",timed:false,rest:60,cat:"Back",env:"gym",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Pull-ups":{sets:"4×max",muscle:"Lats / Biceps / Back",timed:false,rest:90,cat:"Back",env:"home",img:"https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&q=80"},
+  "Australian Pull-ups":{sets:"4×max",muscle:"Mid Back / Biceps",timed:false,rest:75,cat:"Back",env:"home",img:"https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&q=80"},
+  "Superman Hold":{sets:"3×30s",muscle:"Lower Back / Glutes",timed:true,timerSec:30,rest:30,cat:"Back",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Reverse Snow Angels":{sets:"3×15",muscle:"Upper Back / Rear Delts",timed:false,rest:30,cat:"Back",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Good Mornings":{sets:"3×15",muscle:"Lower Back / Hamstrings",timed:false,rest:45,cat:"Back",env:"home",img:"https://images.unsplash.com/photo-1517343985841-f8b2d66e010b?w=400&q=80"},
+  "Doorframe Row":{sets:"3×12",muscle:"Mid Back / Lats",timed:false,rest:60,cat:"Back",env:"home",img:"https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&q=80"},
+  "Overhead Press":{sets:"4×8",muscle:"Front & Side Delts / Traps",timed:false,rest:120,cat:"Shoulders",env:"gym",img:"https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&q=80"},
+  "Dumbbell Shoulder Press":{sets:"4×10",muscle:"All Deltoids",timed:false,rest:90,cat:"Shoulders",env:"gym",img:"https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&q=80"},
+  "Lateral Raises":{sets:"4×15",muscle:"Side Delts",timed:false,rest:60,cat:"Shoulders",env:"gym",img:"https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&q=80"},
+  "Front Raises":{sets:"3×12",muscle:"Front Delts",timed:false,rest:60,cat:"Shoulders",env:"gym",img:"https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&q=80"},
+  "Face Pulls":{sets:"3×15",muscle:"Rear Delts / Rotator Cuff",timed:false,rest:60,cat:"Shoulders",env:"gym",img:"https://images.unsplash.com/photo-1597452485669-2c7bb5fef90d?w=400&q=80"},
+  "Upright Row":{sets:"3×12",muscle:"Traps / Side Delts",timed:false,rest:60,cat:"Shoulders",env:"gym",img:"https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&q=80"},
+  "Arnold Press":{sets:"4×10",muscle:"All Deltoids",timed:false,rest:90,cat:"Shoulders",env:"gym",img:"https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&q=80"},
+  "Rear Delt Flyes":{sets:"3×15",muscle:"Rear Delts / Upper Back",timed:false,rest:60,cat:"Shoulders",env:"gym",img:"https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?w=400&q=80"},
+  "Machine Shoulder Press":{sets:"4×12",muscle:"All Deltoids",timed:false,rest:90,cat:"Shoulders",env:"gym",img:"https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&q=80"},
+  "Pike Push-ups":{sets:"4×12",muscle:"Front Delts / Triceps",timed:false,rest:60,cat:"Shoulders",env:"home",img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80"},
+  "Wall Handstand Push-ups":{sets:"3×8",muscle:"Shoulders / Triceps",timed:false,rest:90,cat:"Shoulders",env:"home",img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80"},
+  "Bottle Lateral Raises":{sets:"4×15",muscle:"Side Delts",timed:false,rest:45,cat:"Shoulders",env:"home",img:"https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&q=80"},
+  "Band Pull-aparts":{sets:"3×20",muscle:"Rear Delts / Upper Back",timed:false,rest:30,cat:"Shoulders",env:"home",img:"https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&q=80"},
+  "Bicep Curl":{sets:"4×12",muscle:"Biceps",timed:false,rest:60,cat:"Arms",env:"gym",img:"https://images.unsplash.com/photo-1581009137042-c552e485697a?w=400&q=80"},
+  "Hammer Curl":{sets:"4×12",muscle:"Biceps / Brachialis",timed:false,rest:60,cat:"Arms",env:"gym",img:"https://images.unsplash.com/photo-1581009137042-c552e485697a?w=400&q=80"},
+  "Preacher Curl":{sets:"3×12",muscle:"Bicep Peak",timed:false,rest:60,cat:"Arms",env:"gym",img:"https://images.unsplash.com/photo-1581009137042-c552e485697a?w=400&q=80"},
+  "Concentration Curl":{sets:"3×12 each",muscle:"Bicep Peak",timed:false,rest:45,cat:"Arms",env:"gym",img:"https://images.unsplash.com/photo-1581009137042-c552e485697a?w=400&q=80"},
+  "Tricep Pushdown":{sets:"4×12",muscle:"Triceps",timed:false,rest:60,cat:"Arms",env:"gym",img:"https://images.unsplash.com/photo-1597452485669-2c7bb5fef90d?w=400&q=80"},
+  "Skull Crushers":{sets:"4×10",muscle:"Triceps",timed:false,rest:75,cat:"Arms",env:"gym",img:"https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&q=80"},
+  "Overhead Tricep Extension":{sets:"3×12",muscle:"Long Head Triceps",timed:false,rest:60,cat:"Arms",env:"gym",img:"https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&q=80"},
+  "Close-grip Bench Press":{sets:"4×8",muscle:"Triceps / Inner Chest",timed:false,rest:90,cat:"Arms",env:"gym",img:"https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&q=80"},
+  "Dips":{sets:"4×max",muscle:"Triceps / Chest",timed:false,rest:90,cat:"Arms",env:"gym",img:"https://images.unsplash.com/photo-1598971639058-fab3c3109a37?w=400&q=80"},
+  "Cable Curl":{sets:"3×15",muscle:"Biceps",timed:false,rest:60,cat:"Arms",env:"gym",img:"https://images.unsplash.com/photo-1597452485669-2c7bb5fef90d?w=400&q=80"},
+  "Reverse Curl":{sets:"3×12",muscle:"Brachialis / Forearms",timed:false,rest:45,cat:"Arms",env:"gym",img:"https://images.unsplash.com/photo-1581009137042-c552e485697a?w=400&q=80"},
+  "Wrist Curls":{sets:"3×20",muscle:"Forearms",timed:false,rest:30,cat:"Arms",env:"gym",img:"https://images.unsplash.com/photo-1581009137042-c552e485697a?w=400&q=80"},
+  "Chair Dips":{sets:"4×15",muscle:"Triceps",timed:false,rest:45,cat:"Arms",env:"home",img:"https://images.unsplash.com/photo-1598971639058-fab3c3109a37?w=400&q=80"},
+  "Bodyweight Skull Crushers":{sets:"3×12",muscle:"Triceps",timed:false,rest:60,cat:"Arms",env:"home",img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80"},
+  "Towel Bicep Curl":{sets:"3×12",muscle:"Biceps",timed:false,rest:45,cat:"Arms",env:"home",img:"https://images.unsplash.com/photo-1581009137042-c552e485697a?w=400&q=80"},
+  "Inverted Row":{sets:"4×max",muscle:"Biceps / Back",timed:false,rest:60,cat:"Arms",env:"home",img:"https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&q=80"},
+  "Tricep Push-up Hold":{sets:"3×20s",muscle:"Triceps",timed:true,timerSec:20,rest:30,cat:"Arms",env:"home",img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80"},
+  "Squat":{sets:"4×8",muscle:"Quads / Glutes / Hamstrings",timed:false,rest:120,cat:"Legs",env:"gym",img:"https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&q=80"},
+  "Leg Press":{sets:"4×12",muscle:"Quads / Glutes",timed:false,rest:90,cat:"Legs",env:"gym",img:"https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&q=80"},
+  "Leg Curl":{sets:"4×12",muscle:"Hamstrings",timed:false,rest:60,cat:"Legs",env:"gym",img:"https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&q=80"},
+  "Leg Extension":{sets:"4×12",muscle:"Quads",timed:false,rest:60,cat:"Legs",env:"gym",img:"https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&q=80"},
+  "Hip Thrust (Barbell)":{sets:"4×10",muscle:"Glutes / Hamstrings",timed:false,rest:90,cat:"Legs",env:"gym",img:"https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=400&q=80"},
+  "Hack Squat":{sets:"4×10",muscle:"Quads / Glutes",timed:false,rest:90,cat:"Legs",env:"gym",img:"https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&q=80"},
+  "Sumo Deadlift":{sets:"4×6",muscle:"Inner Thighs / Glutes / Back",timed:false,rest:120,cat:"Legs",env:"gym",img:"https://images.unsplash.com/photo-1517343985841-f8b2d66e010b?w=400&q=80"},
+  "Calf Raises":{sets:"5×20",muscle:"Calves / Gastrocnemius",timed:false,rest:45,cat:"Legs",env:"gym",img:"https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=400&q=80"},
+  "Seated Calf Raises":{sets:"4×20",muscle:"Soleus / Calves",timed:false,rest:45,cat:"Legs",env:"gym",img:"https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=400&q=80"},
+  "Lunges":{sets:"3×12 each",muscle:"Quads / Glutes",timed:false,rest:60,cat:"Legs",env:"gym",img:"https://images.unsplash.com/photo-1566351577104-f9e8c8798d4c?w=400&q=80"},
+  "Walking Lunges":{sets:"3×20 steps",muscle:"Quads / Glutes / Balance",timed:false,rest:60,cat:"Legs",env:"gym",img:"https://images.unsplash.com/photo-1566351577104-f9e8c8798d4c?w=400&q=80"},
+  "Adductor Machine":{sets:"3×15",muscle:"Inner Thighs",timed:false,rest:45,cat:"Legs",env:"gym",img:"https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&q=80"},
+  "Abductor Machine":{sets:"3×15",muscle:"Outer Thighs / Glutes",timed:false,rest:45,cat:"Legs",env:"gym",img:"https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&q=80"},
+  "Bodyweight Squat":{sets:"4×25",muscle:"Quads / Glutes",timed:false,rest:45,cat:"Legs",env:"home",img:"https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&q=80"},
+  "Jump Squat":{sets:"4×15",muscle:"Quads / Glutes / Power",timed:false,rest:60,cat:"Legs",env:"home",img:"https://images.unsplash.com/photo-1549576490-b0b4831ef60a?w=400&q=80"},
+  "Bulgarian Split Squat":{sets:"3×12 each",muscle:"Quads / Glutes",timed:false,rest:75,cat:"Legs",env:"home",img:"https://images.unsplash.com/photo-1566351577104-f9e8c8798d4c?w=400&q=80"},
+  "Glute Bridge":{sets:"4×20",muscle:"Glutes / Hamstrings",timed:false,rest:30,cat:"Legs",env:"home",img:"https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=400&q=80"},
+  "Single Leg Glute Bridge":{sets:"3×15 each",muscle:"Glutes / Hamstrings",timed:false,rest:45,cat:"Legs",env:"home",img:"https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=400&q=80"},
+  "Donkey Kicks":{sets:"3×20 each",muscle:"Glutes",timed:false,rest:30,cat:"Legs",env:"home",img:"https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=400&q=80"},
+  "Fire Hydrants":{sets:"3×20 each",muscle:"Outer Glutes / Hip Abductors",timed:false,rest:30,cat:"Legs",env:"home",img:"https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=400&q=80"},
+  "Standing Calf Raises":{sets:"4×25",muscle:"Calves",timed:false,rest:20,cat:"Legs",env:"home",img:"https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=400&q=80"},
+  "Wall Sit":{sets:"3×45s",muscle:"Quads / Glutes",timed:true,timerSec:45,rest:30,cat:"Legs",env:"home",img:"https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&q=80"},
+  "Box Step-ups":{sets:"3×15 each",muscle:"Quads / Glutes",timed:false,rest:45,cat:"Legs",env:"home",img:"https://images.unsplash.com/photo-1566351577104-f9e8c8798d4c?w=400&q=80"},
+  "Sumo Squat":{sets:"4×15",muscle:"Inner Thighs / Glutes",timed:false,rest:45,cat:"Legs",env:"home",img:"https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&q=80"},
+  "Cable Crunch":{sets:"4×15",muscle:"Abs / Core",timed:false,rest:60,cat:"Core",env:"gym",img:"https://images.unsplash.com/photo-1597452485669-2c7bb5fef90d?w=400&q=80"},
+  "Hanging Leg Raise":{sets:"4×15",muscle:"Lower Abs / Hip Flexors",timed:false,rest:60,cat:"Core",env:"gym",img:"https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&q=80"},
+  "Ab Wheel Rollout":{sets:"3×10",muscle:"Full Core / Abs",timed:false,rest:75,cat:"Core",env:"gym",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Decline Sit-ups":{sets:"4×15",muscle:"Abs",timed:false,rest:45,cat:"Core",env:"gym",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Weighted Russian Twists":{sets:"3×20",muscle:"Obliques",timed:false,rest:45,cat:"Core",env:"gym",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Woodchop":{sets:"3×12 each",muscle:"Obliques / Rotational Core",timed:false,rest:45,cat:"Core",env:"gym",img:"https://images.unsplash.com/photo-1597452485669-2c7bb5fef90d?w=400&q=80"},
+  "Landmine Rotation":{sets:"3×10 each",muscle:"Obliques / Core",timed:false,rest:45,cat:"Core",env:"gym",img:"https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=400&q=80"},
+  "Plank":{sets:"3×60s",muscle:"Full Core",timed:true,timerSec:60,rest:45,cat:"Core",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Side Plank":{sets:"3×30s each",muscle:"Obliques / Core",timed:true,timerSec:30,rest:20,cat:"Core",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Mountain Climbers":{sets:"4×30s",muscle:"Core / Cardio",timed:true,timerSec:30,rest:30,cat:"Core",env:"home",img:"https://images.unsplash.com/photo-1571019613576-2b22c76fd955?w=400&q=80"},
+  "Bicycle Crunches":{sets:"4×20",muscle:"Abs / Obliques",timed:false,rest:30,cat:"Core",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Crunches":{sets:"4×25",muscle:"Upper Abs",timed:false,rest:30,cat:"Core",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Sit-ups":{sets:"4×20",muscle:"Abs",timed:false,rest:30,cat:"Core",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Hollow Body Hold":{sets:"3×30s",muscle:"Core / Full Abs",timed:true,timerSec:30,rest:30,cat:"Core",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "V-ups":{sets:"3×15",muscle:"Upper & Lower Abs",timed:false,rest:45,cat:"Core",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Flutter Kicks":{sets:"3×30s",muscle:"Lower Abs",timed:true,timerSec:30,rest:20,cat:"Core",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Leg Raises":{sets:"4×15",muscle:"Lower Abs",timed:false,rest:30,cat:"Core",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Dead Bug":{sets:"3×10 each",muscle:"Deep Core / Stability",timed:false,rest:30,cat:"Core",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Russian Twists":{sets:"3×20",muscle:"Obliques",timed:false,rest:30,cat:"Core",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Treadmill Run":{sets:"20–40 mins",muscle:"Full Body / Cardio",timed:true,timerSec:1200,rest:0,cat:"Cardio",env:"gym",img:"https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=400&q=80"},
+  "Stationary Bike":{sets:"20–30 mins",muscle:"Legs / Cardio",timed:true,timerSec:1200,rest:0,cat:"Cardio",env:"gym",img:"https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=400&q=80"},
+  "Rowing Machine":{sets:"15–25 mins",muscle:"Full Body / Back / Cardio",timed:true,timerSec:900,rest:0,cat:"Cardio",env:"gym",img:"https://images.unsplash.com/photo-1576678927484-cc907957088c?w=400&q=80"},
+  "Stair Master":{sets:"15–20 mins",muscle:"Legs / Glutes / Cardio",timed:true,timerSec:900,rest:0,cat:"Cardio",env:"gym",img:"https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=400&q=80"},
+  "Battle Ropes":{sets:"5×30s",muscle:"Shoulders / Arms / Cardio",timed:true,timerSec:30,rest:30,cat:"Cardio",env:"gym",img:"https://images.unsplash.com/photo-1549576490-b0b4831ef60a?w=400&q=80"},
+  "Elliptical":{sets:"20–30 mins",muscle:"Full Body / Low Impact",timed:true,timerSec:1200,rest:0,cat:"Cardio",env:"gym",img:"https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=400&q=80"},
+  "Jump Rope (Gym)":{sets:"5×1 min",muscle:"Calves / Cardio / Coordination",timed:true,timerSec:60,rest:30,cat:"Cardio",env:"gym",img:"https://images.unsplash.com/photo-1549576490-b0b4831ef60a?w=400&q=80"},
+  "Burpees":{sets:"4×15",muscle:"Full Body / Cardio",timed:false,rest:60,cat:"Cardio",env:"home",img:"https://images.unsplash.com/photo-1549576490-b0b4831ef60a?w=400&q=80"},
+  "High Knees":{sets:"4×30s",muscle:"Legs / Cardio",timed:true,timerSec:30,rest:20,cat:"Cardio",env:"home",img:"https://images.unsplash.com/photo-1549576490-b0b4831ef60a?w=400&q=80"},
+  "Jumping Jacks":{sets:"4×40",muscle:"Full Body / Cardio",timed:false,rest:30,cat:"Cardio",env:"home",img:"https://images.unsplash.com/photo-1549576490-b0b4831ef60a?w=400&q=80"},
+  "Jump Rope":{sets:"5×1 min",muscle:"Calves / Cardio",timed:true,timerSec:60,rest:30,cat:"Cardio",env:"home",img:"https://images.unsplash.com/photo-1549576490-b0b4831ef60a?w=400&q=80"},
+  "Box Jumps":{sets:"4×10",muscle:"Legs / Power / Cardio",timed:false,rest:60,cat:"Cardio",env:"home",img:"https://images.unsplash.com/photo-1549576490-b0b4831ef60a?w=400&q=80"},
+  "Shadow Boxing":{sets:"5×2 mins",muscle:"Upper Body / Cardio",timed:true,timerSec:120,rest:60,cat:"Cardio",env:"home",img:"https://images.unsplash.com/photo-1549576490-b0b4831ef60a?w=400&q=80"},
+  "Running":{sets:"20–40 mins",muscle:"Full Body / Cardio",timed:true,timerSec:1200,rest:0,cat:"Cardio",env:"home",img:"https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=400&q=80"},
+  "Skaters":{sets:"4×20",muscle:"Legs / Balance / Cardio",timed:false,rest:30,cat:"Cardio",env:"home",img:"https://images.unsplash.com/photo-1549576490-b0b4831ef60a?w=400&q=80"},
+  "Bear Crawl":{sets:"3×20m",muscle:"Full Body / Core / Cardio",timed:false,rest:45,cat:"Cardio",env:"home",img:"https://images.unsplash.com/photo-1549576490-b0b4831ef60a?w=400&q=80"},
+  "Jaw Clenching":{sets:"3×30s",muscle:"Masseter / Jaw",timed:true,timerSec:30,rest:20,cat:"Face",env:"home",img:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80"},
+  "Mewing / Tongue Posture":{sets:"Hold all day",muscle:"Tongue / Jawline",timed:false,rest:0,cat:"Face",env:"home",img:"https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=400&q=80"},
+  "Chewing Gum Workout":{sets:"10–20 mins/day",muscle:"Masseter / Face",timed:true,timerSec:600,rest:0,cat:"Face",env:"home",img:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80"},
+  "Neck Resistance Training":{sets:"3×15",muscle:"Neck / Trap",timed:false,rest:30,cat:"Face",env:"home",img:"https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&q=80"},
+  "Neck Flexion & Extension":{sets:"3×20",muscle:"Neck Muscles",timed:false,rest:20,cat:"Face",env:"home",img:"https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&q=80"},
+  "Cheekbone Exercises":{sets:"3×20 reps",muscle:"Cheeks / Zygomatic",timed:false,rest:20,cat:"Face",env:"home",img:"https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=400&q=80"},
+  "Neck Lateral Flexion":{sets:"3×15 each",muscle:"Sternocleidomastoid",timed:false,rest:20,cat:"Face",env:"home",img:"https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&q=80"},
+  "Neck Shrugs":{sets:"4×20",muscle:"Upper Traps / Neck",timed:false,rest:30,cat:"Face",env:"gym",img:"https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&q=80"},
+  "Hip Flexor Stretch":{sets:"3×45s each",muscle:"Hip Flexors",timed:true,timerSec:45,rest:15,cat:"Stretch",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Hamstring Stretch":{sets:"3×45s each",muscle:"Hamstrings",timed:true,timerSec:45,rest:15,cat:"Stretch",env:"home",img:"https://images.unsplash.com/photo-1571019613576-2b22c76fd955?w=400&q=80"},
+  "Chest Opener Stretch":{sets:"3×30s",muscle:"Chest / Shoulders",timed:true,timerSec:30,rest:10,cat:"Stretch",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Spinal Twist":{sets:"3×30s each",muscle:"Spine / Lower Back",timed:true,timerSec:30,rest:10,cat:"Stretch",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Shoulder Cross Stretch":{sets:"3×30s each",muscle:"Shoulders / Traps",timed:true,timerSec:30,rest:10,cat:"Stretch",env:"home",img:"https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&q=80"},
+  "Quad Stretch":{sets:"3×30s each",muscle:"Quadriceps",timed:true,timerSec:30,rest:10,cat:"Stretch",env:"home",img:"https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&q=80"},
+  "Neck Side Stretch":{sets:"3×20s each",muscle:"Neck / Trap",timed:true,timerSec:20,rest:10,cat:"Stretch",env:"home",img:"https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&q=80"},
+  "Cat-Cow":{sets:"3×10 cycles",muscle:"Spine / Lower Back",timed:false,rest:10,cat:"Stretch",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Pigeon Pose":{sets:"3×45s each",muscle:"Hip Flexors / Glutes",timed:true,timerSec:45,rest:10,cat:"Stretch",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Cobra Stretch":{sets:"3×30s",muscle:"Lower Back / Abs",timed:true,timerSec:30,rest:10,cat:"Stretch",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Child's Pose":{sets:"3×45s",muscle:"Lower Back / Hips",timed:true,timerSec:45,rest:10,cat:"Stretch",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Figure-4 Stretch":{sets:"3×30s each",muscle:"Piriformis / Glutes",timed:true,timerSec:30,rest:10,cat:"Stretch",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Thoracic Rotation":{sets:"3×10 each",muscle:"Upper Back / Spine",timed:false,rest:10,cat:"Stretch",env:"gym",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Walking":{sets:"30+ mins",muscle:"Full Body / Cardio",timed:true,timerSec:1800,rest:0,cat:"Everyday",env:"home",img:"https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=400&q=80"},
+  "Stair Climbing":{sets:"10–20 mins",muscle:"Legs / Glutes / Cardio",timed:true,timerSec:600,rest:0,cat:"Everyday",env:"home",img:"https://images.unsplash.com/photo-1566351577104-f9e8c8798d4c?w=400&q=80"},
+  "Dead Hang":{sets:"3×max",muscle:"Grip / Shoulders / Core",timed:true,timerSec:30,rest:60,cat:"Everyday",env:"home",img:"https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&q=80"},
+  "Box Breathing":{sets:"5 mins",muscle:"Mind / Nervous System",timed:true,timerSec:300,rest:0,cat:"Everyday",env:"home",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"},
+  "Desk Push-ups":{sets:"3×20",muscle:"Chest / Triceps",timed:false,rest:30,cat:"Everyday",env:"home",img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80"},
   "Incline Bench Press":{sets:"4×10",muscle:"Upper Chest / Shoulders",timed:false,rest:90,cat:"Chest",env:"gym",img:"https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&q=80"},
   "Decline Bench Press":{sets:"3×10",muscle:"Lower Chest / Triceps",timed:false,rest:90,cat:"Chest",env:"gym",img:"https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&q=80"},
   "Dumbbell Flyes":{sets:"3×12",muscle:"Chest / Pecs",timed:false,rest:60,cat:"Chest",env:"gym",img:"https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?w=400&q=80"},
@@ -2210,32 +2345,6 @@ async function doSocialAuth(type){
     }
   });
   if(error) toast('Auth error: '+error.message);
-}
-
-function checkSRPassStrength(val){
-  const bar=document.getElementById('srPassStrength');
-  const fill=document.getElementById('srPassFill');
-  const label=document.getElementById('srPassLabel');
-  if(!val){bar.style.display='none';return;}
-  bar.style.display='';
-  let score=0;
-  if(val.length>=8) score++;
-  if(val.length>=12) score++;
-  if(/[A-Z]/.test(val)) score++;
-  if(/[0-9]/.test(val)) score++;
-  if(/[^A-Za-z0-9]/.test(val)) score++;
-  const levels=[
-    {w:'20%',color:'#ff3b5c',txt:'WEAK'},
-    {w:'40%',color:'#ff6b35',txt:'FAIR'},
-    {w:'60%',color:'#f7c948',txt:'GOOD'},
-    {w:'80%',color:'#4cd964',txt:'STRONG'},
-    {w:'100%',color:'#00e5cc',txt:'VERY STRONG'},
-  ];
-  const l=levels[Math.min(score,4)];
-  fill.style.width=l.w;
-  fill.style.background=l.color;
-  label.style.color=l.color;
-  label.textContent=l.txt;
 }
 
 function setSRGender(el){
@@ -3180,8 +3289,8 @@ function genGeoMeals(lat,lon){
   if(!mr) return;
   const budgetText=A.budgetCustom?'Budget: '+A.budgetCustom+'.':'Budget: '+A.budget+'.';
   mr.innerHTML='<div class="meals-card"><div style="text-align:center;padding:20px;"><div class="lring" style="margin:0 auto 10px;"></div><div class="ltxt">Loading local dishes...</div></div></div>';
-  const priceCtx='IMPORTANT: Use REAL current 2026 Nigerian market prices in NGN. Inflation has been severe — rice is ₦1,200-1,800/cup, eggs ₦300-400 each, chicken ₦2,000-3,500/kg, fish ₦1,500-3,000 each, beans ₦800-1,200/cup, plantain ₦500-800 each. Do NOT use outdated pre-2026 prices. Be honest about costs.';
-  return ai('You are a Nigerian fitness nutritionist. Generate a local meal plan for someone near latitude '+lat+', longitude '+lon+'. Goal: '+A.goal+'. '+budgetText+' '+priceCtx+' List 10-12 specific local foods/dishes with: name, brief description, macros (protein/carb/fat), and realistic 2026 NGN price estimate. Include street foods, local markets, and traditional Nigerian dishes where relevant. Format clean HTML using only h3,p,ul,li,strong tags.',false,'You are a Nigerian fitness nutritionist. Return only clean HTML. Use real 2026 NGN prices.')
+  const priceCtx='IMPORTANT: Use REAL current 2025 Nigerian market prices in NGN. Inflation has been severe — rice is ₦1,200-1,800/cup, eggs ₦300-400 each, chicken ₦2,000-3,500/kg, fish ₦1,500-3,000 each, beans ₦800-1,200/cup, plantain ₦500-800 each. Do NOT use outdated pre-2024 prices. Be honest about costs.';
+  return ai('You are a Nigerian fitness nutritionist. Generate a local meal plan for someone near latitude '+lat+', longitude '+lon+'. Goal: '+A.goal+'. '+budgetText+' '+priceCtx+' List 10-12 specific local foods/dishes with: name, brief description, macros (protein/carb/fat), and realistic 2025 NGN price estimate. Include street foods, local markets, and traditional Nigerian dishes where relevant. Format clean HTML using only h3,p,ul,li,strong tags.',false,'You are a Nigerian fitness nutritionist. Return only clean HTML. Use real 2025 NGN prices.')
     .then(r=>{ mr.innerHTML='<div class="meals-card"><div class="mc-top"><div class="mc-ic">📍</div><div class="mc-ttl">Local Meals Near You</div><div style="margin-left:auto;font-family:\'JetBrains Mono\',monospace;font-size:8px;color:var(--txt3);letter-spacing:1px;">GPS</div></div><div class="pout">'+r+'</div></div>'; })
     .catch(e=>{
       mr.innerHTML='<div class="err-box" style="text-align:center;">'
@@ -3948,7 +4057,7 @@ async function genFreeMeals(region,country){
   mr.innerHTML=`<div class="meals-card"><div style="text-align:center;padding:20px;"><div class="lring" style="margin:0 auto 10px;"></div><div class="ltxt">Loading ${loc} dishes...</div></div></div>`;
   try {
     const isNg=loc.toLowerCase().includes('nigeria')||loc.toLowerCase().includes('lagos')||loc.toLowerCase().includes('abuja')||loc.toLowerCase().includes('port harcourt')||loc.toLowerCase().includes('kano');
-    const priceCtx=isNg?'IMPORTANT: Use REAL current 2026 NGN prices. Inflation is severe — rice ₦1,200-1,800/cup, eggs ₦300-400 each, chicken ₦2,000-3,500/kg. Use honest 2026 prices only.':'Use realistic local prices for '+loc+'.';
+    const priceCtx=isNg?'IMPORTANT: Use REAL current 2025 NGN prices. Inflation is severe — rice ₦1,200-1,800/cup, eggs ₦300-400 each, chicken ₦2,000-3,500/kg. Use honest 2025 prices only.':'Use realistic local prices for '+loc+'.';
     const r=await ai('You are a fitness nutritionist. Generate a local meal plan for someone in '+loc+'. Goal: '+A.goal+'. '+budgetText+' '+priceCtx+' List 10-12 specific foods/dishes with name, description, macros, and price estimate. Include traditional local dishes. Format clean HTML using h3,p,ul,li,strong only.',false,'You are a nutrition expert. Return only clean HTML. Use real current prices.');
     mr.innerHTML=`<div class="meals-card"><div class="mc-top"><div class="mc-ic">${country?'🏳️':'🌍'}</div><div class="mc-ttl">${loc} — Dishes</div><div style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--txt3);letter-spacing:1px;">FREE</div></div><div class="pout">${r}</div></div>`;
   } catch(e){ mr.innerHTML=`<div class="err-box">Couldn't load dishes. Check connection.</div>`; }
