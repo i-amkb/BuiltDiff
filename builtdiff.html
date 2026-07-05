@@ -482,6 +482,8 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 .ex-expand{padding:0 14px 12px;}
 .ex-img{width:100%;height:140px;object-fit:cover;border-radius:10px;margin-bottom:10px;display:none;}
 .ex-img.on{display:block;}
+.exd-tag{background:var(--s3);border:1px solid var(--bdr);border-radius:20px;padding:5px 12px;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:1px;color:var(--txt2);}
+.et-sets{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--acc);margin-top:2px;}
 .timer-box{background:var(--s3);border:1px solid var(--bdr2);border-radius:10px;padding:12px;display:none;}
 .timer-box.on{display:block;}
 .tb-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--txt3);text-transform:uppercase;margin-bottom:4px;}
@@ -4706,12 +4708,83 @@ function renderExGrid(cat){
   g.innerHTML=items.length?items.map(([n,e])=>buildExTile(n,e)).join(''):'<div style="color:var(--txt3);font-size:13px;padding:20px;text-align:center;">No exercises for this category in '+((_discEnv==='gym')?'🏋️ Gym':'🏠 Home')+' mode.</div>';
 }
 
+// Muscle group representative images — clean, accurate, consistent
+const CAT_IMG={
+  'Chest':'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&q=80',
+  'Back':'https://images.unsplash.com/photo-1598971639058-fab3c3109a37?w=400&q=80',
+  'Shoulders':'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&q=80',
+  'Arms':'https://images.unsplash.com/photo-1581009137042-c552e485697a?w=400&q=80',
+  'Legs':'https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&q=80',
+  'Core':'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80',
+  'Cardio':'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=400&q=80',
+  'Face':'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
+  'Stretch':'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80',
+  'Everyday':'https://images.unsplash.com/photo-1549576490-b0b4831ef60a?w=400&q=80',
+};
+
 function buildExTile(name,ex){
-  const vid=`https://www.youtube.com/results?search_query=${encodeURIComponent(name+' exercise form')}`;
-  return `<a class="ex-tile" href="${vid}" target="_blank" rel="noopener">
-    ${ex.img?`<img class="et-img" src="${ex.img}" alt="${name}" loading="lazy"/>`:`<div class="et-img" style="display:flex;align-items:center;justify-content:center;font-size:28px;">💪</div>`}
-    <div class="et-body"><div class="et-name">${name}</div><div class="et-muscle">${ex.muscle} · ${ex.sets}</div></div>
-  </a>`;
+  const img=CAT_IMG[ex.cat]||CAT_IMG['Everyday'];
+  return `<div class="ex-tile" onclick="openExDetail('${name.replace(/'/g,"\\'")}')">
+    <img class="et-img" src="${img}" alt="${ex.cat}" loading="lazy"/>
+    <div class="et-body">
+      <div class="et-name">${name}</div>
+      <div class="et-muscle">${ex.muscle}</div>
+      <div class="et-sets">${ex.sets}</div>
+    </div>
+  </div>`;
+}
+
+function openExDetail(name){
+  const ex=EX[name];
+  if(!ex) return;
+  const img=CAT_IMG[ex.cat]||CAT_IMG['Everyday'];
+  const envLabel=ex.env==='gym'?'🏋️ Gym':'🏠 Home';
+  const timerInfo=ex.timed?`<div class="exd-tag">⏱ ${ex.timerSec}s</div>`:'';
+  const restInfo=ex.rest?`<div class="exd-tag">Rest ${ex.rest}s</div>`:'';
+
+  const overlay=document.createElement('div');
+  overlay.id='exDetailOverlay';
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:flex;align-items:flex-end;justify-content:center;';
+  overlay.innerHTML=`
+    <div style="background:var(--s1);border-radius:24px 24px 0 0;width:100%;max-width:480px;overflow:hidden;max-height:85vh;overflow-y:auto;">
+      <img src="${img}" style="width:100%;height:200px;object-fit:cover;" alt="${ex.cat}"/>
+      <div style="padding:20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:24px;text-transform:uppercase;letter-spacing:.5px;">${name}</div>
+          <button onclick="document.getElementById('exDetailOverlay').remove()" style="background:var(--s3);border:none;border-radius:50%;width:32px;height:32px;color:var(--txt2);cursor:pointer;font-size:18px;">×</button>
+        </div>
+        <div style="color:var(--acc);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;margin-bottom:12px;">${ex.cat.toUpperCase()} · ${envLabel}</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+          <div class="exd-tag">${ex.sets}</div>
+          <div class="exd-tag">${ex.muscle}</div>
+          ${timerInfo}${restInfo}
+        </div>
+        <button onclick="addExToToday('${name.replace(/'/g,"\\'")}');document.getElementById('exDetailOverlay').remove();" style="width:100%;background:var(--acc);color:#000;border:none;border-radius:12px;padding:14px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;letter-spacing:1px;cursor:pointer;">+ ADD TO TODAY'S WORKOUT</button>
+      </div>
+    </div>`;
+  overlay.addEventListener('click',e=>{ if(e.target===overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+}
+
+function addExToToday(name){
+  const today=new Date().toDateString();
+  if(!A.workoutHistory) A.workoutHistory=[];
+  let todayW=A.workoutHistory.find(w=>new Date(w.date).toDateString()===today);
+  const ex=EX[name];
+  const newEx={name,sets:ex?.sets||'3×10',muscle:ex?.muscle||'Full Body',done:false};
+  if(todayW){
+    if(!todayW.exercises.find(e=>e.name===name)){
+      todayW.exercises.push(newEx);
+      save(); saveAll();
+      toast(name+' added to today\'s workout 💪');
+    } else {
+      toast('Already in today\'s workout.');
+    }
+  } else {
+    A.workoutHistory.push({date:today,exercises:[newEx],completed:false});
+    save(); saveAll();
+    toast(name+' added to today\'s workout 💪');
+  }
 }
 
 // ─── REPORT TAB ──────────────────────────────────────────────────────
