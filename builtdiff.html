@@ -5366,18 +5366,17 @@ const SUPABASE_URL='https://zwrsntsqxebsuavquexu.supabase.co';
 const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3cnNudHNxeGVic3VhdnF1ZXh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjYyNzgsImV4cCI6MjA5ODIwMjI3OH0.PB0wpJ7Y_WAWpovuB3hO5ipph-l1EYtU_XCqZqvxyCo';
 const _supabase=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 
-// Handle OAuth callback — only fires on actual OAuth redirect, not every refresh
-let _oauthHandled=false;
-const _isOAuthRedirect=()=>{
+// Capture OAuth redirect flag immediately on page load — before Supabase clears the URL
+const _isOAuthRedirect=(()=>{
   const h=window.location.hash;
   const s=window.location.search;
   return h.includes('access_token')||h.includes('error')||s.includes('code=')||s.includes('error=');
-};
+})(); // IIFE — runs once, stores result
 
+let _oauthHandled=false;
 _supabase.auth.onAuthStateChange(async(event,session)=>{
   if(_oauthHandled) return;
-  // Only auto-login if this is a real OAuth redirect — not just a refresh with an existing session
-  if((event==='SIGNED_IN')&&session&&_isOAuthRedirect()){
+  if((event==='SIGNED_IN')&&session&&_isOAuthRedirect){
     _oauthHandled=true;
     _oauthInProgress=true;
     try{
