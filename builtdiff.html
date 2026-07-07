@@ -617,6 +617,15 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 .env-chip{background:var(--s2);border:1px solid var(--bdr);border-radius:20px;padding:8px 18px;color:var(--txt2);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px;transition:all .15s;}
 .env-chip.active{background:var(--acc2);border-color:var(--acc);color:var(--acc);}
 .env-chip:hover{color:var(--txt);}
+.gym-day-btn{background:var(--s2);border:1px solid var(--bdr);border-radius:10px;padding:9px 14px;color:var(--txt2);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px;transition:all .15s;}
+.gym-day-btn.active{background:var(--acc2);border-color:var(--acc);color:var(--acc);}
+.gde-btn{background:var(--s3);border:1px solid var(--bdr);border-radius:8px;padding:6px 12px;color:var(--txt2);cursor:pointer;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px;transition:all .15s;}
+.gde-btn.active{background:var(--acc2);border-color:var(--acc);color:var(--acc);}
+.ex-program-card{background:var(--s2);border:1px solid var(--bdr);border-radius:14px;padding:14px;display:flex;gap:14px;align-items:center;cursor:pointer;transition:border-color .2s,transform .15s;}
+.ex-program-card:hover{border-color:var(--acc3);transform:translateY(-2px);}
+.ex-program-card.active{border-color:var(--acc);background:var(--acc2);}
+.dur-btn{background:var(--s2);border:1px solid var(--bdr);border-radius:10px;padding:9px 16px;color:var(--txt2);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px;transition:all .15s;}
+.dur-btn.active{background:var(--acc2);border-color:var(--acc);color:var(--acc);}
 .disc-si{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--txt3);}
 .muscle-chips{display:flex;gap:7px;padding:0 20px;overflow-x:auto;margin-bottom:20px;}
 .mchip{background:var(--s2);border:1px solid var(--bdr);border-radius:20px;padding:7px 14px;cursor:pointer;font-size:12px;font-weight:600;color:var(--txt3);transition:all .2s;white-space:nowrap;flex-shrink:0;}
@@ -1340,22 +1349,38 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
           <button class="gen-btn" id="genBtn" onclick="generate()">GENERATE MY PLAN</button>
         </div>
 
-        <!-- DISCOVER (moved from nav) -->
-        <div style="padding:0 20px 20px;" id="discoverSection">
-          <div class="sec-ttl" style="margin-bottom:12px;">DISC<span style="color:var(--acc)">OVER</span></div>
-          <!-- Today's Picks -->
-          <div id="todaysPicks" style="margin-bottom:16px;"></div>
-          <div class="disc-search-wrap" style="margin:0 0 12px;">
-            <span class="disc-si">🔍</span>
-            <input class="disc-search" placeholder="Search exercises, muscle groups..." oninput="filterDiscover(this.value)" />
+        <!-- DISCOVER — Exercise Library -->
+        <div style="padding:0 0 100px;" id="discoverSection">
+          <div style="padding:0 20px;">
+            <div class="sec-ttl" style="margin-bottom:4px;">EXER<span style="color:var(--acc)">CISE</span></div>
+            <div style="font-size:12px;color:var(--txt3);margin-bottom:16px;">Pick a muscle group and difficulty to start a program.</div>
           </div>
+
+          <!-- Active Challenge Card -->
+          <div id="activeChallengeCard" style="display:none;padding:0 20px;margin-bottom:20px;"></div>
+
           <!-- Gym / Home toggle -->
-          <div style="display:flex;gap:8px;margin-bottom:12px;">
+          <div style="display:flex;gap:8px;padding:0 20px;margin-bottom:16px;">
             <button class="env-chip active" id="envGym" onclick="setEnv('gym',this)">🏋️ Gym</button>
             <button class="env-chip" id="envHome" onclick="setEnv('home',this)">🏠 Home</button>
           </div>
-          <div class="muscle-chips" id="muscleChips"></div>
-          <div class="ex-grid" id="exGrid"></div>
+
+          <!-- Search -->
+          <div style="padding:0 20px;margin-bottom:12px;">
+            <div class="disc-search-wrap" style="margin:0;">
+              <span class="disc-si">🔍</span>
+              <input class="disc-search" placeholder="Search exercises..." oninput="filterDiscover(this.value)" id="exSearchInp"/>
+            </div>
+          </div>
+
+          <!-- Body focus tabs -->
+          <div class="muscle-chips" id="muscleChips" style="padding:0 20px;"></div>
+
+          <!-- Search results grid (hidden when browsing by category) -->
+          <div id="exSearchResults" style="display:none;padding:0 20px;"></div>
+
+          <!-- Category program list (shown when browsing) -->
+          <div id="exProgramList" style="padding:0 20px;"></div>
         </div>
       </div>
 
@@ -1480,6 +1505,16 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
         <div class="set-item" onclick="openPanel('edit-profile')"><div class="si-ic">👤</div><div class="si-info"><div class="si-lbl">Edit Profile</div><div class="si-sub">Name, weight, height, age</div></div><div class="si-arrow">›</div></div>
         <div class="set-item" onclick="openPanel('notifications')"><div class="si-ic">🔔</div><div class="si-info"><div class="si-lbl">Notifications</div><div class="si-sub">Workout reminders, streaks</div></div><div class="si-arrow">›</div></div>
         <div class="set-item" onclick="openPanel('privacy')"><div class="si-ic">🔒</div><div class="si-info"><div class="si-lbl">Privacy</div><div class="si-sub">Data & permissions</div></div><div class="si-arrow">›</div></div>
+      </div>
+
+      <!-- GYM DAYS SELECTOR -->
+      <div class="set-section">
+        <div class="ss-lbl">Training Schedule</div>
+        <div style="font-size:12px;color:var(--txt3);margin-bottom:12px;">Pick which days you train and whether it's gym or home.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;" id="gymDayPicker"></div>
+        <div id="gymDayEnvPicker" style="margin-bottom:12px;"></div>
+        <button onclick="saveGymDays()" style="background:var(--acc);color:#000;border:none;border-radius:10px;padding:10px 20px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px;cursor:pointer;">SAVE SCHEDULE</button>
+        <div style="margin-top:8px;font-size:11px;color:var(--txt3);font-family:'JetBrains Mono',monospace;" id="gymDaySavedLabel"></div>
       </div>
       <div class="set-section">
         <div class="ss-lbl">App</div>
@@ -1812,6 +1847,8 @@ const A = {
   currentDay: 1,
   workoutHistory: [],
   weightHistory: [],
+  gymDays: [], // e.g. ['Mon','Wed','Fri']
+  gymDayEnv: {}, // e.g. {Mon:'gym', Wed:'home', Fri:'gym'}
   obStep: 0,
   obData: {}
 };
@@ -1820,7 +1857,7 @@ let _imgBase64 = null; // global for transform image
 // Try load from storage
 try { const s=localStorage.getItem('bd_state'); if(s){const p=JSON.parse(s);A.tier=p.tier||'free';A.user=Object.assign({},A.user,p.user||{});A.report=Object.assign({},A.report,p.report||{});A.plans=p.plans||A.plans;A.currentPlanId=p.currentPlanId||A.currentPlanId;A.goal=p.goal||A.goal;A.sel=p.sel||A.sel;A.budget=p.budget||A.budget;A.budgetCustom=p.budgetCustom||A.budgetCustom;A.locationCoords=p.locationCoords||A.locationCoords;A.workoutHistory=p.workoutHistory||A.workoutHistory;A.weightHistory=p.weightHistory||A.weightHistory;} } catch(e){}
 
-function save(){ try { localStorage.setItem('bd_state',JSON.stringify({tier:A.tier,user:A.user,report:A.report,plans:A.plans,currentPlanId:A.currentPlanId,goal:A.goal,sel:A.sel,budget:A.budget,budgetCustom:A.budgetCustom,locationCoords:A.locationCoords,workoutHistory:A.workoutHistory,weightHistory:A.weightHistory})); } catch(e){} }
+function save(){ try { localStorage.setItem('bd_state',JSON.stringify({tier:A.tier,user:A.user,report:A.report,plans:A.plans,currentPlanId:A.currentPlanId,goal:A.goal,sel:A.sel,budget:A.budget,budgetCustom:A.budgetCustom,locationCoords:A.locationCoords,workoutHistory:A.workoutHistory,weightHistory:A.weightHistory,gymDays:A.gymDays,gymDayEnv:A.gymDayEnv})); if(_activeProgram) localStorage.setItem('bd_activeProgram',JSON.stringify(_activeProgram)); else localStorage.removeItem('bd_activeProgram'); } catch(e){} }
 
 // ─── MOTIVATION ──────────────────────────────────────────────────────
 const MOTIVES=[
@@ -3064,6 +3101,11 @@ function initApp(){
   renderTodaysPicks();
   // Init coach tab
   renderCoachTab();
+  // Init gym days picker
+  initGymDayPicker();
+  // Restore active exercise program
+  try{const s=localStorage.getItem('bd_activeProgram');if(s)_activeProgram=JSON.parse(s);}catch(e){}
+  renderActiveChallengeCard();
 }
 
 function checkDailyPlanRefresh(){
@@ -4660,52 +4702,495 @@ function buildAndPrintPDF(regime){
 }
 
 // ─── DISCOVER TAB ────────────────────────────────────────────────────
+// ─── GYM DAYS SELECTOR ───────────────────────────────────────────────
+const DAYS_OF_WEEK=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 let _discEnv='gym';
+
+function initGymDayPicker(){
+  const picker=document.getElementById('gymDayPicker');
+  const envPicker=document.getElementById('gymDayEnvPicker');
+  if(!picker) return;
+  picker.innerHTML=DAYS_OF_WEEK.map(d=>`
+    <button class="gym-day-btn ${A.gymDays.includes(d)?'active':''}" data-day="${d}" onclick="toggleGymDay('${d}',this)">${d}</button>
+  `).join('');
+  renderGymDayEnvPicker();
+  const lbl=document.getElementById('gymDaySavedLabel');
+  if(lbl&&A.gymDays.length) lbl.textContent='✓ Schedule saved: '+A.gymDays.join(', ');
+}
+
+function toggleGymDay(day,el){
+  if(A.gymDays.includes(day)){
+    A.gymDays=A.gymDays.filter(d=>d!==day);
+    delete A.gymDayEnv[day];
+  } else {
+    A.gymDays.push(day);
+    A.gymDayEnv[day]='gym'; // default to gym
+  }
+  el.classList.toggle('active',A.gymDays.includes(day));
+  renderGymDayEnvPicker();
+}
+
+function renderGymDayEnvPicker(){
+  const envPicker=document.getElementById('gymDayEnvPicker');
+  if(!envPicker) return;
+  if(!A.gymDays.length){ envPicker.innerHTML=''; return; }
+  envPicker.innerHTML='<div style="font-size:11px;color:var(--txt3);font-family:JetBrains Mono,monospace;letter-spacing:1px;margin-bottom:8px;">SET ENVIRONMENT PER DAY</div>'
+    +A.gymDays.map(d=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--s2);border:1px solid var(--bdr);border-radius:10px;padding:10px 14px;margin-bottom:6px;">
+      <div style="font-weight:700;font-size:14px;">${d}</div>
+      <div style="display:flex;gap:6px;">
+        <button class="gde-btn ${A.gymDayEnv[d]==='gym'?'active':''}" onclick="setGymDayEnv('${d}','gym',this)">🏋️ Gym</button>
+        <button class="gde-btn ${A.gymDayEnv[d]==='home'?'active':''}" onclick="setGymDayEnv('${d}','home',this)">🏠 Home</button>
+      </div>
+    </div>`).join('');
+}
+
+function setGymDayEnv(day,env,el){
+  A.gymDayEnv[day]=env;
+  el.closest('div[style]').querySelectorAll('.gde-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function saveGymDays(){
+  save(); saveAll();
+  const lbl=document.getElementById('gymDaySavedLabel');
+  if(lbl) lbl.textContent=A.gymDays.length?'✓ Saved: '+A.gymDays.join(', '):'No training days selected.';
+  toast('Training schedule saved 🗓️');
+}
+
+function getTodayDayName(){
+  return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
+}
+
+function isTodayTrainingDay(){
+  if(!A.gymDays.length) return true; // if no schedule set, every day counts
+  return A.gymDays.includes(getTodayDayName());
+}
+
+function getTodayEnv(){
+  const d=getTodayDayName();
+  return A.gymDayEnv[d]||'gym';
+}
+
+// ─── SMART STREAK ─────────────────────────────────────────────────────
+function updateStreak(){
+  const today=new Date().toDateString();
+  if(A.report.lastWorkoutDate===today) return; // already counted today
+  if(!isTodayTrainingDay()) return; // not a committed day, don't penalize or reward
+  const yesterday=new Date(Date.now()-86400000);
+  // Find last committed training day before today
+  const lastCommitted=getLastCommittedDay(yesterday);
+  const lastDate=A.report.lastWorkoutDate?new Date(A.report.lastWorkoutDate).toDateString():null;
+  if(lastDate===lastCommitted){
+    A.report.streak=(A.report.streak||0)+1;
+  } else {
+    A.report.streak=1; // reset — missed a committed day
+  }
+  A.report.best=Math.max(A.report.streak,A.report.best||0);
+  A.report.lastWorkoutDate=today;
+  A.report.workouts=(A.report.workouts||0)+1;
+  if(!A.report.streakHistory) A.report.streakHistory=[];
+  A.report.streakHistory.push({date:today,streak:A.report.streak});
+  save(); saveAll();
+}
+
+function getLastCommittedDay(fromDate){
+  // Walk back through days to find the last gym day before today
+  if(!A.gymDays.length) return new Date(fromDate).toDateString();
+  for(let i=0;i<14;i++){
+    const d=new Date(fromDate.getTime()-i*86400000);
+    const dayName=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()];
+    if(A.gymDays.includes(dayName)) return d.toDateString();
+  }
+  return new Date(fromDate).toDateString();
+}
+
+// ─── EXERCISE LIBRARY (new structure) ────────────────────────────────
+const BODY_FOCUS_CATS=['Chest','Back','Shoulders','Arms','Legs','Core','Cardio','Face','Stretch','Everyday'];
+
+// Pre-defined programs per muscle group + difficulty
+const PROGRAMS={
+  Chest:{
+    gym:{
+      Beginner:{exercises:['Push-ups','Barbell Bench Press','Dumbbell Flyes','Incline Push-ups'],sets:'3×10',time:'~20 mins',count:4},
+      Intermediate:{exercises:['Barbell Bench Press','Incline Bench Press','Dumbbell Flyes','Cable Crossover','Chest Dip'],sets:'4×10',time:'~35 mins',count:5},
+      Advanced:{exercises:['Barbell Bench Press','Incline Bench Press','Decline Bench Press','Cable Crossover','Dumbbell Flyes','Pec Deck Machine','Chest Dip'],sets:'4×12',time:'~50 mins',count:7}
+    },
+    home:{
+      Beginner:{exercises:['Push-ups','Wide Push-ups','Incline Push-ups','Isometric Wall Push'],sets:'3×15',time:'~15 mins',count:4},
+      Intermediate:{exercises:['Push-ups','Diamond Push-ups','Wide Push-ups','Decline Push-ups','Plyometric Push-ups'],sets:'4×15',time:'~25 mins',count:5},
+      Advanced:{exercises:['Plyometric Push-ups','Diamond Push-ups','Decline Push-ups','Wide Push-ups','Push-ups','Isometric Wall Push'],sets:'5×max',time:'~35 mins',count:6}
+    }
+  },
+  Back:{
+    gym:{
+      Beginner:{exercises:['Lat Pulldown','Cable Row','Single Arm Dumbbell Row','Hyperextensions'],sets:'3×10',time:'~25 mins',count:4},
+      Intermediate:{exercises:['Deadlift','Barbell Row','Lat Pulldown','Cable Row','Shrugs'],sets:'4×8',time:'~40 mins',count:5},
+      Advanced:{exercises:['Deadlift','Barbell Row','T-Bar Row','Lat Pulldown','Cable Row','Romanian Deadlift','Hyperextensions'],sets:'4×10',time:'~55 mins',count:7}
+    },
+    home:{
+      Beginner:{exercises:['Pull-ups','Superman Hold','Good Mornings','Doorframe Row'],sets:'3×10',time:'~20 mins',count:4},
+      Intermediate:{exercises:['Pull-ups','Australian Pull-ups','Superman Hold','Reverse Snow Angels','Good Mornings'],sets:'4×max',time:'~30 mins',count:5},
+      Advanced:{exercises:['Pull-ups','Australian Pull-ups','Doorframe Row','Superman Hold','Reverse Snow Angels','Good Mornings'],sets:'5×max',time:'~40 mins',count:6}
+    }
+  },
+  Shoulders:{
+    gym:{
+      Beginner:{exercises:['Dumbbell Shoulder Press','Lateral Raises','Front Raises','Face Pulls'],sets:'3×12',time:'~25 mins',count:4},
+      Intermediate:{exercises:['Overhead Press','Dumbbell Shoulder Press','Lateral Raises','Rear Delt Flyes','Upright Row'],sets:'4×10',time:'~40 mins',count:5},
+      Advanced:{exercises:['Overhead Press','Arnold Press','Lateral Raises','Front Raises','Face Pulls','Rear Delt Flyes','Machine Shoulder Press'],sets:'4×12',time:'~55 mins',count:7}
+    },
+    home:{
+      Beginner:{exercises:['Pike Push-ups','Bottle Lateral Raises','Band Pull-aparts','Neck Lateral Flexion'],sets:'3×12',time:'~15 mins',count:4},
+      Intermediate:{exercises:['Pike Push-ups','Wall Handstand Push-ups','Bottle Lateral Raises','Band Pull-aparts'],sets:'4×12',time:'~25 mins',count:4},
+      Advanced:{exercises:['Wall Handstand Push-ups','Pike Push-ups','Bottle Lateral Raises','Band Pull-aparts','Neck Lateral Flexion'],sets:'5×12',time:'~35 mins',count:5}
+    }
+  },
+  Arms:{
+    gym:{
+      Beginner:{exercises:['Bicep Curl','Tricep Pushdown','Hammer Curl','Dips'],sets:'3×12',time:'~25 mins',count:4},
+      Intermediate:{exercises:['Bicep Curl','Hammer Curl','Preacher Curl','Tricep Pushdown','Skull Crushers','Dips'],sets:'4×12',time:'~40 mins',count:6},
+      Advanced:{exercises:['Bicep Curl','Preacher Curl','Concentration Curl','Cable Curl','Tricep Pushdown','Skull Crushers','Overhead Tricep Extension','Close-grip Bench Press','Wrist Curls'],sets:'4×12',time:'~60 mins',count:9}
+    },
+    home:{
+      Beginner:{exercises:['Chair Dips','Towel Bicep Curl','Inverted Row','Tricep Push-up Hold'],sets:'3×12',time:'~20 mins',count:4},
+      Intermediate:{exercises:['Chair Dips','Towel Bicep Curl','Inverted Row','Bodyweight Skull Crushers','Tricep Push-up Hold'],sets:'4×12',time:'~30 mins',count:5},
+      Advanced:{exercises:['Chair Dips','Inverted Row','Bodyweight Skull Crushers','Towel Bicep Curl','Tricep Push-up Hold'],sets:'5×max',time:'~35 mins',count:5}
+    }
+  },
+  Legs:{
+    gym:{
+      Beginner:{exercises:['Squat','Leg Press','Lunges','Calf Raises'],sets:'3×10',time:'~30 mins',count:4},
+      Intermediate:{exercises:['Squat','Leg Press','Romanian Deadlift','Leg Curl','Leg Extension','Calf Raises'],sets:'4×10',time:'~45 mins',count:6},
+      Advanced:{exercises:['Squat','Sumo Deadlift','Hack Squat','Hip Thrust (Barbell)','Leg Curl','Leg Extension','Adductor Machine','Seated Calf Raises'],sets:'4×12',time:'~65 mins',count:8}
+    },
+    home:{
+      Beginner:{exercises:['Bodyweight Squat','Glute Bridge','Standing Calf Raises','Lunges'],sets:'3×20',time:'~20 mins',count:4},
+      Intermediate:{exercises:['Jump Squat','Bulgarian Split Squat','Single Leg Glute Bridge','Donkey Kicks','Wall Sit','Standing Calf Raises'],sets:'4×15',time:'~35 mins',count:6},
+      Advanced:{exercises:['Jump Squat','Bulgarian Split Squat','Box Step-ups','Sumo Squat','Fire Hydrants','Single Leg Glute Bridge','Wall Sit','Standing Calf Raises'],sets:'4×20',time:'~50 mins',count:8}
+    }
+  },
+  Core:{
+    gym:{
+      Beginner:{exercises:['Plank','Crunches','Hanging Leg Raise','Cable Crunch'],sets:'3×15',time:'~20 mins',count:4},
+      Intermediate:{exercises:['Hanging Leg Raise','Cable Crunch','Ab Wheel Rollout','Weighted Russian Twists','Decline Sit-ups'],sets:'4×15',time:'~30 mins',count:5},
+      Advanced:{exercises:['Hanging Leg Raise','Ab Wheel Rollout','Cable Crunch','Weighted Russian Twists','Woodchop','Landmine Rotation','Decline Sit-ups'],sets:'4×20',time:'~45 mins',count:7}
+    },
+    home:{
+      Beginner:{exercises:['Plank','Crunches','Leg Raises','Mountain Climbers'],sets:'3×20',time:'~15 mins',count:4},
+      Intermediate:{exercises:['Plank','Side Plank','Bicycle Crunches','V-ups','Flutter Kicks','Russian Twists'],sets:'4×20',time:'~25 mins',count:6},
+      Advanced:{exercises:['Plank','Side Plank','Hollow Body Hold','V-ups','Mountain Climbers','Dead Bug','Flutter Kicks','Bicycle Crunches'],sets:'4×max',time:'~35 mins',count:8}
+    }
+  },
+  Cardio:{
+    gym:{
+      Beginner:{exercises:['Treadmill Run','Stationary Bike','Elliptical'],sets:'1×20min',time:'~30 mins',count:3},
+      Intermediate:{exercises:['Treadmill Run','Rowing Machine','Jump Rope (Gym)','Battle Ropes'],sets:'4×intervals',time:'~40 mins',count:4},
+      Advanced:{exercises:['Treadmill Run','Rowing Machine','Battle Ropes','Jump Rope (Gym)','Stair Master'],sets:'5×intervals',time:'~55 mins',count:5}
+    },
+    home:{
+      Beginner:{exercises:['Running','Jumping Jacks','High Knees'],sets:'1×20min',time:'~25 mins',count:3},
+      Intermediate:{exercises:['Burpees','Jump Rope','High Knees','Skaters','Shadow Boxing'],sets:'4×intervals',time:'~35 mins',count:5},
+      Advanced:{exercises:['Burpees','Box Jumps','Jump Rope','Shadow Boxing','Bear Crawl','Skaters'],sets:'5×intervals',time:'~45 mins',count:6}
+    }
+  },
+  Face:{
+    gym:{
+      Beginner:{exercises:['Neck Shrugs','Neck Resistance Training'],sets:'3×15',time:'~10 mins',count:2},
+      Intermediate:{exercises:['Neck Shrugs','Neck Resistance Training','Neck Lateral Flexion'],sets:'3×20',time:'~15 mins',count:3},
+      Advanced:{exercises:['Neck Shrugs','Neck Resistance Training','Neck Lateral Flexion','Neck Flexion & Extension'],sets:'4×20',time:'~20 mins',count:4}
+    },
+    home:{
+      Beginner:{exercises:['Jaw Clenching','Mewing / Tongue Posture','Neck Flexion & Extension'],sets:'3×30s',time:'~10 mins',count:3},
+      Intermediate:{exercises:['Jaw Clenching','Chewing Gum Workout','Mewing / Tongue Posture','Neck Lateral Flexion'],sets:'3×sets',time:'~15 mins',count:4},
+      Advanced:{exercises:['Jaw Clenching','Chewing Gum Workout','Mewing / Tongue Posture','Neck Resistance Training','Cheekbone Exercises','Neck Lateral Flexion'],sets:'4×sets',time:'~20 mins',count:6}
+    }
+  },
+  Stretch:{
+    gym:{
+      Beginner:{exercises:['Chest Opener Stretch','Hip Flexor Stretch','Quad Stretch'],sets:'3×30s',time:'~10 mins',count:3},
+      Intermediate:{exercises:['Hip Flexor Stretch','Hamstring Stretch','Chest Opener Stretch','Shoulder Cross Stretch','Thoracic Rotation'],sets:'3×45s',time:'~15 mins',count:5},
+      Advanced:{exercises:['Hip Flexor Stretch','Hamstring Stretch','Chest Opener Stretch','Shoulder Cross Stretch','Spinal Twist','Thoracic Rotation','Neck Side Stretch'],sets:'3×60s',time:'~20 mins',count:7}
+    },
+    home:{
+      Beginner:{exercises:['Hip Flexor Stretch','Quad Stretch','Neck Side Stretch','Child\'s Pose'],sets:'3×30s',time:'~10 mins',count:4},
+      Intermediate:{exercises:['Hip Flexor Stretch','Hamstring Stretch','Pigeon Pose','Cobra Stretch','Cat-Cow','Spinal Twist'],sets:'3×45s',time:'~20 mins',count:6},
+      Advanced:{exercises:['Hip Flexor Stretch','Hamstring Stretch','Pigeon Pose','Cobra Stretch','Child\'s Pose','Cat-Cow','Spinal Twist','Figure-4 Stretch','Neck Side Stretch'],sets:'3×60s',time:'~30 mins',count:9}
+    }
+  },
+  Everyday:{
+    gym:{
+      Beginner:{exercises:['Walking','Dead Hang','Box Breathing'],sets:'daily',time:'~20 mins',count:3},
+      Intermediate:{exercises:['Walking','Dead Hang','Stair Climbing','Box Breathing'],sets:'daily',time:'~30 mins',count:4},
+      Advanced:{exercises:['Walking','Dead Hang','Stair Climbing','Box Breathing','Desk Push-ups'],sets:'daily',time:'~40 mins',count:5}
+    },
+    home:{
+      Beginner:{exercises:['Walking','Box Breathing','Desk Push-ups'],sets:'daily',time:'~20 mins',count:3},
+      Intermediate:{exercises:['Walking','Stair Climbing','Dead Hang','Box Breathing','Desk Push-ups'],sets:'daily',time:'~30 mins',count:5},
+      Advanced:{exercises:['Walking','Stair Climbing','Dead Hang','Box Breathing','Desk Push-ups','Standing Calf Raises'],sets:'daily',time:'~40 mins',count:6}
+    }
+  }
+};
+
+// Active exercise program state
+let _activeProgram=null; // {cat, env, difficulty, duration, currentDay, completedDays:[]}
+let _gwExercises=[]; // guided workout exercise list
+let _gwIndex=0; // current exercise index
+let _gwTimer=null; // active timer interval
+
+function initDiscover(){
+  const cats=BODY_FOCUS_CATS;
+  const chips=document.getElementById('muscleChips');
+  if(chips){
+    chips.innerHTML=cats.map((c,i)=>`<div class="mchip ${i===0?'active':''}" onclick="selectBodyFocus('${c}',this)">${c}</div>`).join('');
+  }
+  renderActiveChallengeCard();
+  renderExPrograms(BODY_FOCUS_CATS[0]);
+}
 
 function setEnv(env,el){
   _discEnv=env;
   document.querySelectorAll('.env-chip').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
-  // reset cat to All
-  document.querySelectorAll('.mchip').forEach(c=>c.classList.toggle('active',c.textContent==='All'));
-  renderExGrid('All');
+  const activeChip=document.querySelector('.mchip.active');
+  const cat=activeChip?activeChip.textContent:BODY_FOCUS_CATS[0];
+  renderExPrograms(cat);
 }
 
-function initDiscover(){
-  const cats=['All','Chest','Back','Shoulders','Arms','Legs','Core','Cardio','Face','Stretch','Everyday'];
-  const chips=document.getElementById('muscleChips');
-  if(chips){
-    chips.innerHTML=cats.map((c,i)=>`<div class="mchip ${i===0?'active':''}" onclick="filterCat('${c}',this)">${c}</div>`).join('');
-  }
-  renderExGrid('All');
-}
-
-function filterCat(cat,el){
+function selectBodyFocus(cat,el){
   document.querySelectorAll('.mchip').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
-  renderExGrid(cat);
+  document.getElementById('exSearchInp').value='';
+  document.getElementById('exSearchResults').style.display='none';
+  document.getElementById('exProgramList').style.display='';
+  renderExPrograms(cat);
 }
 
 function filterDiscover(v){
-  const g=document.getElementById('exGrid');
-  if(!g) return;
+  const sr=document.getElementById('exSearchResults');
+  const pl=document.getElementById('exProgramList');
+  if(!v.trim()){
+    sr.style.display='none'; pl.style.display='';
+    return;
+  }
+  sr.style.display=''; pl.style.display='none';
   const filtered=Object.entries(EX).filter(([n,e])=>{
-    const matchEnv=e.env===_discEnv||e.env==='both'||_discEnv==='all';
+    const matchEnv=e.env===_discEnv||e.env==='both';
     const matchQ=n.toLowerCase().includes(v.toLowerCase())||e.muscle.toLowerCase().includes(v.toLowerCase());
     return matchEnv&&matchQ;
   });
-  g.innerHTML=filtered.length?filtered.map(([n,e])=>buildExTile(n,e)).join(''):'<div style="color:var(--txt3);font-size:13px;padding:20px;text-align:center;">No exercises found.</div>';
+  sr.innerHTML=filtered.length
+    ?'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">'+filtered.map(([n,e])=>buildExTile(n,e)).join('')+'</div>'
+    :'<div style="color:var(--txt3);font-size:13px;padding:20px;text-align:center;">No exercises found.</div>';
 }
 
-function renderExGrid(cat){
-  const g=document.getElementById('exGrid');
-  if(!g) return;
-  const items=Object.entries(EX).filter(([n,e])=>{
-    const matchCat=cat==='All'||e.cat===cat;
-    const matchEnv=e.env===_discEnv||e.env==='both';
-    return matchCat&&matchEnv;
-  });
-  g.innerHTML=items.length?items.map(([n,e])=>buildExTile(n,e)).join(''):'<div style="color:var(--txt3);font-size:13px;padding:20px;text-align:center;">No exercises for this category in '+((_discEnv==='gym')?'🏋️ Gym':'🏠 Home')+' mode.</div>';
+function renderExPrograms(cat){
+  const pl=document.getElementById('exProgramList');
+  if(!pl) return;
+  const catData=PROGRAMS[cat];
+  if(!catData){pl.innerHTML='';return;}
+  const envData=catData[_discEnv]||catData['home'];
+  const catImg=CAT_IMG[cat]||CAT_IMG['Everyday'];
+  pl.innerHTML='<div style="display:flex;flex-direction:column;gap:12px;">'
+    +['Beginner','Intermediate','Advanced'].map((diff,i)=>{
+      const p=envData[diff];
+      if(!p) return '';
+      const bolts='⚡'.repeat(i+1)+'<span style="opacity:.3">'+'⚡'.repeat(2-i)+'</span>';
+      const isActive=_activeProgram&&_activeProgram.cat===cat&&_activeProgram.env===_discEnv&&_activeProgram.difficulty===diff;
+      return `<div class="ex-program-card ${isActive?'active':''}" onclick="openProgram('${cat}','${diff}')">
+        <img src="${catImg}" style="width:80px;height:80px;object-fit:cover;border-radius:12px;flex-shrink:0;" alt="${cat}"/>
+        <div style="flex:1;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px;letter-spacing:.5px;">${cat} ${diff}</div>
+          <div style="font-size:12px;color:var(--txt3);margin:2px 0;">${p.time} · ${p.count} Exercises</div>
+          <div style="font-size:16px;">${bolts}</div>
+          ${isActive?'<div style="font-size:10px;color:var(--acc);font-family:JetBrains Mono,monospace;letter-spacing:1px;margin-top:4px;">▶ IN PROGRESS — DAY '+_activeProgram.currentDay+'</div>':''}
+        </div>
+      </div>`;
+    }).join('')
+    +'</div>';
+}
+
+function renderActiveChallengeCard(){
+  const el=document.getElementById('activeChallengeCard');
+  if(!el) return;
+  if(!_activeProgram){el.style.display='none';return;}
+  el.style.display='block';
+  const prog=PROGRAMS[_activeProgram.cat]?.[_activeProgram.env]?.[_activeProgram.difficulty];
+  if(!prog) return;
+  const totalDays=_activeProgram.duration||30;
+  const done=(_activeProgram.completedDays||[]).length;
+  const pct=Math.round((done/totalDays)*100);
+  el.innerHTML=`
+    <div style="background:linear-gradient(135deg,#0d1f3c,#1a3a5c);border-radius:16px;padding:20px;color:#fff;position:relative;overflow:hidden;">
+      <div style="font-size:11px;letter-spacing:3px;opacity:.7;margin-bottom:4px;">${_activeProgram.cat.toUpperCase()} · ${_activeProgram.difficulty.toUpperCase()}</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:36px;letter-spacing:1px;">DAY ${_activeProgram.currentDay}</div>
+      <div style="font-size:13px;opacity:.8;margin-bottom:12px;">${done}/${totalDays} completed</div>
+      <div style="background:rgba(255,255,255,.2);border-radius:4px;height:4px;margin-bottom:16px;">
+        <div style="background:var(--acc);height:100%;border-radius:4px;width:${pct}%;transition:width .4s;"></div>
+      </div>
+      <button onclick="startDayWorkout()" style="background:#fff;color:#0d1f3c;border:none;border-radius:10px;padding:12px 0;width:100%;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;letter-spacing:1px;cursor:pointer;">▶ START DAY ${_activeProgram.currentDay}</button>
+    </div>`;
+}
+
+function openProgram(cat,difficulty){
+  // Show duration picker bottom sheet
+  const overlay=document.createElement('div');
+  overlay.id='programPickerOverlay';
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9999;display:flex;align-items:flex-end;justify-content:center;';
+  const prog=PROGRAMS[cat]?.[_discEnv]?.[difficulty];
+  overlay.innerHTML=`
+    <div style="background:var(--s1);border-radius:24px 24px 0 0;width:100%;max-width:480px;padding:24px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:22px;margin-bottom:4px;">${cat} ${difficulty}</div>
+      <div style="font-size:13px;color:var(--txt2);margin-bottom:20px;">${prog?prog.time+' · '+prog.count+' exercises per day':''}</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--txt3);margin-bottom:10px;">HOW MANY DAYS?</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+        ${[7,14,21,28,30,60,90].map(d=>`<button class="dur-btn" onclick="selectDuration(${d},this)">${d} days</button>`).join('')}
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="document.getElementById('programPickerOverlay').remove()" style="flex:1;background:var(--s3);border:1px solid var(--bdr);border-radius:12px;padding:14px;color:var(--txt2);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;">CANCEL</button>
+        <button id="startProgramBtn" onclick="startProgram('${cat}','${difficulty}')" disabled style="flex:2;background:var(--acc);color:#000;border:none;border-radius:12px;padding:14px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:15px;letter-spacing:1px;cursor:pointer;opacity:.5;">START PROGRAM</button>
+      </div>
+    </div>`;
+  overlay.addEventListener('click',e=>{ if(e.target===overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+}
+
+let _selectedDuration=null;
+function selectDuration(days,el){
+  _selectedDuration=days;
+  document.querySelectorAll('.dur-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  const btn=document.getElementById('startProgramBtn');
+  if(btn){ btn.disabled=false; btn.style.opacity='1'; }
+}
+
+function startProgram(cat,difficulty){
+  _activeProgram={cat,env:_discEnv,difficulty,duration:_selectedDuration||30,currentDay:1,completedDays:[]};
+  save(); saveAll();
+  document.getElementById('programPickerOverlay')?.remove();
+  renderActiveChallengeCard();
+  renderExPrograms(cat);
+  toast(cat+' '+difficulty+' program started! 🔥');
+  startDayWorkout();
+}
+
+function startDayWorkout(){
+  if(!_activeProgram) return;
+  const prog=PROGRAMS[_activeProgram.cat]?.[_activeProgram.env]?.[_activeProgram.difficulty];
+  if(!prog) return;
+  _gwExercises=prog.exercises.map(n=>({name:n,...(EX[n]||{sets:'3×10',muscle:'Full Body',timed:false,rest:60})}));
+  _gwIndex=0;
+  document.getElementById('guidedWorkoutOverlay').style.display='block';
+  document.body.style.overflow='hidden';
+  renderGWExercise();
+}
+
+function renderGWExercise(){
+  const overlay=document.getElementById('guidedWorkoutOverlay');
+  const content=document.getElementById('gwContent');
+  const prog=document.getElementById('gwProgress');
+  if(!content) return;
+  if(_gwTimer) clearInterval(_gwTimer);
+
+  if(_gwIndex>=_gwExercises.length){
+    // All done — show finish screen
+    prog.textContent='DONE!';
+    content.innerHTML=`
+      <div style="text-align:center;padding:40px 0;">
+        <div style="font-size:64px;margin-bottom:16px;">🔥</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:32px;letter-spacing:1px;margin-bottom:8px;">WORKOUT COMPLETE</div>
+        <div style="color:var(--txt2);font-size:14px;margin-bottom:32px;">${_activeProgram.cat} ${_activeProgram.difficulty} — Day ${_activeProgram.currentDay}</div>
+        <button onclick="finishDayWorkout()" style="width:100%;background:var(--acc);color:#000;border:none;border-radius:14px;padding:18px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;letter-spacing:1px;cursor:pointer;">✓ FINISH WORKOUT</button>
+      </div>`;
+    return;
+  }
+
+  prog.textContent=(_gwIndex+1)+' / '+_gwExercises.length;
+  const ex=_gwExercises[_gwIndex];
+  const catImg=CAT_IMG[ex.cat||'Everyday'];
+
+  if(ex.timed&&ex.timerSec){
+    // Timer exercise
+    let remaining=ex.timerSec;
+    content.innerHTML=`
+      <div style="text-align:center;">
+        <img src="${catImg}" style="width:100%;height:200px;object-fit:cover;border-radius:16px;margin-bottom:20px;" alt="${ex.cat}"/>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:26px;letter-spacing:1px;margin-bottom:4px;">${ex.name}</div>
+        <div style="color:var(--txt3);font-size:13px;margin-bottom:24px;">${ex.muscle||''}</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:80px;color:var(--acc);letter-spacing:-2px;line-height:1;" id="gwTimer">${remaining}s</div>
+        <div style="font-size:12px;color:var(--txt3);margin-bottom:32px;">seconds remaining</div>
+        <button onclick="skipGWExercise()" style="width:100%;background:var(--s2);border:1px solid var(--bdr);border-radius:14px;padding:16px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;letter-spacing:1px;cursor:pointer;color:var(--txt2);">SKIP →</button>
+      </div>`;
+    _gwTimer=setInterval(()=>{
+      remaining--;
+      const el=document.getElementById('gwTimer');
+      if(el) el.textContent=remaining+'s';
+      if(remaining<=0){
+        clearInterval(_gwTimer);
+        _gwIndex++;
+        setTimeout(renderGWExercise, 500);
+      }
+    },1000);
+  } else {
+    // Rep exercise
+    content.innerHTML=`
+      <div style="text-align:center;">
+        <img src="${catImg}" style="width:100%;height:200px;object-fit:cover;border-radius:16px;margin-bottom:20px;" alt="${ex.cat}"/>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:26px;letter-spacing:1px;margin-bottom:4px;">${ex.name}</div>
+        <div style="color:var(--txt3);font-size:13px;margin-bottom:24px;">${ex.muscle||''}</div>
+        <div style="background:var(--s2);border:1px solid var(--bdr);border-radius:16px;padding:24px;margin-bottom:32px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:48px;color:var(--acc);letter-spacing:1px;">${ex.sets||'3×10'}</div>
+          <div style="font-size:12px;color:var(--txt3);">sets × reps</div>
+          ${ex.rest?`<div style="margin-top:8px;font-size:11px;color:var(--txt3);font-family:'JetBrains Mono',monospace;">Rest ${ex.rest}s between sets</div>`:''}
+        </div>
+        <button onclick="nextGWExercise()" style="width:100%;background:var(--acc);color:#000;border:none;border-radius:14px;padding:18px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;letter-spacing:1px;cursor:pointer;">DONE → NEXT</button>
+      </div>`;
+  }
+}
+
+function nextGWExercise(){
+  if(_gwTimer) clearInterval(_gwTimer);
+  _gwIndex++;
+  renderGWExercise();
+}
+
+function skipGWExercise(){
+  if(_gwTimer) clearInterval(_gwTimer);
+  _gwIndex++;
+  renderGWExercise();
+}
+
+function exitGuidedWorkout(){
+  if(_gwTimer) clearInterval(_gwTimer);
+  document.getElementById('guidedWorkoutOverlay').style.display='none';
+  document.body.style.overflow='';
+}
+
+function finishDayWorkout(){
+  if(!_activeProgram) return;
+  const today=new Date().toDateString();
+  if(!_activeProgram.completedDays) _activeProgram.completedDays=[];
+  if(!_activeProgram.completedDays.includes(today)){
+    _activeProgram.completedDays.push(today);
+    _activeProgram.currentDay=Math.min(_activeProgram.currentDay+1, _activeProgram.duration);
+  }
+  updateStreak();
+  save(); saveAll();
+  exitGuidedWorkout();
+  renderActiveChallengeCard();
+  const msgs=['🔥 SAVAGE!','💪 Built different.','⚡ Day '+(_activeProgram.currentDay-1)+' done.','✅ Keep showing up.'];
+  toast(msgs[Math.floor(Math.random()*msgs.length)]);
+  if(_activeProgram.currentDay>_activeProgram.duration){
+    toast('🏆 Program complete! You finished all '+_activeProgram.duration+' days!');
+    _activeProgram=null;
+  }
+}
+
+// Keep old renderExGrid for search fallback
+function filterCat(cat,el){
+  document.querySelectorAll('.mchip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderExPrograms(cat);
 }
 
 // Muscle group representative images — clean, accurate, consistent
@@ -4881,17 +5366,23 @@ const SUPABASE_URL='https://zwrsntsqxebsuavquexu.supabase.co';
 const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3cnNudHNxeGVic3VhdnF1ZXh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjYyNzgsImV4cCI6MjA5ODIwMjI3OH0.PB0wpJ7Y_WAWpovuB3hO5ipph-l1EYtU_XCqZqvxyCo';
 const _supabase=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 
-// Handle OAuth callback — use onAuthStateChange so it fires after Supabase processes the URL token
+// Handle OAuth callback — only fires on actual OAuth redirect, not every refresh
 let _oauthHandled=false;
+const _isOAuthRedirect=()=>{
+  const h=window.location.hash;
+  const s=window.location.search;
+  return h.includes('access_token')||h.includes('error')||s.includes('code=')||s.includes('error=');
+};
+
 _supabase.auth.onAuthStateChange(async(event,session)=>{
   if(_oauthHandled) return;
-  if((event==='SIGNED_IN'||event==='INITIAL_SESSION')&&session){
+  // Only auto-login if this is a real OAuth redirect — not just a refresh with an existing session
+  if((event==='SIGNED_IN')&&session&&_isOAuthRedirect()){
     _oauthHandled=true;
-    _oauthInProgress=true; // stop the splash timeout from overriding us
+    _oauthInProgress=true;
     try{
       const u=session.user;
       const meta=u.user_metadata||{};
-      // Wait for DOM + IDB
       await new Promise(r=>{
         if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',r);
         else r();
@@ -4986,6 +5477,8 @@ async function loadFromDB(){
       if(d.plans&&d.plans.length) A.plans=d.plans;
       if(d.workoutHistory&&d.workoutHistory.length) A.workoutHistory=d.workoutHistory;
       if(d.weightHistory&&d.weightHistory.length) A.weightHistory=d.weightHistory;
+      if(d.gymDays&&d.gymDays.length) A.gymDays=d.gymDays;
+      if(d.gymDayEnv) A.gymDayEnv=d.gymDayEnv;
     }
   }catch(e){console.warn('IDB load failed',e);}
 }
@@ -5518,5 +6011,16 @@ function toggleFaq(i){
 }
 // end
 </script>
+
+<!-- GUIDED WORKOUT MODE -->
+<div id="guidedWorkoutOverlay" style="display:none;position:fixed;inset:0;background:var(--bg);z-index:10000;overflow-y:auto;">
+  <div style="max-width:480px;margin:0 auto;padding:24px 20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+      <button onclick="exitGuidedWorkout()" style="background:var(--s2);border:1px solid var(--bdr);border-radius:10px;padding:8px 14px;color:var(--txt2);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px;">✕ EXIT</button>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--txt3);" id="gwProgress">0 / 0</div>
+    </div>
+    <div id="gwContent"></div>
+  </div>
+</div>
 </body>
 </html>
