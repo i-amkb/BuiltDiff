@@ -5175,11 +5175,73 @@ function renderGWExercise(){
 
 function nextGWExercise(){
   if(_gwTimer) clearInterval(_gwTimer);
-  _gwIndex++;
-  renderGWExercise();
+  const ex=_gwExercises[_gwIndex];
+  const restSec=ex?.rest||60;
+  // Show rest screen before next exercise (skip if last exercise)
+  if(_gwIndex<_gwExercises.length-1){
+    showGWRestScreen(restSec);
+  } else {
+    _gwIndex++;
+    renderGWExercise();
+  }
 }
 
 function skipGWExercise(){
+  if(_gwTimer) clearInterval(_gwTimer);
+  const ex=_gwExercises[_gwIndex];
+  const restSec=ex?.rest||60;
+  if(_gwIndex<_gwExercises.length-1){
+    showGWRestScreen(restSec);
+  } else {
+    _gwIndex++;
+    renderGWExercise();
+  }
+}
+
+function showGWRestScreen(restSec){
+  const content=document.getElementById('gwContent');
+  const prog=document.getElementById('gwProgress');
+  if(!content) return;
+  if(_gwTimer) clearInterval(_gwTimer);
+
+  let remaining=restSec;
+  const nextEx=_gwExercises[_gwIndex+1];
+
+  content.innerHTML=`
+    <div style="text-align:center;padding:20px 0;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:3px;color:var(--txt3);margin-bottom:8px;">REST</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:100px;color:var(--acc);line-height:1;letter-spacing:-4px;" id="gwRestTimer">${remaining}</div>
+      <div style="font-size:13px;color:var(--txt3);margin-bottom:32px;">seconds</div>
+      ${nextEx?`
+      <div style="background:var(--s2);border:1px solid var(--bdr);border-radius:14px;padding:16px;margin-bottom:24px;text-align:left;">
+        <div style="font-size:10px;font-family:'JetBrains Mono',monospace;letter-spacing:2px;color:var(--txt3);margin-bottom:6px;">NEXT UP</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px;">${nextEx.name}</div>
+        <div style="font-size:12px;color:var(--txt3);">${nextEx.muscle||''} · ${nextEx.sets||''}</div>
+      </div>`:''}
+      <button onclick="skipRestTimer()" style="width:100%;background:var(--s2);border:1px solid var(--bdr);border-radius:14px;padding:14px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:1px;cursor:pointer;color:var(--txt2);">SKIP REST →</button>
+    </div>`;
+
+  if(prog) prog.textContent='REST';
+
+  _gwTimer=setInterval(()=>{
+    remaining--;
+    const el=document.getElementById('gwRestTimer');
+    if(el){
+      el.textContent=remaining;
+      // Color changes as time runs out
+      if(remaining<=3) el.style.color='var(--err)';
+      else if(remaining<=10) el.style.color='#f7c948';
+      else el.style.color='var(--acc)';
+    }
+    if(remaining<=0){
+      clearInterval(_gwTimer);
+      _gwIndex++;
+      renderGWExercise();
+    }
+  },1000);
+}
+
+function skipRestTimer(){
   if(_gwTimer) clearInterval(_gwTimer);
   _gwIndex++;
   renderGWExercise();
