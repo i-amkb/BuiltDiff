@@ -4250,8 +4250,6 @@ async function analyzeBody(){
   try {
     let r;
     if(_imgBase64){
-      // Use Gemini vision - pass image inline
-      const apiKey="AIzaSyBoQZ7vxXtAmQ19nJ8VU0zr5tUk50Zb1Hg";
       const b64=_imgBase64.split(',')[1];
       const mime=_imgBase64.split(';')[0].split(':')[1]||'image/jpeg';
       const prompt=`Analyze this person's physique. Their goal: ${A.goal}. Weight: ${A.sel.weight||'?'}${A.user.units==='imperial'?'lbs':'kg'}. Height: ${A.sel.height||'?'}${A.user.units==='imperial'?'ft':'cm'}. Age: ${A.sel.age||'?'}. Level: ${A.sel.lvl}.\n\nCreate:\n1. Current physique assessment (honest but respectful)\n2. Month 1: First changes they'll notice\n3. Month 2-3: Visible differences\n4. Month 4-6: Major transformation\n5. 6-12 months: Goal achieved\n\nBe specific, honest, motivating. Clean HTML only.`;
