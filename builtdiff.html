@@ -1366,21 +1366,10 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
             <button class="env-chip" id="envHome" onclick="setEnv('home',this)">🏠 Home</button>
           </div>
 
-          <!-- Search -->
-          <div style="padding:0 20px;margin-bottom:12px;">
-            <div class="disc-search-wrap" style="margin:0;">
-              <span class="disc-si">🔍</span>
-              <input class="disc-search" placeholder="Search exercises..." oninput="filterDiscover(this.value)" id="exSearchInp"/>
-            </div>
-          </div>
-
           <!-- Body focus tabs -->
           <div class="muscle-chips" id="muscleChips" style="padding:0 20px;"></div>
 
-          <!-- Search results grid (hidden when browsing by category) -->
-          <div id="exSearchResults" style="display:none;padding:0 20px;"></div>
-
-          <!-- Category program list (shown when browsing) -->
+          <!-- Category program list -->
           <div id="exProgramList" style="padding:0 20px;"></div>
         </div>
       </div>
@@ -4250,6 +4239,8 @@ async function analyzeBody(){
   try {
     let r;
     if(_imgBase64){
+      // Use Gemini vision - pass image inline
+      const apiKey="AIzaSyBoQZ7vxXtAmQ19nJ8VU0zr5tUk50Zb1Hg";
       const b64=_imgBase64.split(',')[1];
       const mime=_imgBase64.split(';')[0].split(':')[1]||'image/jpeg';
       const prompt=`Analyze this person's physique. Their goal: ${A.goal}. Weight: ${A.sel.weight||'?'}${A.user.units==='imperial'?'lbs':'kg'}. Height: ${A.sel.height||'?'}${A.user.units==='imperial'?'ft':'cm'}. Age: ${A.sel.age||'?'}. Level: ${A.sel.lvl}.\n\nCreate:\n1. Current physique assessment (honest but respectful)\n2. Month 1: First changes they'll notice\n3. Month 2-3: Visible differences\n4. Month 4-6: Major transformation\n5. 6-12 months: Goal achieved\n\nBe specific, honest, motivating. Clean HTML only.`;
@@ -4977,9 +4968,6 @@ function setEnv(env,el){
 function selectBodyFocus(cat,el){
   document.querySelectorAll('.mchip').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('exSearchInp').value='';
-  document.getElementById('exSearchResults').style.display='none';
-  document.getElementById('exProgramList').style.display='';
   renderExPrograms(cat);
 }
 
@@ -5050,24 +5038,44 @@ function renderActiveChallengeCard(){
 }
 
 function openProgram(cat,difficulty){
-  // Show duration picker bottom sheet
+  const prog=PROGRAMS[cat]?.[_discEnv]?.[difficulty];
+  if(!prog) return;
+
   const overlay=document.createElement('div');
   overlay.id='programPickerOverlay';
-  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9999;display:flex;align-items:flex-end;justify-content:center;';
-  const prog=PROGRAMS[cat]?.[_discEnv]?.[difficulty];
-  overlay.innerHTML=`
-    <div style="background:var(--s1);border-radius:24px 24px 0 0;width:100%;max-width:480px;padding:24px;">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:22px;margin-bottom:4px;">${cat} ${difficulty}</div>
-      <div style="font-size:13px;color:var(--txt2);margin-bottom:20px;">${prog?prog.time+' · '+prog.count+' exercises per day':''}</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--txt3);margin-bottom:10px;">HOW MANY DAYS?</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
-        ${[7,14,21,28,30,60,90].map(d=>`<button class="dur-btn" onclick="selectDuration(${d},this)">${d} days</button>`).join('')}
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:flex;align-items:flex-end;justify-content:center;';
+
+  const exList=prog.exercises.map((name,i)=>{
+    const ex=EX[name]||{};
+    return `<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--bdr);">
+      <div style="background:var(--acc2);border:1px solid var(--acc3);border-radius:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:13px;color:var(--acc);flex-shrink:0;">${i+1}</div>
+      <div style="flex:1;">
+        <div style="font-weight:600;font-size:14px;">${name}</div>
+        <div style="font-size:11px;color:var(--txt3);margin-top:1px;">${ex.muscle||''} · ${ex.sets||''}</div>
       </div>
-      <div style="display:flex;gap:10px;">
-        <button onclick="document.getElementById('programPickerOverlay').remove()" style="flex:1;background:var(--s3);border:1px solid var(--bdr);border-radius:12px;padding:14px;color:var(--txt2);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;">CANCEL</button>
-        <button id="startProgramBtn" onclick="startProgram('${cat}','${difficulty}')" disabled style="flex:2;background:var(--acc);color:#000;border:none;border-radius:12px;padding:14px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:15px;letter-spacing:1px;cursor:pointer;opacity:.5;">START PROGRAM</button>
+      ${ex.timed?'<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--acc);letter-spacing:1px;">⏱ TIMED</div>':''}
+    </div>`;
+  }).join('');
+
+  overlay.innerHTML=`
+    <div style="background:var(--s1);border-radius:24px 24px 0 0;width:100%;max-width:480px;max-height:90vh;display:flex;flex-direction:column;">
+      <div style="padding:20px 20px 0;flex-shrink:0;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:22px;">${cat} <span style="color:var(--acc);">${difficulty}</span></div>
+          <button onclick="document.getElementById('programPickerOverlay').remove()" style="background:var(--s3);border:1px solid var(--bdr);border-radius:50%;width:32px;height:32px;color:var(--txt2);cursor:pointer;font-size:18px;line-height:1;">×</button>
+        </div>
+        <div style="font-size:12px;color:var(--txt3);margin-bottom:16px;">${prog.time} · ${prog.count} exercises · ${_discEnv==='gym'?'🏋️ Gym':'🏠 Home'}</div>
+      </div>
+      <div style="overflow-y:auto;padding:0 20px;flex:1;">${exList}</div>
+      <div style="padding:16px 20px;flex-shrink:0;border-top:1px solid var(--bdr);">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--txt3);margin-bottom:10px;">HOW MANY DAYS?</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+          ${[7,14,21,28,30,60,90].map(d=>`<button class="dur-btn" onclick="selectDuration(${d},this)">${d}d</button>`).join('')}
+        </div>
+        <button id="startProgramBtn" onclick="startProgram('${cat}','${difficulty}')" disabled style="width:100%;background:var(--acc);color:#000;border:none;border-radius:12px;padding:14px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;letter-spacing:1px;cursor:pointer;opacity:.4;">SELECT DURATION TO START</button>
       </div>
     </div>`;
+
   overlay.addEventListener('click',e=>{ if(e.target===overlay) overlay.remove(); });
   document.body.appendChild(overlay);
 }
@@ -5078,7 +5086,7 @@ function selectDuration(days,el){
   document.querySelectorAll('.dur-btn').forEach(b=>b.classList.remove('active'));
   el.classList.add('active');
   const btn=document.getElementById('startProgramBtn');
-  if(btn){ btn.disabled=false; btn.style.opacity='1'; }
+  if(btn){ btn.disabled=false; btn.style.opacity='1'; btn.textContent='START '+days+'-DAY PROGRAM →'; }
 }
 
 function startProgram(cat,difficulty){
