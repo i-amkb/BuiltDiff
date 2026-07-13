@@ -6,5 +6,8 @@
     "api/ai.js": {
       "memory": 256
     }
+  },
+  "engines": {
+    "node": "20.x"
   }
 }
