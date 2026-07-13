@@ -1,5 +1,10 @@
 {
   "rewrites": [
     { "source": "/", "destination": "/builtdiff.html" }
-  ]
+  ],
+  "functions": {
+    "api/ai.js": {
+      "memory": 256
+    }
+  }
 }
