@@ -15,34 +15,37 @@ module.exports = async function handler(req, res) {
   const { prompt, system, max_tokens } = body;
   if (!prompt) return res.status(400).json({ error: 'prompt is required' });
 
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY not set' });
+  const apiKey = process.env.GROQ_API_KEY;
+  if (!apiKey) return res.status(500).json({ error: 'GROQ_API_KEY not set' });
 
   try {
-    const fullPrompt = system ? `${system}\n\n${prompt}` : prompt;
+    const messages = [];
+    if (system && system.trim()) {
+      messages.push({ role: 'system', content: system.trim() });
+    }
+    messages.push({ role: 'user', content: prompt });
 
-    const response = await fetch(
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-goog-api-key': apiKey
-        },
-        body: JSON.stringify({
-          contents: [{ role: 'user', parts: [{ text: fullPrompt }] }],
-          generationConfig: { maxOutputTokens: max_tokens || 1024 }
-        })
-      }
-    );
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        max_tokens: max_tokens || 1024,
+        messages
+      })
+    });
 
     const data = await response.json();
 
     if (!response.ok) {
-      return res.status(response.status).json({ error: data.error?.message || 'Gemini API error', details: data });
+      return res.status(response.status).json({ error: data.error?.message || 'Groq API error' });
     }
 
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    // Return in Anthropic-compatible format so HTML doesn't need changing
+    const text = data.choices?.[0]?.message?.content || '';
     return res.status(200).json({ content: [{ type: 'text', text }] });
 
   } catch (err) {
