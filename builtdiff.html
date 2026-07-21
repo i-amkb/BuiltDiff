@@ -1322,7 +1322,11 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 
         <div class="form-card">
           <div class="fc-ttl">Your Details</div>
-          <input class="inp" id="customGoalInp" type="text" placeholder='Custom goal — e.g. "Eren Yeager build"' style="margin-bottom:14px;" oninput="if(this.value.trim()){document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('active'));A.goal='';}" />
+          <div style="position:relative;">
+            <input class="inp" id="customGoalInp" type="text" placeholder='Custom goal or physique ref — e.g. "Toji Fushiguro", "Ronaldo", "swimmer build"' style="margin-bottom:4px;padding-right:80px;" oninput="onCustomGoalInput(this)" />
+            <button id="physiqueRefBtn" onclick="lookupPhysiqueRef()" style="display:none;position:absolute;right:8px;top:10px;background:var(--acc);color:#000;border:none;border-radius:6px;padding:4px 10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;cursor:pointer;">LOOK UP</button>
+          </div>
+          <div id="physiqueRefResult" style="display:none;background:var(--s2);border:1px solid var(--acc3);border-radius:10px;padding:12px;margin-bottom:10px;font-size:12px;color:var(--txt2);line-height:1.5;"></div>
           <div class="inp-row">
             <div class="inp-grp"><label class="inp-lbl">Weight kg</label><input class="inp" id="sw" type="number" placeholder="65" min="30" max="250"/></div>
             <div class="inp-grp"><label class="inp-lbl">Height cm</label><input class="inp" id="sh" type="number" placeholder="175" min="100" max="250"/></div>
@@ -3285,10 +3289,59 @@ function pickBudget(el,budget){
 }
 
 function updateBudgetCustom(el){
-  A.budgetCustom = el.value.trim();
+  const symbol=document.getElementById('currencySymbol')?.value||'₦';
+  const amount=el.value.trim();
+  A.budgetCustom=amount?symbol+amount:'';
   if(A.budgetCustom){
     document.querySelectorAll('#budgetBtns .tbtn').forEach(b=>b.classList.remove('active'));
   }
+}
+
+function onCustomGoalInput(el){
+  const val=el.value.trim();
+  if(val) document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('active'));
+  A.goal='';
+  // Show LOOK UP button if input looks like a name/character reference
+  const refBtn=document.getElementById('physiqueRefBtn');
+  const refResult=document.getElementById('physiqueRefResult');
+  if(refBtn){
+    // Show button if 2+ words or known reference keywords
+    const looksLikeRef=val.length>2&&(/[A-Z]/.test(val)||val.split(' ').length>1);
+    refBtn.style.display=looksLikeRef?'block':'none';
+  }
+  if(refResult&&!val) refResult.style.display='none';
+}
+
+async function lookupPhysiqueRef(){
+  const val=document.getElementById('customGoalInp')?.value.trim();
+  if(!val) return;
+  const refResult=document.getElementById('physiqueRefResult');
+  const refBtn=document.getElementById('physiqueRefBtn');
+  if(!refResult) return;
+  refResult.style.display='block';
+  refResult.innerHTML='<span style="color:var(--acc);">Looking up physique profile...</span>';
+  if(refBtn) refBtn.disabled=true;
+  try{
+    const prompt=`The user wants to achieve the physique of: "${val}"
+    
+Analyze this physique reference (could be an anime character, athlete, celebrity, or body type description) and provide:
+1. Body type overview (height estimate, body fat %, muscle mass level)
+2. Key muscle groups they're known for
+3. Training style (powerlifting, calisthenics, aesthetic, athletic etc.)
+4. Diet approach
+5. Realistic goal timeline for an average person
+
+Be specific and practical. Keep it under 150 words. If it's fictional, base it on their depicted physique.`;
+    const result=await ai(prompt,false,'You are a fitness expert. Analyze physique references concisely and practically. Plain text only, no HTML.');
+    if(result){
+      refResult.innerHTML='<div style="color:var(--acc);font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:2px;margin-bottom:6px;">📊 PHYSIQUE PROFILE</div>'+result.replace(/\n/g,'<br/>');
+      // Auto-set as goal
+      A.goal=val+' physique';
+    }
+  }catch(e){
+    refResult.innerHTML='<span style="color:var(--err);">Could not look up physique. Just generate with this as your goal.</span>';
+  }
+  if(refBtn) refBtn.disabled=false;
 }
 
 function showManualLoc(){
@@ -3494,6 +3547,8 @@ async function generate(){
     A.plans[planIdx].lastGeneratedDate=today;
     save(); saveAll();
   }
+  // Remove any stale "plan not found" nudge
+  document.getElementById('regen-nudge')?.remove();
 
   // Load coach in background
   if(A.tier!=='free'){
@@ -4009,7 +4064,19 @@ function renderMealsTab(){
       </div>
       <div style="display:flex;gap:8px;margin-top:8px;align-items:center;">
         <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--txt3);letter-spacing:1px;white-space:nowrap;">CUSTOM AMOUNT</span>
-        <input id="budgetCustom" class="inp" style="flex:1;padding:8px 12px;font-size:13px;" type="text" placeholder="e.g. ₦15,000 or $50/week" oninput="updateBudgetCustom(this)"/>
+        <select id="currencySymbol" style="background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:8px 6px;color:var(--txt);font-size:12px;outline:none;cursor:pointer;flex-shrink:0;" onchange="updateBudgetCustom(document.getElementById('budgetCustom'))">
+          <option value="₦">₦ NGN</option>
+          <option value="$">$ USD</option>
+          <option value="£">£ GBP</option>
+          <option value="€">€ EUR</option>
+          <option value="GH₵">GH₵</option>
+          <option value="R">R ZAR</option>
+          <option value="KSh">KSh</option>
+          <option value="₹">₹ INR</option>
+          <option value="R$">R$ BRL</option>
+          <option value="AU$">AU$</option>
+        </select>
+        <input id="budgetCustom" class="inp" style="flex:1;padding:8px 12px;font-size:13px;" type="text" placeholder="e.g. 15,000" oninput="updateBudgetCustom(this)"/>
   </div>
   <div id="mealsResult"></div>`;
 
@@ -4472,10 +4539,13 @@ function renderPlanCard(){
 function showPlanSwitcher(){
   const items=A.plans.map(p=>{
     const isCur=p.id===A.currentPlanId;
-    return `<div onclick="switchPlan('${p.id}')" style="background:var(--s2);border:1px solid ${isCur?'var(--acc)':'var(--bdr)'};border-radius:12px;padding:14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px;">
-      <div style="flex:1;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;text-transform:uppercase;color:${isCur?'var(--acc)':'var(--txt)'}">${p.title}</div>
-      <div style="font-size:11px;color:var(--txt3);margin-top:2px;">${p.meta}</div></div>
+    return `<div style="background:var(--s2);border:1px solid ${isCur?'var(--acc)':'var(--bdr)'};border-radius:12px;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;">
+      <div onclick="switchPlan('${p.id}')" style="flex:1;cursor:pointer;">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;text-transform:uppercase;color:${isCur?'var(--acc)':'var(--txt)'}">${p.title}</div>
+        <div style="font-size:11px;color:var(--txt3);margin-top:2px;">${p.meta}</div>
+      </div>
       ${isCur?'<div style="font-family:\'JetBrains Mono\',monospace;font-size:9px;color:var(--acc);letter-spacing:1px;">ACTIVE</div>':''}
+      <button onclick="deletePlan('${p.id}')" style="background:var(--err);color:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:11px;font-family:'Barlow Condensed',sans-serif;font-weight:700;cursor:pointer;letter-spacing:1px;flex-shrink:0;">✕ DELETE</button>
     </div>`;
   }).join('');
   const modal=document.createElement('div');
@@ -4488,6 +4558,18 @@ function showPlanSwitcher(){
   </div>`;
   document.body.appendChild(modal);
   modal.addEventListener('click',e=>{ if(e.target===modal) modal.remove(); });
+}
+
+function deletePlan(planId){
+  if(!confirm('Delete this plan? This cannot be undone.')) return;
+  A.plans=A.plans.filter(p=>p.id!==planId);
+  if(A.currentPlanId===planId){
+    A.currentPlanId=A.plans.length?A.plans[A.plans.length-1].id:null;
+  }
+  save(); saveAll();
+  document.getElementById('planSwitcherModal')?.remove();
+  renderPlanCard();
+  toast('Plan deleted.');
 }
 
 function switchPlan(planId){
