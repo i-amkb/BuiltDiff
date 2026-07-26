@@ -3424,6 +3424,9 @@ function showPlanView(){
   document.getElementById('buildHome').style.display='none';
   document.getElementById('planView').style.display='block';
 
+  // Always remove stale nudge first
+  document.getElementById('regen-nudge')?.remove();
+
   // Restore plan header
   const titleEl=document.getElementById('pvTitle');
   const metaEl=document.getElementById('pvMeta');
@@ -3433,31 +3436,28 @@ function showPlanView(){
     metaEl.textContent=plan.meta||'';
   }
 
-  // Restore persisted plan content from plan object
   if(plan&&plan.savedHTML){
     document.getElementById('statRow').innerHTML=plan.savedHTML.stats||'';
     document.getElementById('ptcon-workout').innerHTML=plan.savedHTML.workout||'';
     document.getElementById('ptcon-diet').innerHTML=plan.savedHTML.diet||'';
     document.getElementById('ptcon-meals').innerHTML=plan.savedHTML.meals||'';
     document.getElementById('ptcon-transform').innerHTML=plan.savedHTML.transform||'';
-    // Coach always re-inits (stateful)
     if(A.tier!=='free') renderCoach(); else document.getElementById('ptcon-coach').innerHTML='<div class="pgate"><div class="pgate-ic">🤖</div><h3>Meet DIFF</h3><p>Your personal AI coach. Upgrade to unlock.</p><button class="unlock-btn" onclick="openModal()">UNLOCK AI COACH</button></div>';
     document.getElementById('planContent').style.display='block';
     renderPhysiqueInfo();
     renderPlanCard();
     renderDaySelector();
   } else {
-    // No saved content — show generate prompt
     document.getElementById('planContent').style.display='none';
     document.getElementById('ldr').style.display='none';
-    const ldrEl=document.getElementById('ldr');
-    ldrEl.style.display='none';
-    // Show re-generate nudge
-    const pg=document.createElement('div');
-    pg.id='regen-nudge';
-    pg.style.cssText='text-align:center;padding:60px 24px;';
-    pg.innerHTML='<div style="font-size:40px;margin-bottom:16px;">💪</div><div style="font-family:Barlow Condensed,sans-serif;font-weight:800;font-size:22px;color:var(--acc);letter-spacing:1px;">PLAN DATA NOT FOUND</div><div style="color:var(--txt2);font-size:14px;margin:8px 0 20px;">Go back and generate your plan to load it here.</div><button onclick="goBack()" style="background:var(--acc);color:#000;border:none;border-radius:10px;padding:12px 24px;font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:16px;letter-spacing:1px;cursor:pointer;">← GO BACK</button>';
-    document.getElementById('planView').appendChild(pg);
+    // Only add nudge if not already there
+    if(!document.getElementById('regen-nudge')){
+      const pg=document.createElement('div');
+      pg.id='regen-nudge';
+      pg.style.cssText='text-align:center;padding:60px 24px;';
+      pg.innerHTML='<div style="font-size:40px;margin-bottom:16px;">💪</div><div style="font-family:Barlow Condensed,sans-serif;font-weight:800;font-size:22px;color:var(--acc);letter-spacing:1px;">NO PLAN YET</div><div style="color:var(--txt2);font-size:14px;margin:8px 0 20px;">Go back and generate your plan to load it here.</div><button onclick="goBack()" style="background:var(--acc);color:#000;border:none;border-radius:10px;padding:12px 24px;font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:16px;letter-spacing:1px;cursor:pointer;">← GO BACK</button>';
+      document.getElementById('planView').appendChild(pg);
+    }
   }
 }
 
@@ -4120,44 +4120,78 @@ function selectLoc(id,labelEnc){
     setLocOpts((LOC.countries[id]||[]).map(c=>({id:c.id,l:c.l,f:c.f})));
     updateLocCrumb([{l:'🌍 '+label,lv:'region'}]);
     document.getElementById('locLvlLbl').textContent='SELECT COUNTRY';
-    genFreeMeals(label,'');
+    showMealGenerateBtn();
   } else if(locLevel==='country'){
     locPath.country=id;
     const rLabel=LOC.regions.find(r=>r.id===locPath.region)?.l||'';
     updateLocCrumb([{l:'🌍 '+rLabel,lv:'region'},{l:'🏳️ '+label,lv:'country'}]);
-    genFreeMeals(rLabel,label);
     if(A.tier!=='free'){
       locLevel='state';
       setLocOpts((LOC.states[id]||LOC.states.default).map(s=>({id:s,l:s,f:'📍'})));
       document.getElementById('locLvlLbl').textContent='SELECT STATE / PROVINCE';
     } else { showMealsGate('state'); }
+    showMealGenerateBtn();
   } else if(locLevel==='state'){
     locPath.state=id;
     const rLabel=LOC.regions.find(r=>r.id===locPath.region)?.l||'';
     const cAll=Object.values(LOC.countries).flat();
     const cLabel=cAll.find(c=>c.id===locPath.country)?.l||'';
     updateLocCrumb([{l:'🌍 '+rLabel,lv:'region'},{l:'🏳️ '+cLabel,lv:'country'},{l:'📍 '+label,lv:'state'}]);
-    genBasicMeals(cLabel,label);
     if(A.tier==='pro'){
       locLevel='city';
       setLocOpts((LOC.cities[id]||LOC.cities.default).map(c=>({id:c,l:c,f:'🏙️'})));
       document.getElementById('locLvlLbl').textContent='SELECT CITY';
     } else { showMealsGate('city'); }
+    showMealGenerateBtn();
   } else if(locLevel==='city'){
     locPath.city=id;
     const cAll=Object.values(LOC.countries).flat();
     const cLabel=cAll.find(c=>c.id===locPath.country)?.l||'';
     updateLocCrumb([...getCrumbItems(),{l:'🏙️ '+label,lv:'city'}]);
-    genProMeals(cLabel,locPath.state,label,'');
     locLevel='town';
     setLocOpts((LOC.towns[id]||LOC.towns.default).map(t=>({id:t,l:t,f:'🏘️'})));
     document.getElementById('locLvlLbl').textContent='SELECT TOWN / AREA';
+    showMealGenerateBtn();
   } else if(locLevel==='town'){
     locPath.town=id;
-    const cAll=Object.values(LOC.countries).flat();
-    const cLabel=cAll.find(c=>c.id===locPath.country)?.l||'';
-    genProMeals(cLabel,locPath.state,locPath.city,label);
+    showMealGenerateBtn();
   }
+}
+
+function showMealGenerateBtn(){
+  // Remove existing btn if there
+  document.getElementById('mealGenBtnWrap')?.remove();
+  const mealsResult=document.getElementById('mealsResult');
+  if(!mealsResult) return;
+  const wrap=document.createElement('div');
+  wrap.id='mealGenBtnWrap';
+  wrap.style.cssText='text-align:center;padding:16px 0;';
+  wrap.innerHTML=`<button onclick="triggerMealGenerate()" style="background:var(--acc);color:#000;border:none;border-radius:12px;padding:14px 32px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:18px;letter-spacing:1px;cursor:pointer;width:100%;">🍽️ GENERATE MY MEAL PLAN</button>
+  <div style="font-size:11px;color:var(--txt3);margin-top:8px;font-family:'JetBrains Mono',monospace;">Press Enter or tap to generate</div>`;
+  mealsResult.parentNode.insertBefore(wrap, mealsResult);
+
+  // Also allow Enter key to trigger
+  document.addEventListener('keydown', _mealEnterHandler, {once:true});
+}
+
+function _mealEnterHandler(e){
+  if(e.key==='Enter') triggerMealGenerate();
+}
+
+function triggerMealGenerate(){
+  document.getElementById('mealGenBtnWrap')?.remove();
+  document.removeEventListener('keydown', _mealEnterHandler);
+
+  const rLabel=LOC.regions.find(r=>r.id===locPath.region)?.l||'';
+  const cAll=Object.values(LOC.countries).flat();
+  const cLabel=cAll.find(c=>c.id===locPath.country)?.l||'';
+
+  if(locPath.town){ genProMeals(cLabel,locPath.state,locPath.city,locPath.town); }
+  else if(locPath.city){ genProMeals(cLabel,locPath.state,locPath.city,''); }
+  else if(locPath.state){ genBasicMeals(cLabel,locPath.state); }
+  else if(locPath.country){ genFreeMeals(rLabel,cLabel); }
+  else if(locPath.region){ genFreeMeals(rLabel,''); }
+  else { toast('Pick a location first.'); }
 }
 
 let crumbItems=[];
