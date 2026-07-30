@@ -1404,12 +1404,14 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
             <div class="ptab" onclick="switchPTab('coach',this)">🤖 Coach</div>
             <div class="ptab" onclick="switchPTab('meals',this)">🌍 Meals</div>
             <div class="ptab" onclick="switchPTab('transform',this)">📸 Transform</div>
+            <div class="ptab" onclick="switchPTab('physique',this)">🏋️ Physique</div>
           </div>
           <div class="ptcon active" id="ptcon-workout"></div>
           <div class="ptcon" id="ptcon-diet"></div>
           <div class="ptcon" id="ptcon-coach"></div>
           <div class="ptcon" id="ptcon-meals"></div>
           <div class="ptcon" id="ptcon-transform"></div>
+          <div class="ptcon" id="ptcon-physique"></div>
         </div>
       </div>
 
@@ -3937,8 +3939,73 @@ function switchPTab(name,el){
   document.querySelectorAll('.ptcon').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
   document.getElementById(`ptcon-${name}`).classList.add('active');
-  // Lazy init coach when tab first opened
   if(name==='coach'&&A.tier!=='free'&&!document.getElementById('chatBody')) renderCoach();
+  if(name==='physique') renderPhysiqueTab();
+}
+
+function renderPhysiqueTab(){
+  const c=document.getElementById('ptcon-physique');
+  if(!c) return;
+  const plan=A.plans.find(p=>p.id===A.currentPlanId);
+  const goal=plan?.goal||A.goal||'your goal physique';
+  const physiqueHTML=plan?.physiqueProfile;
+
+  if(physiqueHTML){
+    c.innerHTML=`<div style="padding:16px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:22px;letter-spacing:1px;margin-bottom:4px;">PHYSIQUE <span style="color:var(--acc)">PROFILE</span></div>
+      <div style="font-size:12px;color:var(--txt3);margin-bottom:16px;">Based on: <b>${goal}</b></div>
+      <div style="font-size:13px;color:var(--txt2);line-height:1.7;">${physiqueHTML}</div>
+      <button onclick="regeneratePhysiqueProfile()" style="margin-top:16px;background:var(--s2);border:1px solid var(--bdr);border-radius:10px;padding:10px 18px;color:var(--txt2);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;cursor:pointer;">↻ REGENERATE</button>
+    </div>`;
+  } else {
+    c.innerHTML=`<div style="padding:24px;text-align:center;">
+      <div style="font-size:36px;margin-bottom:12px;">🏋️</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px;letter-spacing:1px;margin-bottom:8px;">PHYSIQUE ANALYSIS</div>
+      <div style="color:var(--txt2);font-size:13px;margin-bottom:20px;">Get a detailed breakdown of your target physique — body fat %, key muscles, training style, diet approach and realistic timeline.</div>
+      <button onclick="generatePhysiqueProfile()" style="background:var(--acc);color:#000;border:none;border-radius:12px;padding:14px 28px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;letter-spacing:1px;cursor:pointer;">ANALYSE PHYSIQUE</button>
+    </div>`;
+  }
+}
+
+async function generatePhysiqueProfile(){
+  const c=document.getElementById('ptcon-physique');
+  if(!c) return;
+  const goal=A.goal||document.getElementById('customGoalInp')?.value.trim()||'athletic physique';
+  c.innerHTML=`<div style="padding:24px;text-align:center;"><div style="color:var(--acc);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;letter-spacing:1px;">Analysing ${goal}...</div></div>`;
+
+  try{
+    const prompt=`Analyse this physique goal/reference: "${goal}"
+User stats: Weight ${A.sel.weight||'?'}kg, Height ${A.sel.height||'?'}cm, Age ${A.sel.age||'?'}, Level: ${A.sel.lvl||'beginner'}
+
+Give a detailed physique breakdown:
+1. **Body Type Overview** — estimated body fat %, muscle mass level, body type
+2. **Key Muscle Groups** — which muscles define this physique
+3. **Training Style** — what type of training builds this look
+4. **Diet Approach** — macros, eating style, key foods
+5. **Realistic Timeline** — how long for this user to achieve it
+6. **Weekly Training Split** — what a typical week looks like
+
+Be specific, honest and practical. If it's a fictional/anime character, base it on their depicted physique. Format with bold headers, use line breaks.`;
+
+    const result=await ai(prompt,false,'You are an expert physique analyst and fitness coach. Give detailed, accurate, practical physique breakdowns.');
+    if(result){
+      const plan=A.plans.find(p=>p.id===A.currentPlanId);
+      if(plan){
+        plan.physiqueProfile=result.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br/>');
+        plan.goal=goal;
+        save(); saveAll();
+      }
+      renderPhysiqueTab();
+    }
+  }catch(e){
+    c.innerHTML=`<div style="padding:24px;text-align:center;color:var(--err);">Failed to generate. Try again.</div>`;
+  }
+}
+
+async function regeneratePhysiqueProfile(){
+  const plan=A.plans.find(p=>p.id===A.currentPlanId);
+  if(plan) delete plan.physiqueProfile;
+  await generatePhysiqueProfile();
 }
 
 // ─── COACH ───────────────────────────────────────────────────────────
@@ -4149,8 +4216,23 @@ function selectLoc(id,labelEnc){
     const cLabel=cAll.find(c=>c.id===locPath.country)?.l||'';
     updateLocCrumb([...getCrumbItems(),{l:'🏙️ '+label,lv:'city'}]);
     locLevel='town';
-    setLocOpts((LOC.towns[id]||LOC.towns.default).map(t=>({id:t,l:t,f:'🏘️'})));
-    document.getElementById('locLvlLbl').textContent='SELECT TOWN / AREA';
+    document.getElementById('locLvlLbl').textContent='TYPE YOUR AREA / TOWN';
+    // Switch to manual text input for town level
+    const ddWrap=document.getElementById('locDD')?.parentElement;
+    const existingTownInp=document.getElementById('townManualInp');
+    if(!existingTownInp){
+      const townWrap=document.createElement('div');
+      townWrap.id='townManualWrap';
+      townWrap.style.cssText='margin-top:8px;';
+      townWrap.innerHTML=`<div style="display:flex;gap:8px;">
+        <input id="townManualInp" class="disc-search" style="flex:1;border-radius:10px;padding:10px 14px;" placeholder="Type your area/town e.g. First Gate, Iju..." oninput="filterTownSuggestions(this.value)" onkeydown="if(event.key==='Enter'){selectManualTown(this.value);}" autocomplete="off"/>
+        <button onclick="selectManualTown(document.getElementById('townManualInp').value)" style="background:var(--acc);color:#000;border:none;border-radius:10px;padding:10px 16px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">SET</button>
+      </div>
+      <div id="townSuggestions" style="display:none;background:var(--s2);border:1px solid var(--bdr);border-radius:10px;margin-top:4px;overflow:hidden;max-height:180px;overflow-y:auto;"></div>`;
+      const locDD=document.getElementById('locDD');
+      if(locDD) locDD.after(townWrap);
+    }
+    setTimeout(()=>document.getElementById('townManualInp')?.focus(),100);
     showMealGenerateBtn();
   } else if(locLevel==='town'){
     locPath.town=id;
@@ -4176,6 +4258,28 @@ function showMealGenerateBtn(){
 
 function _mealEnterHandler(e){
   if(e.key==='Enter') triggerMealGenerate();
+}
+
+function filterTownSuggestions(val){
+  const sug=document.getElementById('townSuggestions');
+  if(!sug) return;
+  const cityId=locPath.city;
+  const allTowns=LOC.towns?.[cityId]||LOC.towns?.default||[];
+  if(!val.trim()||!allTowns.length){ sug.style.display='none'; return; }
+  const matches=allTowns.filter(t=>t.toLowerCase().includes(val.toLowerCase())).slice(0,8);
+  if(!matches.length){ sug.style.display='none'; return; }
+  sug.style.display='block';
+  sug.innerHTML=matches.map(t=>`<div onclick="document.getElementById('townManualInp').value='${t}';selectManualTown('${t}');" style="padding:10px 14px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--bdr);" onmouseover="this.style.background='var(--acc2)'" onmouseout="this.style.background=''">${t}</div>`).join('');
+}
+
+function selectManualTown(val){
+  if(!val.trim()){ toast('Type your town or area name.'); return; }
+  locPath.town=val.trim();
+  document.getElementById('townSuggestions').style.display='none';
+  const cAll=Object.values(LOC.countries).flat();
+  const cLabel=cAll.find(c=>c.id===locPath.country)?.l||'';
+  updateLocCrumb([...getCrumbItems(),{l:'🏘️ '+val.trim(),lv:'town'}]);
+  showMealGenerateBtn();
 }
 
 function triggerMealGenerate(){
@@ -4208,12 +4312,11 @@ async function genFreeMeals(region,country){
   const mr=document.getElementById('mealsResult');
   if(!mr) return;
   const loc=country||region;
-  const budgetText = A.budgetCustom ? `Budget: ${A.budgetCustom}.` : `Budget: ${A.budget}.`;
+  const budgetText = A.budgetCustom ? `Weekly budget: ${A.budgetCustom}.` : `Budget level: ${A.budget}.`;
   mr.innerHTML=`<div class="meals-card"><div style="text-align:center;padding:20px;"><div class="lring" style="margin:0 auto 10px;"></div><div class="ltxt">Loading ${loc} dishes...</div></div></div>`;
   try {
-    const isNg=loc.toLowerCase().includes('nigeria')||loc.toLowerCase().includes('lagos')||loc.toLowerCase().includes('abuja')||loc.toLowerCase().includes('port harcourt')||loc.toLowerCase().includes('kano');
-    const priceCtx=isNg?'IMPORTANT: Use REAL current 2026 NGN prices. Inflation is severe — rice ₦1,200-1,800/cup, eggs ₦300-400 each, chicken ₦2,000-3,500/kg. Use honest 2026 prices only.':'Use realistic local prices for '+loc+'.';
-    const r=await ai('You are a fitness nutritionist. Generate a local meal plan for someone in '+loc+'. Goal: '+A.goal+'. '+budgetText+' '+priceCtx+' List 10-12 specific foods/dishes with name, description, macros, and price estimate. Include traditional local dishes. Format clean HTML using h3,p,ul,li,strong only.',false,'You are a nutrition expert. Return only clean HTML. Use real current prices.');
+    const priceCtx=`Use ACCURATE current local market prices for ${loc} as of ${new Date().getFullYear()}. Research and use real prices that a local resident would actually pay at markets and stores right now. Do NOT use outdated or estimated prices — if you're unsure, give a realistic range. Be honest about costs.`;
+    const r=await ai(`You are a local fitness nutritionist in ${loc}. Generate a meal plan tailored for someone there. Goal: ${A.goal}. ${budgetText} ${priceCtx} List 10-12 specific local foods/dishes with name, description, macros (protein/carbs/fat/calories), and CURRENT local price estimate. Include traditional local dishes, street foods and market options. Format clean HTML using h3,p,ul,li,strong only.`,false,'You are a nutrition expert. Return only clean HTML. Always use accurate current local prices.',1024);
     mr.innerHTML=`<div class="meals-card"><div class="mc-top"><div class="mc-ic">${country?'🏳️':'🌍'}</div><div class="mc-ttl">${loc} — Dishes</div><div style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--txt3);letter-spacing:1px;">FREE</div></div><div class="pout">${r}</div></div>`;
   } catch(e){ mr.innerHTML=`<div class="err-box">Couldn't load dishes. Check connection.</div>`; }
 }
@@ -4222,10 +4325,11 @@ async function genBasicMeals(country,state){
   if(A.tier==='free'){ showMealsGate('state'); return; }
   const mr=document.getElementById('mealsResult');
   if(!mr) return;
-  const budgetText = A.budgetCustom ? `Budget: ${A.budgetCustom}.` : `Budget: ${A.budget}.`;
+  const budgetText = A.budgetCustom ? `Weekly budget: ${A.budgetCustom}.` : `Budget level: ${A.budget}.`;
   mr.innerHTML=`<div class="meals-card"><div style="text-align:center;padding:20px;"><div class="lring" style="margin:0 auto 10px;"></div><div class="ltxt">Building ${state} meal plan...</div></div></div>`;
   try {
-    const r=await ai(`7-day meal plan for someone in ${state}, ${country}. ${budgetText} Goal: ${A.goal}. Weight: ${A.sel.weight||'70'}kg. Use locally available foods. Include breakfast, lunch, dinner, snacks. Add calories and protein per meal. Keep budget-friendly. Include pre/post workout meals. Clean HTML: h2,h3,p,ul,li,strong,hr only.`);
+    const priceCtx=`Use ACCURATE current market prices for ${state}, ${country} as of ${new Date().getFullYear()}. Use real prices a local would pay at local markets, supermarkets and street food vendors right now.`;
+    const r=await ai(`Full 7-day meal plan for someone in ${state}, ${country}. ${budgetText} Goal: ${A.goal}. Weight: ${A.sel.weight||'70'}kg. Age: ${A.sel.age||'25'}. ${priceCtx} Use locally available foods. For each day include: breakfast, lunch, dinner, 2 snacks. Add calories and macros (protein/carbs/fat) per meal. Daily totals. Keep budget-friendly. Include pre/post workout meals. Grocery shopping list with current local prices. Clean HTML: h2,h3,p,ul,li,strong,hr only.`,false,null,2500);
     mr.innerHTML=`<div class="meals-card"><div class="mc-top"><div class="mc-ic">📍</div><div class="mc-ttl">${state} Meal Plan</div><div class="ai-pill" style="margin-left:auto;margin-bottom:0;">⚡ AI</div></div><div class="pout">${r}</div></div>`;
   } catch(e){ mr.innerHTML=`<div class="err-box">Failed to load. Try again.</div>`; }
 }
@@ -4234,11 +4338,12 @@ async function genProMeals(country,state,city,town){
   if(A.tier!=='pro'){ showMealsGate('city'); return; }
   const mr=document.getElementById('mealsResult');
   if(!mr) return;
-  const budgetText = A.budgetCustom ? `Budget: ${A.budgetCustom}.` : `Budget: ${A.budget}.`;
+  const budgetText = A.budgetCustom ? `Weekly budget: ${A.budgetCustom}.` : `Budget level: ${A.budget}.`;
   const loc=[town,city,state,country].filter(Boolean).join(', ');
   mr.innerHTML=`<div class="meals-card"><div style="text-align:center;padding:20px;"><div class="lring" style="margin:0 auto 10px;"></div><div class="ltxt">Loading hyper-local plan...</div></div></div>`;
   try {
-    const r=await ai(`Hyper-local 7-day meal plan for ${loc}. ${budgetText} Goal: ${A.goal}. Weight: ${A.sel.weight||'70'}kg. Reference specific local foods, street vendors, markets, restaurants unique to ${city||state}. Include exact calories, macros, local budget estimate (local currency). Grocery list with local prices. Pre/post workout meals. Make it feel like advice from someone who actually lives there. HTML: h2,h3,p,ul,li,strong,hr only.`);
+    const priceCtx=`Use ACCURATE current market prices for ${loc} as of ${new Date().getFullYear()}. Reference specific local markets, street vendors, and shops that actually exist in ${city||state}. Use prices a local resident would pay right now — not estimates or outdated figures.`;
+    const r=await ai(`Hyper-local 7-day meal plan for ${loc}. ${budgetText} Goal: ${A.goal}. Weight: ${A.sel.weight||'70'}kg. Age: ${A.sel.age||'25'}. ${priceCtx} Reference specific local foods, street vendors, markets and restaurants in ${city||state}. For each day: breakfast, lunch, dinner, 2 snacks with exact calories and macros. Daily totals. Grocery list with current local prices. Pre/post workout meal timing. Supplement suggestions. Make it feel like advice from someone who actually lives in ${city||state}. HTML: h2,h3,p,ul,li,strong,hr only.`,false,null,4096);
     mr.innerHTML=`<div class="meals-card"><div class="mc-top"><div class="mc-ic">⚡</div><div class="mc-ttl">${city||state} — Pro Meal Plan</div><div class="ai-pill" style="margin-left:auto;margin-bottom:0;">⚡ PRO</div></div><div class="pout">${r}</div></div>`;
   } catch(e){ mr.innerHTML=`<div class="err-box">Failed to load. Try again.</div>`; }
 }
