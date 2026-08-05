@@ -898,12 +898,12 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
     <div class="ld-h1">TRAIN<br><span>DIFFERENT.</span><br>LOOK<br><span>DIFFERENT.</span></div>
     <div class="ld-sub">BuiltDiff builds your exact plan — personalized workouts, nutrition, a local meal guide, and an AI coach that actually gives a damn.</div>
     <div class="ld-ctas">
-      <button class="ld-cta-primary" onclick="showScreen('register')">GET SNEAK PEEK →</button>
+      <button class="ld-cta-primary" onclick="showScreen('register')"><i class="fas fa-arrow-right"></i> GET SNEAK PEEK</button>
       <button class="ld-cta-ghost" onclick="document.getElementById('ldFeatures').scrollIntoView({behavior:'smooth'})">SEE FEATURES</button>
     </div>
     <div class="ld-scroll-hint">
       <span>SCROLL</span>
-      <span style="font-size:18px;">↓</span>
+      <i class="fas fa-chevron-down" style="font-size:18px;"></i>
     </div>
   </div>
 
@@ -982,7 +982,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
   <div class="auth-screen-inner">
     <div class="as-logo" onclick="showScreen('landing')">BUILT<span>DIFF</span></div>
     <div class="as-card">
-      <div class="as-back" onclick="showScreen('landing')">← Back</div>
+      <div class="as-back" onclick="showScreen('landing')"><i class="fas fa-arrow-left"></i> Back</div>
       <div class="as-title">Welcome back.</div>
       <div class="as-sub">Sign in to your account to continue your journey.</div>
       <div class="as-err" id="loginErr"></div>
@@ -1014,7 +1014,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
   <div class="auth-screen-inner">
     <div class="as-logo" onclick="showScreen('landing')">BUILT<span>DIFF</span></div>
     <div class="as-card">
-      <div class="as-back" onclick="showScreen('landing')">← Back</div>
+      <div class="as-back" onclick="showScreen('landing')"><i class="fas fa-arrow-left"></i> Back</div>
       <div class="as-title">Create account.</div>
       <div class="as-sub">Start building your best physique today. Free forever.</div>
       <div class="as-err" id="regErr"></div>
@@ -1063,7 +1063,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
   <div class="auth-screen-inner">
     <div class="as-logo" onclick="showScreen('landing')">BUILT<span>DIFF</span></div>
     <div class="as-card">
-      <div class="as-back" onclick="showScreen('login')">← Back to Sign In</div>
+      <div class="as-back" onclick="showScreen('login')"><i class="fas fa-arrow-left"></i> Back to Sign In</div>
       <div class="as-title">Reset password.</div>
       <div class="as-sub">Enter the email linked to your account. We'll send you a reset link when the app goes live.</div>
       <div class="as-err" id="forgotErr"></div>
@@ -1083,7 +1083,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
   <div class="auth-screen-inner">
     <div class="as-logo" onclick="showScreen('landing')">BUILT<span>DIFF</span></div>
     <div class="as-card">
-      <div class="as-back" onclick="showScreen('landing')">← Back</div>
+      <div class="as-back" onclick="showScreen('landing')"><i class="fas fa-arrow-left"></i> Back</div>
       <div class="as-title" id="socialRegTitle">Finish signing up.</div>
       <div class="as-sub" id="socialRegSub">Just a few details to personalize your experience.</div>
       <div class="as-err" id="socialRegErr"></div>
@@ -1112,16 +1112,16 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
           <input class="as-inp" id="srPassConfirm" type="password" placeholder="Repeat password" autocomplete="new-password" oninput="checkPassMatch()"/>
           <div id="srPassMatch" style="display:none;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:1px;margin-top:6px;"></div>
         </div>
-        <button class="as-btn" onclick="socialRegStep2()">NEXT →</button>
+        <button class="as-btn" onclick="socialRegStep2()">NEXT <i class="fas fa-arrow-right"></i></button>
       </div>
       <!-- Step 2: Body stats -->
       <div id="socialStep2" style="display:none;">
         <div class="as-inp-grp">
           <label class="as-inp-lbl">Gender</label>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="sr-gender-btn active" data-g="Male" onclick="setSRGender(this)">♂ Male</button>
-            <button class="sr-gender-btn" data-g="Female" onclick="setSRGender(this)">♀ Female</button>
-            <button class="sr-gender-btn" data-g="Other" onclick="setSRGender(this)">⚧ Other</button>
+            <button class="sr-gender-btn active" data-g="Male" onclick="setSRGender(this)"><i class="fas fa-mars"></i> Male</button>
+            <button class="sr-gender-btn" data-g="Female" onclick="setSRGender(this)"><i class="fas fa-venus"></i> Female</button>
+            <button class="sr-gender-btn" data-g="Other" onclick="setSRGender(this)"><i class="fas fa-transgender"></i> Other</button>
           </div>
         </div>
         <div class="as-inp-grp">
@@ -1137,7 +1137,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
           <input class="as-inp" id="srHeight" type="number" placeholder="e.g. 175"/>
         </div>
         <div style="display:flex;gap:10px;">
-          <button class="as-btn" style="background:var(--s3);color:var(--txt2);border:1px solid var(--bdr);" onclick="socialRegBack()">← Back</button>
+          <button class="as-btn" style="background:var(--s3);color:var(--txt2);border:1px solid var(--bdr);" onclick="socialRegBack()"><i class="fas fa-arrow-left"></i> Back</button>
           <button class="as-btn" style="flex:1;" onclick="doSocialRegister()">CREATE ACCOUNT</button>
         </div>
       </div>
@@ -1150,15 +1150,15 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
   <div class="auth-screen-inner">
     <div class="as-logo">BUILT<span>DIFF</span></div>
     <div class="as-card" style="text-align:center;">
-      <div style="font-size:56px;margin-bottom:16px;">🎉</div>
+      <div style="font-size:56px;margin-bottom:16px;"><i class="fas fa-check-circle" style="color:var(--ok);font-size:56px;"></i></div>
       <div class="as-title" id="regSuccessName">YOU'RE IN.</div>
       <div class="as-sub" style="margin-bottom:28px;">Account created successfully. Time to build different.</div>
       <div style="background:var(--s2);border:1px solid var(--ok);border-radius:12px;padding:14px 16px;margin-bottom:24px;text-align:left;display:flex;flex-direction:column;gap:6px;">
-        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ok);"><span>✓</span>Account created</div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ok);"><span>✓</span>Password encrypted & stored</div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ok);"><span>✓</span>Ready to build your plan</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ok);"><span><i class="fas fa-check"></i></span>Account created</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ok);"><span><i class="fas fa-check"></i></span>Password encrypted & stored</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ok);"><span><i class="fas fa-check"></i></span>Ready to build your plan</div>
       </div>
-      <button class="as-btn" onclick="goToDashboard()" id="dashBtn">GO TO DASHBOARD →</button>
+      <button class="as-btn" onclick="goToDashboard()" id="dashBtn">GO TO DASHBOARD <i class="fas fa-arrow-right"></i></button>
     </div>
   </div>
 </div>
@@ -1184,7 +1184,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
         </div>
       </div>
       <button class="as-btn" style="background:var(--acc);color:#fff;" onclick="checkAdminLogin()">ENTER ADMIN PANEL</button>
-      <div class="as-link"><a onclick="exitAdminLogin()">← Back to site</a></div>
+      <div class="as-link"><a onclick="exitAdminLogin()"><i class="fas fa-arrow-left"></i> Back to site</a></div>
     </div>
   </div>
 </div>
@@ -1196,7 +1196,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
       <div class="admin-logo">BUILT<span style="color:var(--acc)">DIFF</span> <span style="color:var(--acc)">ADMIN</span></div>
       <div class="admin-restricted" style="margin-left:auto;">RESTRICTED</div>
       <button class="admin-headbtn" onclick="adminSignOut()">SIGN OUT</button>
-      <button class="admin-headbtn" onclick="showScreen('landing')">← EXIT</button>
+      <button class="admin-headbtn" onclick="showScreen('landing')"><i class="fas fa-arrow-left"></i> EXIT</button>
     </div>
     <div class="admin-tabs" id="adminTabs">
       <button class="admin-tab active" data-tab="overview" onclick="switchAdminTab('overview')">Overview</button>
@@ -1217,11 +1217,11 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
       <div id="welcomeAvatar" style="font-size:56px;margin-bottom:12px;"><i class="fas fa-dumbbell"></i></div>
       <div class="as-title" id="welcomeName">WELCOME BACK.</div>
       <div class="as-sub" id="welcomeSub">Continue as your account</div>
-      <button class="as-btn" style="margin-top:8px;" onclick="doQuickResume()">CONTINUE →</button>
+      <button class="as-btn" style="margin-top:8px;" onclick="doQuickResume()">CONTINUE <i class="fas fa-arrow-right"></i></button>
       <div style="margin:20px 0;border-top:1px solid var(--bdr);padding-top:20px;">
         <div style="font-size:12px;color:var(--txt3);margin-bottom:12px;font-family:'JetBrains Mono',monospace;letter-spacing:1px;">OR SIGN IN AS SOMEONE ELSE</div>
         <div class="as-social">
-          <button class="as-social-btn" onclick="showScreen('login')">✉️ Use Email / Username</button>
+          <button class="as-social-btn" onclick="showScreen('login')"><i class="fas fa-envelope"></i> Use Email / Username</button>
           <button class="as-social-btn" onclick="doSocialAuth('google')"><i class="fab fa-google" style="color:#ea4335;"></i> Continue with Google</button>
           <button class="as-social-btn" onclick="doSocialAuth('apple')"><i class="fab fa-apple"></i> Continue with Apple</button>
         </div>
@@ -1254,7 +1254,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
     <button class="auth-btn google" onclick="doAuth('google')"><i class="fab fa-google"></i> Continue with Google</button>
     <button class="auth-btn apple" onclick="doAuth('apple')"><i class="fab fa-apple"></i> Continue with Apple</button>
     <div class="auth-divider">or</div>
-    <button class="auth-btn email" onclick="doAuth('email')"><span class="ic">✉️</span> Continue with Email</button>
+    <button class="auth-btn email" onclick="doAuth('email')"><i class="fas fa-envelope ic"></i> Continue with Email</button>
     <div class="auth-terms">By continuing you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</div>
   </div>
 </div>
@@ -1262,7 +1262,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 <!-- ONBOARDING -->
 <div class="screen" id="onboard">
   <div class="ob-header">
-    <div class="ob-back" onclick="obBack()">←</div>
+    <div class="ob-back" onclick="obBack()"><i class="fas fa-arrow-left"></i></div>
     <div class="ob-progress"><div class="ob-prog-fill" id="obFill" style="width:25%"></div></div>
     <div class="ob-step-lbl" id="obStepLbl">1 / 5</div>
   </div>
@@ -1303,8 +1303,8 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
               <div id="planCountBadge" style="background:rgba(0,0,0,.25);border-radius:20px;padding:3px 9px;font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(0,0,0,.7);letter-spacing:1px;cursor:pointer;display:none;" onclick="showPlanSwitcher()"></div>
             </div>
             <div style="display:flex;gap:8px;margin-top:12px;">
-              <button id="planSwitcherBtn" onclick="showPlanSwitcher()" style="display:none;background:rgba(0,0,0,.2);border:1px solid rgba(0,0,0,.25);border-radius:8px;padding:8px 12px;color:rgba(0,0,0,.7);font-family:'JetBrains Mono',monospace;font-size:10px;cursor:pointer;letter-spacing:1px;">≡ PLANS</button>
-              <button class="plan-card-btn" style="position:static;flex:1;" onclick="showPlanView()">CONTINUE →</button>
+              <button id="planSwitcherBtn" onclick="showPlanSwitcher()" style="display:none;background:rgba(0,0,0,.2);border:1px solid rgba(0,0,0,.25);border-radius:8px;padding:8px 12px;color:rgba(0,0,0,.7);font-family:'JetBrains Mono',monospace;font-size:10px;cursor:pointer;letter-spacing:1px;"><i class="fas fa-layer-group"></i> PLANS</button>
+              <button class="plan-card-btn" style="position:static;flex:1;" onclick="showPlanView()">CONTINUE <i class="fas fa-arrow-right"></i></button>
             </div>
           </div>
         </div>
@@ -1316,10 +1316,10 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
             <div class="pbtn" data-v="Muscular & Athletic" onclick="pickGoal(this)"><i class="fas fa-dumbbell ic"></i><span class="lbl">Muscular & Athletic</span><span class="sub">Size + performance</span></div>
             <div class="pbtn" data-v="Big & Jacked" onclick="pickGoal(this)"><span class="ic"><i class="fas fa-dumbbell"></i></span><span class="lbl">Big & Jacked</span><span class="sub">Maximum mass</span></div>
             <div class="pbtn" data-v="Slim & Aesthetic" onclick="pickGoal(this)"><i class="fas fa-bolt ic"></i><span class="lbl">Slim & Aesthetic</span><span class="sub">V-taper + cuts</span></div>
-            <div class="pbtn" data-v="Calisthenics & Functional" onclick="pickGoal(this)"><span class="ic">🤸</span><span class="lbl">Calisthenics</span><span class="sub">Bodyweight mastery</span></div>
-            <div class="pbtn" data-v="Fat Loss & Cutting" onclick="pickGoal(this)"><span class="ic">🫠</span><span class="lbl">Fat Loss</span><span class="sub">Burn & define</span></div>
-            <div class="pbtn" data-v="Bulk & Mass Gain" onclick="pickGoal(this)"><span class="ic">🍖</span><span class="lbl">Bulk & Mass</span><span class="sub">Pure size gain</span></div>
-            <div class="pbtn" data-v="Powerlifter" onclick="pickGoal(this)"><span class="ic">🦣</span><span class="lbl">Powerlifter</span><span class="sub">Raw strength</span></div>
+            <div class="pbtn" data-v="Calisthenics & Functional" onclick="pickGoal(this)"><i class="fas fa-running ic"></i><span class="lbl">Calisthenics</span><span class="sub">Bodyweight mastery</span></div>
+            <div class="pbtn" data-v="Fat Loss & Cutting" onclick="pickGoal(this)"><i class="fas fa-fire ic"></i><span class="lbl">Fat Loss</span><span class="sub">Burn & define</span></div>
+            <div class="pbtn" data-v="Bulk & Mass Gain" onclick="pickGoal(this)"><i class="fas fa-weight-hanging ic"></i><span class="lbl">Bulk & Mass</span><span class="sub">Pure size gain</span></div>
+            <div class="pbtn" data-v="Powerlifter" onclick="pickGoal(this)"><i class="fas fa-fist-raised ic"></i><span class="lbl">Powerlifter</span><span class="sub">Raw strength</span></div>
           </div>
         </div>
 
@@ -1337,9 +1337,9 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
           </div>
           <label class="inp-lbl">Level</label>
           <div class="trow" style="margin-bottom:10px;">
-            <div class="tbtn active" data-g="lvl" data-v="Beginner" onclick="pick(this)">🟢 Beginner</div>
-            <div class="tbtn" data-g="lvl" data-v="Intermediate" onclick="pick(this)">🟡 Intermediate</div>
-            <div class="tbtn" data-g="lvl" data-v="Advanced" onclick="pick(this)">🔴 Advanced</div>
+            <div class="tbtn active" data-g="lvl" data-v="Beginner" onclick="pick(this)"><i class="fas fa-circle" style="color:#4cd964;font-size:10px;"></i> Beginner</div>
+            <div class="tbtn" data-g="lvl" data-v="Intermediate" onclick="pick(this)"><i class="fas fa-circle" style="color:#f7c948;font-size:10px;"></i> Intermediate</div>
+            <div class="tbtn" data-g="lvl" data-v="Advanced" onclick="pick(this)"><i class="fas fa-circle" style="color:var(--err);font-size:10px;"></i> Advanced</div>
           </div>
           <label class="inp-lbl">Training Regime</label>
           <div class="trow" style="margin-bottom:10px;">
@@ -1384,15 +1384,15 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
       <!-- PLAN VIEW (overlay) -->
       <div id="planView">
         <div class="pv-header">
-          <div class="back-btn" onclick="goBack()">←</div>
+          <div class="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i></div>
           <div class="pv-title-wrap">
             <div class="pv-title" id="pvTitle">YOUR <span>PLAN</span></div>
             <div class="pv-meta" id="pvMeta"></div>
           <div style="display:flex;gap:6px;margin-top:6px;" id="daySelector"></div>
           </div>
           <div class="pv-actions">
-            <div class="pv-act" onclick="resetPlan()">↺ Reset</div>
-            <div class="pv-act" onclick="exportPlanPDF()" style="color:var(--gold);">⬇ PDF</div>
+            <div class="pv-act" onclick="resetPlan()"><i class="fas fa-redo"></i> Reset</div>
+            <div class="pv-act" onclick="exportPlanPDF()" style="color:var(--gold);"><i class="fas fa-file-pdf"></i> PDF</div>
           </div>
         </div>
 
@@ -1457,7 +1457,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
           <div class="cb" onclick="checkin('workout')"><div><i class="fas fa-dumbbell"></i></div><div class="cl">Workout done</div></div>
           <div class="cb" onclick="checkin('diet')"><div><i class="fas fa-apple-alt"></i></div><div class="cl">Diet on point</div></div>
           <div class="cb" onclick="checkin('rest')"><div><i class="fas fa-moon"></i></div><div class="cl">Slept well</div></div>
-          <div class="cb" onclick="checkin('miss')"><div>❌</div><div class="cl">Missed today</div></div>
+          <div class="cb" onclick="checkin('miss')"><div><i class="fas fa-times-circle" style="color:var(--err);"></i></div><div class="cl">Missed today</div></div>
         </div>
       </div>
 
@@ -1520,7 +1520,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
         <div class="set-item" onclick="openPanel('goal')"><div class="si-ic"><i class="fas fa-bullseye"></i></div><div class="si-info"><div class="si-lbl">Fitness Goal</div><div class="si-sub" id="setGoalSub">Not set</div></div><div class="si-arrow">›</div></div>
         <div class="set-item" onclick="openPanel('budget')"><div class="si-ic"><i class="fas fa-wallet"></i></div><div class="si-info"><div class="si-lbl">Food Budget</div><div class="si-sub" id="setBudgetSub">Tight</div></div><div class="si-arrow">›</div></div>
         <div class="set-item" onclick="openPanel('units')"><div class="si-ic"><i class="fas fa-chart-bar"></i></div><div class="si-info"><div class="si-lbl">Units</div><div class="si-sub" id="setUnitsSub">kg / cm</div></div><div class="si-arrow">›</div></div>
-        <div class="set-item" onclick="openPanel('fontsize')"><div class="si-ic">🔡</div><div class="si-info"><div class="si-lbl">Font Size</div><div class="si-sub" id="setFontSizeSub">Medium</div></div><div class="si-arrow">›</div></div>
+        <div class="set-item" onclick="openPanel('fontsize')"><div class="si-ic"><i class="fas fa-text-height"></i></div><div class="si-info"><div class="si-lbl">Font Size</div><div class="si-sub" id="setFontSizeSub">Medium</div></div><div class="si-arrow">›</div></div>
         <div class="set-item" onclick="openPanel('language')"><div class="si-ic"><i class="fas fa-language"></i></div><div class="si-info"><div class="si-lbl">App Language</div><div class="si-sub" id="setLangSub">English</div></div><div class="si-arrow">›</div></div>
 
         <!-- DUMBBELL THEME TOGGLE -->
@@ -1564,20 +1564,20 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
       <div class="set-section">
         <div class="ss-lbl">Support</div>
         <div class="set-item" onclick="openPanel('allergies')"><div class="si-ic"><i class="fas fa-ban"></i></div><div class="si-info"><div class="si-lbl">Allergies & Diet</div><div class="si-sub">Food allergies & restrictions</div></div><div class="si-arrow">›</div></div>
-        <div class="set-item" onclick="openPanel('supplements')"><div class="si-ic">💊</div><div class="si-info"><div class="si-lbl">Supplement Guide</div><div class="si-sub">What works, what doesn't</div></div><div class="si-arrow">›</div></div>
+        <div class="set-item" onclick="openPanel('supplements')"><div class="si-ic"><i class="fas fa-pills"></i></div><div class="si-info"><div class="si-lbl">Supplement Guide</div><div class="si-sub">What works, what doesn't</div></div><div class="si-arrow">›</div></div>
         <div class="set-item" onclick="openPanel('progress')"><div class="si-ic"><i class="fas fa-camera"></i></div><div class="si-info"><div class="si-lbl">Progress Photos</div><div class="si-sub">Track your transformation</div></div><div class="si-arrow">›</div></div>
-        <div class="set-item" onclick="openPanel('workout-history')"><div class="si-ic">📋</div><div class="si-info"><div class="si-lbl">Workout History</div><div class="si-sub">Past workouts & sessions</div></div><div class="si-arrow">›</div></div>
-        <div class="set-item" onclick="openPanel('session')"><div class="si-ic">⏱️</div><div class="si-info"><div class="si-lbl">Workout Session Timer</div><div class="si-sub">Track session duration</div></div><div class="si-arrow">›</div></div>
-        <div class="set-item" onclick="openPanel('faq')"><div class="si-ic">❓</div><div class="si-info"><div class="si-lbl">Help & FAQ</div></div><div class="si-arrow">›</div></div>
+        <div class="set-item" onclick="openPanel('workout-history')"><div class="si-ic"><i class="fas fa-clipboard-list"></i></div><div class="si-info"><div class="si-lbl">Workout History</div><div class="si-sub">Past workouts & sessions</div></div><div class="si-arrow">›</div></div>
+        <div class="set-item" onclick="openPanel('session')"><div class="si-ic"><i class="fas fa-stopwatch"></i></div><div class="si-info"><div class="si-lbl">Workout Session Timer</div><div class="si-sub">Track session duration</div></div><div class="si-arrow">›</div></div>
+        <div class="set-item" onclick="openPanel('faq')"><div class="si-ic"><i class="fas fa-question-circle"></i></div><div class="si-info"><div class="si-lbl">Help & FAQ</div></div><div class="si-arrow">›</div></div>
         <div class="set-item" onclick="toast('Thanks! Rating coming soon when we launch on app stores.')"><div class="si-ic"><i class="fas fa-star"></i></div><div class="si-info"><div class="si-lbl">Rate BuiltDiff</div></div><div class="si-arrow">›</div></div>
-        <div class="set-item danger" onclick="signOut()"><div class="si-ic">🚪</div><div class="si-info"><div class="si-lbl">Sign Out</div></div></div>
+        <div class="set-item danger" onclick="signOut()"><div class="si-ic"><i class="fas fa-sign-out-alt"></i></div><div class="si-info"><div class="si-lbl">Sign Out</div></div></div>
       </div>
     </div>
 
     <!-- SETTINGS PANELS -->
     <div class="set-panel" id="panel-edit-profile">
       <div class="sp-header">
-        <div class="sp-back" onclick="closePanel('edit-profile')">←</div>
+        <div class="sp-back" onclick="closePanel('edit-profile')"><i class="fas fa-arrow-left"></i></div>
         <div class="sp-title">Edit <span>Profile</span></div>
       </div>
       <div class="sp-body">
@@ -1603,27 +1603,27 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 
     <div class="set-panel" id="panel-notifications">
       <div class="sp-header">
-        <div class="sp-back" onclick="closePanel('notifications')">←</div>
+        <div class="sp-back" onclick="closePanel('notifications')"><i class="fas fa-arrow-left"></i></div>
         <div class="sp-title">Notifi<span>cations</span></div>
       </div>
       <div class="sp-body">
         <div class="toggle-row"><div class="tr-ic"><i class="fas fa-dumbbell"></i></div><div class="tr-info"><div class="tr-lbl">Workout Reminders</div><div class="tr-sub">Daily training alerts</div></div><div class="toggle-switch on" id="notif-workout" onclick="toggleNotif('workout')"><div class="ts-knob"></div></div></div>
         <div class="toggle-row"><div class="tr-ic"><i class="fas fa-fire"></i></div><div class="tr-info"><div class="tr-lbl">Streak Alerts</div><div class="tr-sub">Don't break your streak</div></div><div class="toggle-switch on" id="notif-streak" onclick="toggleNotif('streak')"><div class="ts-knob"></div></div></div>
         <div class="toggle-row"><div class="tr-ic"><i class="fas fa-apple-alt"></i></div><div class="tr-info"><div class="tr-lbl">Meal Reminders</div><div class="tr-sub">Eat on schedule</div></div><div class="toggle-switch" id="notif-meal" onclick="toggleNotif('meal')"><div class="ts-knob"></div></div></div>
-        <div class="toggle-row"><div class="tr-ic">💬</div><div class="tr-info"><div class="tr-lbl">Coach Messages</div><div class="tr-sub">DIFF check-ins</div></div><div class="toggle-switch on" id="notif-coach" onclick="toggleNotif('coach')"><div class="ts-knob"></div></div></div>
+        <div class="toggle-row"><div class="tr-ic"><i class="fas fa-comment-dots"></i></div><div class="tr-info"><div class="tr-lbl">Coach Messages</div><div class="tr-sub">DIFF check-ins</div></div><div class="toggle-switch on" id="notif-coach" onclick="toggleNotif('coach')"><div class="ts-knob"></div></div></div>
         <div class="toggle-row"><div class="tr-ic"><i class="fas fa-chart-bar"></i></div><div class="tr-info"><div class="tr-lbl">Weekly Report</div><div class="tr-sub">Progress summary every Sunday</div></div><div class="toggle-switch on" id="notif-report" onclick="toggleNotif('report')"><div class="ts-knob"></div></div></div>
       </div>
     </div>
 
     <div class="set-panel" id="panel-privacy">
       <div class="sp-header">
-        <div class="sp-back" onclick="closePanel('privacy')">←</div>
+        <div class="sp-back" onclick="closePanel('privacy')"><i class="fas fa-arrow-left"></i></div>
         <div class="sp-title">Pri<span>vacy</span></div>
       </div>
       <div class="sp-body">
         <div class="toggle-row"><div class="tr-ic"><i class="fas fa-chart-bar"></i></div><div class="tr-info"><div class="tr-lbl">Analytics</div><div class="tr-sub">Help improve BuiltDiff</div></div><div class="toggle-switch on" id="priv-analytics" onclick="togglePriv('analytics')"><div class="ts-knob"></div></div></div>
-        <div class="toggle-row"><div class="tr-ic">🗺️</div><div class="tr-info"><div class="tr-lbl">Location Data</div><div class="tr-sub">For local meal suggestions</div></div><div class="toggle-switch" id="priv-location" onclick="togglePriv('location')"><div class="ts-knob"></div></div></div>
-        <div class="toggle-row"><div class="tr-ic">💾</div><div class="tr-info"><div class="tr-lbl">Save Chat History</div><div class="tr-sub">Coach conversation history</div></div><div class="toggle-switch on" id="priv-chat" onclick="togglePriv('chat')"><div class="ts-knob"></div></div></div>
+        <div class="toggle-row"><div class="tr-ic"><i class="fas fa-map"></i></div><div class="tr-info"><div class="tr-lbl">Location Data</div><div class="tr-sub">For local meal suggestions</div></div><div class="toggle-switch" id="priv-location" onclick="togglePriv('location')"><div class="ts-knob"></div></div></div>
+        <div class="toggle-row"><div class="tr-ic"><i class="fas fa-database"></i></div><div class="tr-info"><div class="tr-lbl">Save Chat History</div><div class="tr-sub">Coach conversation history</div></div><div class="toggle-switch on" id="priv-chat" onclick="togglePriv('chat')"><div class="ts-knob"></div></div></div>
         <div style="margin-top:20px;background:var(--s2);border:1px solid var(--bdr);border-radius:12px;padding:16px;">
           <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Data Storage</div>
           <div style="font-size:12px;color:var(--txt2);line-height:1.7;">Your data is stored locally on your device. When you sign in with Google or Apple, your plan and progress sync to your account securely. We never sell your data.</div>
@@ -1634,7 +1634,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 
     <div class="set-panel" id="panel-goal">
       <div class="sp-header">
-        <div class="sp-back" onclick="closePanel('goal')">←</div>
+        <div class="sp-back" onclick="closePanel('goal')"><i class="fas fa-arrow-left"></i></div>
         <div class="sp-title">Fitness <span>Goal</span></div>
       </div>
       <div class="sp-body">
@@ -1646,7 +1646,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 
     <div class="set-panel" id="panel-units">
       <div class="sp-header">
-        <div class="sp-back" onclick="closePanel('units')">←</div>
+        <div class="sp-back" onclick="closePanel('units')"><i class="fas fa-arrow-left"></i></div>
         <div class="sp-title">U<span>nits</span></div>
       </div>
       <div class="sp-body">
@@ -1659,7 +1659,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 
     <div class="set-panel" id="panel-faq">
       <div class="sp-header">
-        <div class="sp-back" onclick="closePanel('faq')">←</div>
+        <div class="sp-back" onclick="closePanel('faq')"><i class="fas fa-arrow-left"></i></div>
         <div class="sp-title">Help & <span>FAQ</span></div>
       </div>
       <div class="sp-body" id="faq-body"></div>
@@ -1668,7 +1668,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
     <!-- ALLERGIES PANEL -->
     <div class="set-panel" id="panel-allergies">
       <div class="sp-header">
-        <div class="sp-back" onclick="closePanel('allergies')">←</div>
+        <div class="sp-back" onclick="closePanel('allergies')"><i class="fas fa-arrow-left"></i></div>
         <div class="sp-title">Allergies & <span>Diet</span></div>
       </div>
       <div class="sp-body">
@@ -1684,7 +1684,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
     <!-- SUPPLEMENT GUIDE PANEL -->
     <div class="set-panel" id="panel-supplements">
       <div class="sp-header">
-        <div class="sp-back" onclick="closePanel('supplements')">←</div>
+        <div class="sp-back" onclick="closePanel('supplements')"><i class="fas fa-arrow-left"></i></div>
         <div class="sp-title">Supple<span>ments</span></div>
       </div>
       <div class="sp-body" id="supp-body"></div>
@@ -1693,7 +1693,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
     <!-- PROGRESS PHOTOS PANEL -->
     <div class="set-panel" id="panel-progress">
       <div class="sp-header">
-        <div class="sp-back" onclick="closePanel('progress')">←</div>
+        <div class="sp-back" onclick="closePanel('progress')"><i class="fas fa-arrow-left"></i></div>
         <div class="sp-title">Progress <span>Photos</span></div>
       </div>
       <div class="sp-body">
@@ -1701,7 +1701,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
           <label style="background:var(--s2);border:2px dashed var(--bdr2);border-radius:12px;padding:20px 12px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;">
             <input type="file" accept="image/*" onchange="saveProgressPhoto(event)" style="display:none;"/>
-            <span style="font-size:24px;">📷</span>
+            <span style="font-size:24px;"><i class="fas fa-camera"></i></span>
             <span style="font-size:11px;font-weight:600;color:var(--txt2);">Add Photo</span>
           </label>
           <button style="background:var(--s2);border:2px dashed var(--bdr2);border-radius:12px;padding:20px 12px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;font-family:inherit;" onclick="requestCameraPermission()"><span style="font-size:24px;"><i class="fas fa-camera"></i></span><span style="font-size:11px;font-weight:600;color:var(--txt2);">Take Photo</span></button>
@@ -1713,7 +1713,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
     <!-- SESSION TIMER PANEL -->
     <div class="set-panel" id="panel-session">
       <div class="sp-header">
-        <div class="sp-back" onclick="closePanel('session')">←</div>
+        <div class="sp-back" onclick="closePanel('session')"><i class="fas fa-arrow-left"></i></div>
         <div class="sp-title">Session <span>Timer</span></div>
       </div>
       <div class="sp-body" style="text-align:center;padding-top:20px;">
@@ -1731,19 +1731,19 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 
     <!-- WORKOUT HISTORY PANEL -->
     <div class="set-panel" id="panel-workout-history">
-      <div class="sp-header"><div class="sp-back" onclick="closePanel('workout-history')">←</div><div class="sp-title">Workout <span>History</span></div></div>
+      <div class="sp-header"><div class="sp-back" onclick="closePanel('workout-history')"><i class="fas fa-arrow-left"></i></div><div class="sp-title">Workout <span>History</span></div></div>
       <div class="sp-body"><div id="workoutHistoryPanelList"></div></div>
     </div>
 
     <!-- BUDGET PANEL -->
     <div class="set-panel" id="panel-budget">
-      <div class="sp-header"><div class="sp-back" onclick="closePanel('budget')">←</div><div class="sp-title">Food <span>Budget</span></div></div>
+      <div class="sp-header"><div class="sp-back" onclick="closePanel('budget')"><i class="fas fa-arrow-left"></i></div><div class="sp-title">Food <span>Budget</span></div></div>
       <div class="sp-body">
         <div style="font-size:12px;color:var(--txt2);margin-bottom:16px;">Your weekly food budget affects meal recommendations and the AI nutrition plan.</div>
         <div style="display:flex;flex-direction:column;gap:8px;" id="budgetPanelOpts">
-          <div class="unit-option" id="bp-tight" onclick="selectBudgetPanel('tight')"><div class="uo-dot"></div><div><div style="font-weight:600;">💰 Tight</div><div style="font-size:11px;color:var(--txt3);margin-top:2px;">Budget-friendly, local options</div></div></div>
-          <div class="unit-option" id="bp-moderate" onclick="selectBudgetPanel('moderate')"><div class="uo-dot"></div><div><div style="font-weight:600;">💰💰 Moderate</div><div style="font-size:11px;color:var(--txt3);margin-top:2px;">Balanced cost vs. quality</div></div></div>
-          <div class="unit-option" id="bp-comfortable" onclick="selectBudgetPanel('comfortable')"><div class="uo-dot"></div><div><div style="font-weight:600;">💰💰💰 Comfortable</div><div style="font-size:11px;color:var(--txt3);margin-top:2px;">Quality-first, no compromises</div></div></div>
+          <div class="unit-option" id="bp-tight" onclick="selectBudgetPanel('tight')"><div class="uo-dot"></div><div><div style="font-weight:600;"><i class="fas fa-wallet"></i> Tight</div><div style="font-size:11px;color:var(--txt3);margin-top:2px;">Budget-friendly, local options</div></div></div>
+          <div class="unit-option" id="bp-moderate" onclick="selectBudgetPanel('moderate')"><div class="uo-dot"></div><div><div style="font-weight:600;"><i class="fas fa-wallet"></i> Moderate</div><div style="font-size:11px;color:var(--txt3);margin-top:2px;">Balanced cost vs. quality</div></div></div>
+          <div class="unit-option" id="bp-comfortable" onclick="selectBudgetPanel('comfortable')"><div class="uo-dot"></div><div><div style="font-weight:600;"><i class="fas fa-wallet"></i> Comfortable</div><div style="font-size:11px;color:var(--txt3);margin-top:2px;">Quality-first, no compromises</div></div></div>
         </div>
         <div style="margin-top:16px;">
           <label class="ob-inp-lbl">Custom amount (e.g. ₦15,000 or $50/week)</label>
@@ -1755,7 +1755,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 
     <!-- FONT SIZE PANEL -->
     <div class="set-panel" id="panel-fontsize">
-      <div class="sp-header"><div class="sp-back" onclick="closePanel('fontsize')">←</div><div class="sp-title">Font <span>Size</span></div></div>
+      <div class="sp-header"><div class="sp-back" onclick="closePanel('fontsize')"><i class="fas fa-arrow-left"></i></div><div class="sp-title">Font <span>Size</span></div></div>
       <div class="sp-body">
         <div style="font-size:12px;color:var(--txt2);margin-bottom:16px;">Adjust text size across the app.</div>
         <div style="display:flex;flex-direction:column;gap:8px;" id="fontSizeOpts">
@@ -1769,7 +1769,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 
     <!-- LANGUAGE PANEL -->
     <div class="set-panel" id="panel-language">
-      <div class="sp-header"><div class="sp-back" onclick="closePanel('language')">←</div><div class="sp-title">App <span>Language</span></div></div>
+      <div class="sp-header"><div class="sp-back" onclick="closePanel('language')"><i class="fas fa-arrow-left"></i></div><div class="sp-title">App <span>Language</span></div></div>
       <div class="sp-body">
         <div style="font-size:12px;color:var(--txt2);margin-bottom:16px;">Choose your preferred language. UI translations coming soon — currently affects AI coach language.</div>
         <div id="languageOptsList" style="display:flex;flex-direction:column;gap:6px;"></div>
@@ -1779,7 +1779,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
     <div class="bnav-item active" onclick="goTab('build')" id="nav-build"><div class="ni"><i class="fas fa-dumbbell"></i></div><div class="nl">Build</div></div>
     <div class="bnav-item" onclick="goTab('coach')" id="nav-coach"><div class="ni"><i class="fas fa-robot"></i></div><div class="nl">Coach</div></div>
     <div class="bnav-item" onclick="goTab('report')" id="nav-report"><div class="ni"><i class="fas fa-chart-bar"></i></div><div class="nl">Report</div></div>
-    <div class="bnav-item" onclick="goTab('settings')" id="nav-settings"><div class="ni">⚙️</div><div class="nl">Settings</div></div>
+    <div class="bnav-item" onclick="goTab('settings')" id="nav-settings"><div class="ni"><i class="fas fa-cog"></i></div><div class="nl">Settings</div></div>
   </div>
 </div>
 
@@ -1802,8 +1802,8 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
     <h2>Go <span>Premium</span></h2>
     <div class="modal-sub">Unlock AI plans, your personal coach, local meals, and more.</div>
     <div class="ptabs-row">
-      <div class="ptabr active" onclick="switchMR('ng',this)">🇳🇬 Nigeria</div>
-      <div class="ptabr" onclick="switchMR('intl',this)">🌍 International</div>
+      <div class="ptabr active" onclick="switchMR('ng',this)">Nigeria</div>
+      <div class="ptabr" onclick="switchMR('intl',this)"><i class="fas fa-globe"></i> International</div>
     </div>
     <div id="mNg">
       <div class="pgrid2">
@@ -1817,11 +1817,11 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
         <label style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--txt3);text-transform:uppercase;display:block;margin-bottom:6px;">YOUR COUNTRY</label>
         <select id="intlCountryPicker" onchange="updateIntlPricing(this.value)" style="width:100%;background:var(--s2);border:1px solid var(--bdr2);border-radius:10px;padding:11px 12px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;cursor:pointer;">
           <option value="">— Pick your country —</option>
-          <optgroup label="🌍 Africa"><option value="ng_intl">Nigeria (₦)</option><option value="gh">Ghana (GH₵)</option><option value="za">South Africa (R)</option><option value="ke">Kenya (KSh)</option><option value="eg">Egypt (EGP)</option></optgroup>
-          <optgroup label="🌎 Americas"><option value="us">United States ($)</option><option value="ca">Canada (CA$)</option><option value="br">Brazil (R$)</option><option value="mx">Mexico (MX$)</option><option value="ar">Argentina (ARS)</option></optgroup>
-          <optgroup label="🌍 Europe"><option value="gb">United Kingdom (£)</option><option value="eu">Eurozone (€)</option><option value="se">Sweden (SEK)</option></optgroup>
-          <optgroup label="🌏 Asia-Pacific"><option value="in">India (₹)</option><option value="jp">Japan (¥)</option><option value="au">Australia (AU$)</option><option value="sg">Singapore (SGD)</option><option value="ph">Philippines (₱)</option><option value="id">Indonesia (Rp)</option></optgroup>
-          <optgroup label="🌍 Middle East"><option value="ae">UAE (AED)</option><option value="sa">Saudi Arabia (SAR)</option></optgroup>
+          <optgroup label="Africa"><option value="ng_intl">Nigeria (₦)</option><option value="gh">Ghana (GH₵)</option><option value="za">South Africa (R)</option><option value="ke">Kenya (KSh)</option><option value="eg">Egypt (EGP)</option></optgroup>
+          <optgroup label="Americas"><option value="us">United States ($)</option><option value="ca">Canada (CA$)</option><option value="br">Brazil (R$)</option><option value="mx">Mexico (MX$)</option><option value="ar">Argentina (ARS)</option></optgroup>
+          <optgroup label="Europe"><option value="gb">United Kingdom (£)</option><option value="eu">Eurozone (€)</option><option value="se">Sweden (SEK)</option></optgroup>
+          <optgroup label="Asia-Pacific"><option value="in">India (₹)</option><option value="jp">Japan (¥)</option><option value="au">Australia (AU$)</option><option value="sg">Singapore (SGD)</option><option value="ph">Philippines (₱)</option><option value="id">Indonesia (Rp)</option></optgroup>
+          <optgroup label="Middle East"><option value="ae">UAE (AED)</option><option value="sa">Saudi Arabia (SAR)</option></optgroup>
         </select>
       </div>
       <div id="intlPricingGrid" class="pgrid2">
@@ -1829,12 +1829,12 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
       </div>
     </div>
     <ul class="feat-list" id="modalFeatList">
-      <li><span class="fck g">✓</span>AI-personalized workout plan for your exact stats</li>
+      <li><span class="fck g"><i class="fas fa-check"></i></span>AI-personalized workout plan for your exact stats</li>
       <li><span class="fck g">✓</span>Full macro & calorie tracking</li>
       <li><span class="fck g">✓</span>DIFF — personal AI coach with real personality</li>
       <li><span class="fck g">✓</span>Local meal planner with your city's foods</li>
       <li><span class="fck g">✓</span>Body transformation analysis + roadmap</li>
-      <li><span class="fck g">✓</span>Progress tracker, supplement guide, PDF export</li>
+      <li><span class="fck g"><i class="fas fa-check"></i></span>Progress tracker, supplement guide, PDF export</li>
       <li><span class="fck b">★</span>Pro: City + Town level meals + multiple plans</li>
     </ul>
     <button class="modal-cta" onclick="activateDemo()">UNLOCK PREMIUM</button>
@@ -1846,7 +1846,7 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 // ─── STATE ──────────────────────────────────────────────────────────
 const A = {
   tier: 'free',
-  user: { name:'', email:'', username:'', age:'', weight:'', height:'', avatar:'💪', goal:'', allergies:[], weightGoal:'', units:'metric', language:'en', fontSize:'medium',
+  user: { name:'', email:'', username:'', age:'', weight:'', height:'', avatar:'dumbbell', goal:'', allergies:[], weightGoal:'', units:'metric', language:'en', fontSize:'medium',
     notifs:{ workout:true, streak:true, meal:false, coach:true, report:true },
     privacy:{ analytics:true, location:false, chat:true }
   },
@@ -2251,11 +2251,11 @@ const FREE_WO_HOME={
   "default":["Push-ups","Pull-ups","Bodyweight Squat","Plank","Burpees","Mountain Climbers","Lunges","Glute Bridge"]
 };
 
-const FREE_DIET=`<h2>Nutrition Basics</h2><h3>Daily Calories</h3><p><strong>Fat loss:</strong> bodyweight(kg)×30 &nbsp;|&nbsp; <strong>Maintain:</strong> ×33 &nbsp;|&nbsp; <strong>Gain:</strong> ×36–40</p><h3>Macros</h3><ul><li><strong>Protein:</strong> 2–2.5g per kg — non-negotiable every single day</li><li><strong>Carbs:</strong> Scale to goal — higher for mass, lower for cut</li><li><strong>Fats:</strong> 0.8–1g per kg — don't skip, regulates hormones</li></ul><h3>Rules</h3><ul><li>Protein first at every meal</li><li>Sleep 7–9 hours — this is when you grow</li><li>Drink 3L+ water daily</li><li>Creatine 5g/day — most studied supplement ever, always worth it</li><li>Avoid alcohol — kills testosterone</li></ul><hr><p style="color:var(--txt3);font-size:12px;">⚡ Upgrade for AI-personalized plan with exact calories, meal timing, and macros for your exact stats.</p>`;
+const FREE_DIET=`<h2>Nutrition Basics</h2><h3>Daily Calories</h3><p><strong>Fat loss:</strong> bodyweight(kg)×30 &nbsp;|&nbsp; <strong>Maintain:</strong> ×33 &nbsp;|&nbsp; <strong>Gain:</strong> ×36–40</p><h3>Macros</h3><ul><li><strong>Protein:</strong> 2–2.5g per kg — non-negotiable every single day</li><li><strong>Carbs:</strong> Scale to goal — higher for mass, lower for cut</li><li><strong>Fats:</strong> 0.8–1g per kg — don't skip, regulates hormones</li></ul><h3>Rules</h3><ul><li>Protein first at every meal</li><li>Sleep 7–9 hours — this is when you grow</li><li>Drink 3L+ water daily</li><li>Creatine 5g/day — most studied supplement ever, always worth it</li><li>Avoid alcohol — kills testosterone</li></ul><hr><p style="color:var(--txt3);font-size:12px;"> Upgrade for AI-personalized plan with exact calories, meal timing, and macros for your exact stats.</p>`;
 
 // ─── LOCATION DATA ───────────────────────────────────────────────────
 const LOC={
-  regions:[{id:'africa',l:'Africa',f:'🌍'},{id:'asia',l:'Asia',f:'🌏'},{id:'europe',l:'Europe',f:'🌍'},{id:'namerica',l:'North America',f:'🌎'},{id:'samerica',l:'South America',f:'🌎'},{id:'oceania',l:'Oceania',f:'🌏'},{id:'mideast',l:'Middle East',f:'🌍'}],
+  regions:[{id:'africa',l:'Africa',f:''},{id:'asia',l:'Asia',f:''},{id:'europe',l:'Europe',f:''},{id:'namerica',l:'North America',f:''},{id:'samerica',l:'South America',f:''},{id:'oceania',l:'Oceania',f:''},{id:'mideast',l:'Middle East',f:''}],
   countries:{
     africa:[{id:'ng',l:'Nigeria',f:'🇳🇬'},{id:'gh',l:'Ghana',f:'🇬🇭'},{id:'za',l:'South Africa',f:'🇿🇦'},{id:'ke',l:'Kenya',f:'🇰🇪'},{id:'eg',l:'Egypt',f:'🇪🇬'},{id:'cm',l:'Cameroon',f:'🇨🇲'},{id:'et',l:'Ethiopia',f:'🇪🇹'},{id:'tz',l:'Tanzania',f:'🇹🇿'}],
     asia:[{id:'jp',l:'Japan',f:'🇯🇵'},{id:'cn',l:'China',f:'🇨🇳'},{id:'in',l:'India',f:'🇮🇳'},{id:'kr',l:'South Korea',f:'🇰🇷'},{id:'id',l:'Indonesia',f:'🇮🇩'},{id:'ph',l:'Philippines',f:'🇵🇭'},{id:'th',l:'Thailand',f:'🇹🇭'},{id:'vn',l:'Vietnam',f:'🇻🇳'}],
@@ -2292,7 +2292,7 @@ setTimeout(async()=>{
     const wav=document.getElementById('welcomeAvatar');
     const wn=document.getElementById('welcomeName');
     const ws=document.getElementById('welcomeSub');
-    if(wav) wav.textContent=A.user.avatar||'💪';
+    if(wav) wav.textContent=A.user.avatar||'dumbbell';
     if(wn) wn.textContent='WELCOME BACK, '+(A.user.name.split(' ')[0].toUpperCase())+'.';
     if(ws) ws.textContent=A.user.username?'@'+A.user.username:'Continue to your dashboard';
     showScreen('welcome');
@@ -2319,11 +2319,11 @@ function checkPassStrength(val){
   if(/[0-9]/.test(val)) score++;
   if(/[^A-Za-z0-9]/.test(val)) score++;
   const levels=[
-    {w:'20%',bg:'#ff4d6d',txt:'WEAK 💀'},
+    {w:'20%',bg:'#ff4d6d',txt:'WEAK'},
     {w:'40%',bg:'#ff9500',txt:'OKAY'},
     {w:'60%',bg:'#ffcc00',txt:'GOOD'},
-    {w:'80%',bg:'#00e676',txt:'STRONG 💪'},
-    {w:'100%',bg:'var(--acc)',txt:'BUILT DIFF 🔥'}
+    {w:'80%',bg:'#00e676',txt:'STRONG'},
+    {w:'100%',bg:'var(--acc)',txt:'BUILT DIFF'}
   ];
   const l=levels[Math.min(score,4)];
   bar.style.width=l.w; bar.style.background=l.bg;
@@ -2475,7 +2475,7 @@ async function doSocialRegister(){
   await dbPut('users',{...userObj,key:ukey});
 
   // Set up app state
-  A.user={...A.user,name,username,email:providerEmail,gender:_srGender,age,weight,height,avatar:'💪'};
+  A.user={...A.user,name,username,email:providerEmail,gender:_srGender,age,weight,height,avatar:'dumbbell'};
   A.tier='free';
   await saveAll();
   // Clear fields
@@ -2507,7 +2507,7 @@ async function joinWaitlist(){
   if(!email||!email.includes('@')){ toast('Enter a valid email to join.'); return; }
   // Save locally
   const existing=await dbGet('waitlist',email);
-  if(existing){ note.textContent='You\'re already on the list! We\'ll hit you when it drops. 🔥'; inp.value=''; return; }
+  if(existing){ note.textContent='You\'re already on the list! We\'ll hit you when it drops.'; inp.value=''; return; }
   await dbPut('waitlist',{key:email,email,ts:Date.now(),notified:false});
   // Send confirmation email via EmailJS
   try{
@@ -2519,7 +2519,7 @@ async function joinWaitlist(){
     });
   }catch(e){ console.warn('EmailJS waitlist send failed:',e); }
   inp.value='';
-  if(note){ note.style.color='var(--ok)'; note.textContent='You\'re in. 🔥 Check your inbox for confirmation. We\'ll notify you when the app launches.'; }
+  if(note){ note.style.color='var(--ok)'; note.textContent='You\'re in. Check your inbox for confirmation. We\'ll notify you when the app launches.'; }
 }
 
 // Admin-only: trigger launch emails to all waitlist members
@@ -2672,7 +2672,7 @@ async function renderAdminOverview(dash){
 
   dash.innerHTML=
     '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:24px;">'
-    +[['👥 Users',users.length],['⭐ Premium',premium],['📧 Waitlist',waitlist.length],['📋 Plans',plans.length],['🏋️ Workouts',wh.length]]
+    +[['Users',users.length],['Premium',premium],['Waitlist',waitlist.length],['Plans',plans.length],['Workouts',wh.length]]
     .map(([l,v])=>'<div class="admin-stat"><div class="admin-stat-v">'+v+'</div><div class="admin-stat-l">'+l+'</div></div>').join('')
     +'</div>'
     +'<div class="admin-card"><div class="admin-section-title">Recent Admin Activity</div>'
@@ -2740,14 +2740,14 @@ async function renderAdminWaitlist(dash){
     '<div class="admin-card">'
     +'<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px;">'
     +'<div class="admin-section-title" style="margin-bottom:0;">Waitlist ('+waitlist.length+')</div>'
-    +'<button class="admin-btn" onclick="adminSendLaunchEmails()">⚡ Send Launch Emails</button>'
+    +'<button class="admin-btn" onclick="adminSendLaunchEmails()"><i class="fas fa-paper-plane"></i> Send Launch Emails</button>'
     +'</div>'
     +(waitlist.length?'<div style="display:flex;flex-direction:column;gap:6px;">'
     +waitlist.map(w=>'<div style="background:var(--s1);border:1px solid var(--bdr);border-radius:8px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;">'
       +'<div style="font-size:13px;">'+(w.email||'—')+'</div>'
       +'<div style="display:flex;align-items:center;gap:10px;">'
-      +'<div style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:1px;color:'+(w.notified?'var(--ok)':'var(--txt3)')+';">'+(w.notified?'✓ NOTIFIED':'PENDING')+'</div>'
-      +'<button class="admin-btn danger" style="padding:5px 10px;" onclick="adminDeleteWaitlist(\''+w.email+'\')">✕</button>'
+      +'<div style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:1px;color:'+(w.notified?'var(--ok)':'var(--txt3)')+';">'+(w.notified?'NOTIFIED':'PENDING')+'</div>'
+      +'<button class="admin-btn danger" style="padding:5px 10px;" onclick="adminDeleteWaitlist(\''+w.email+'\')"><i class="fas fa-times"></i></button>'
       +'</div></div>').join('')+'</div>'
     :'<div style="color:var(--txt3);font-size:13px;">Waitlist is empty.</div>')
     +'</div>';
@@ -2787,11 +2787,11 @@ async function renderAdminExport(dash){
     '<div class="admin-card"><div class="admin-section-title">Export Data</div>'
     +'<div style="color:var(--txt2);font-size:13px;margin-bottom:16px;">Download snapshots of this device\'s app data for backup, analysis, or migration.</div>'
     +'<div style="display:flex;flex-direction:column;gap:10px;max-width:320px;">'
-    +'<button class="admin-btn" onclick="exportUsersCSV()">⬇ Users (CSV)</button>'
-    +'<button class="admin-btn" onclick="exportWaitlistCSV()">⬇ Waitlist (CSV)</button>'
-    +'<button class="admin-btn ghost" onclick="exportPlansJSON()">⬇ Plans (JSON)</button>'
-    +'<button class="admin-btn ghost" onclick="exportWorkoutHistoryJSON()">⬇ Workout History (JSON)</button>'
-    +'<button class="admin-btn ghost" onclick="exportFullDatabase()">⬇ Full Database (JSON)</button>'
+    +'<button class="admin-btn" onclick="exportUsersCSV()"><i class="fas fa-download"></i> Users (CSV)</button>'
+    +'<button class="admin-btn" onclick="exportWaitlistCSV()"><i class="fas fa-download"></i> Waitlist (CSV)</button>'
+    +'<button class="admin-btn ghost" onclick="exportPlansJSON()"><i class="fas fa-download"></i> Plans (JSON)</button>'
+    +'<button class="admin-btn ghost" onclick="exportWorkoutHistoryJSON()"><i class="fas fa-download"></i> Workout History (JSON)</button>'
+    +'<button class="admin-btn ghost" onclick="exportFullDatabase()"><i class="fas fa-download"></i> Full Database (JSON)</button>'
     +'</div></div>';
 }
 
@@ -2908,7 +2908,7 @@ function signOut(){
   // Clear all auth/register fields — prevent data snooping
   ['loginEmail','loginPass','regName','regUsername','regEmail','regPass','regPassConfirm','forgotEmail','adminUser','adminPassInp'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   // Reset A object in memory — wipe all user data
-  A.user={name:'',email:'',username:'',age:'',weight:'',height:'',avatar:'💪',goal:'',allergies:[],weightGoal:'',units:'metric',language:'en',fontSize:'medium',notifs:{workout:true,streak:true,meal:false,coach:true,report:true},privacy:{analytics:true,location:false,chat:true}};
+  A.user={name:'',email:'',username:'',age:'',weight:'',height:'',avatar:'dumbbell',goal:'',allergies:[],weightGoal:'',units:'metric',language:'en',fontSize:'medium',notifs:{workout:true,streak:true,meal:false,coach:true,report:true},privacy:{analytics:true,location:false,chat:true}};
   A.tier='free'; A.plans=[]; A.currentPlanId=null; A.currentDay=0; A.chat=[];
   A.goal=''; A.workoutHistory=[]; A.weightHistory=[];
   A.report={streak:0,best:0,workouts:0,exercises:0,weekDone:[],streakHistory:[],lastWorkoutDate:null};
@@ -2925,10 +2925,10 @@ function getObSteps(){
   if(!A.user.weight||!A.user.height||!A.user.age) steps.push({q:"Your <span>stats.</span>",sub:"We need this to build your personalized plan.",type:'stats'});
   steps.push({q:"What is your main <span>goal?</span>",sub:"This sets the foundation for everything.",type:'goal',
     opts:[
-      {ic:'🔥',l:'Lose fat & get lean',d:'Cut down, build definition'},
-      {ic:'💪',l:'Build muscle & size',d:'Get bigger and stronger'},
-      {ic:'⚡',l:'Aesthetic physique',d:'V-taper, cuts, Greek god look'},
-      {ic:'🤸',l:'Improve fitness',d:'Endurance, mobility, health'},
+      {ic:'fire',l:'Lose fat & get lean',d:'Cut down, build definition'},
+      {ic:'dumbbell',l:'Build muscle & size',d:'Get bigger and stronger'},
+      {ic:'bolt',l:'Aesthetic physique',d:'V-taper, cuts, Greek god look'},
+      {ic:'running',l:'Improve fitness',d:'Endurance, mobility, health'},
     ]
   });
   return steps;
@@ -2939,7 +2939,7 @@ function startOnboarding(){
   OB_STEPS=getObSteps();
   // Pre-fill obData from existing user data
   A.obData.name=A.user.name||''; A.obData.username=A.user.username||'';
-  A.obData.gender=A.user.gender||''; A.obData.avatar=A.user.avatar||'💪';
+  A.obData.gender=A.user.gender||''; A.obData.avatar=A.user.avatar||'dumbbell';
   A.obData.weight=A.user.weight||''; A.obData.height=A.user.height||''; A.obData.age=A.user.age||'';
   renderObStep(0);
 }
@@ -2958,7 +2958,7 @@ function renderObStep(step){
   } else if(s.type==='username'){
     html+='<div class="ob-inp-wrap"><label class="ob-inp-lbl">Username</label><div style="position:relative;"><span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--acc);font-weight:700;font-size:16px;">@</span><input class="ob-inp" id="obUsernameInp" type="text" placeholder="yourhandle" style="padding-left:32px;" oninput="this.value=this.value.replace(/[^a-zA-Z0-9_]/g,\'\')" value="'+(A.obData.username||'')+'"/></div><div style="font-size:11px;color:var(--txt3);margin-top:6px;">Letters, numbers and _ only. Min 3 characters.</div></div>';
   } else if(s.type==='gender'){
-    const genders=[{v:'Male',ic:'♂️'},{v:'Female',ic:'♀️'},{v:'Other',ic:'⚧️'}];
+    const genders=[{v:'Male',ic:'M'},{v:'Female',ic:'F'},{v:'Other',ic:'O'}];
     html+='<div class="ob-opts">';
     genders.forEach(g=>{
       html+='<div class="ob-opt '+(A.obData.gender===g.v?'active':'')+'" onclick="pickObGender(\''+g.v+'\',this)"><div class="ob-opt-dot '+(A.obData.gender===g.v?'active':'')+'"></div><div class="ob-opt-ic">'+g.ic+'</div><div class="ob-opt-info"><div class="ob-opt-lbl">'+g.v+'</div></div></div>';
@@ -2966,7 +2966,7 @@ function renderObStep(step){
     html+='</div>';
   } else if(s.type==='avatar'){
     html+='<div class="ob-avatar-row">';
-    ['💪','🦁','⚡','🔥','🏋️','🗡️','👑','🐉'].forEach(em=>{
+    ['💪','🦁','','🔥','🏋️','🗡️','👑','🐉'].forEach(em=>{
       html+='<div class="av-opt '+(A.obData.avatar===em?'active':'')+'" onclick="pickAvatar(\''+em+'\',this)"><div class="av-ic">'+em+'</div></div>';
     });
     html+='</div>';
@@ -2998,7 +2998,7 @@ function obNext(){
   } else if(s.type==='gender'){
     if(!A.obData.gender){ toast('Please pick your gender!'); return; }
   } else if(s.type==='avatar'){
-    if(!A.obData.avatar){ A.obData.avatar='💪'; }
+    if(!A.obData.avatar){ A.obData.avatar='dumbbell'; }
   } else if(s.type==='stats'){
     const w=document.getElementById('obW')?.value;
     const h=document.getElementById('obH')?.value;
@@ -3019,7 +3019,7 @@ function obNext(){
     A.user.name=A.obData.name||'User';
     A.user.username=A.obData.username||'';
     A.user.gender=A.obData.gender||'';
-    A.user.avatar=A.obData.avatar||'💪';
+    A.user.avatar=A.obData.avatar||'dumbbell';
     A.user.weight=A.obData.weight||'';
     A.user.height=A.obData.height||'';
     A.user.age=A.obData.age||'';
@@ -3079,14 +3079,14 @@ function initApp(){
   const name=A.user.name||'';
   const first=name.split(' ')[0].toUpperCase();
   document.getElementById('userGreet').innerHTML=`${first} <span>↗</span>`;
-  document.getElementById('avatarCircle').textContent=A.user.avatar||'💪';
-  document.getElementById('settingsAv').textContent=A.user.avatar||'💪';
+  document.getElementById('avatarCircle').textContent=A.user.avatar||'dumbbell';
+  document.getElementById('settingsAv').textContent=A.user.avatar||'dumbbell';
   renderAllergiesPanel();
   renderPlanCard();
   document.getElementById('settingsName').textContent=A.user.name||'—';
   document.getElementById('settingsHandle').textContent=A.user.username?'@'+A.user.username:'';
   document.getElementById('settingsEmail').textContent=A.user.email||'—';
-  document.getElementById('settingsTier').textContent=A.tier==='pro'?'PRO PLAN ⚡':A.tier==='basic'?'BASIC PLAN':'FREE PLAN';
+  document.getElementById('settingsTier').textContent=A.tier==='pro'?'PRO PLAN':A.tier==='basic'?'BASIC PLAN':'FREE PLAN';
   document.getElementById('setGoalSub').textContent=A.user.goal||'Not set';
 
   updateTierUI();
@@ -3113,14 +3113,14 @@ function initApp(){
   const first=name.split(' ')[0].toUpperCase();
   const uname=A.user.username?(' @'+A.user.username):'';
   document.getElementById('userGreet').innerHTML=first+'<span> ↗</span>';
-  document.getElementById('avatarCircle').textContent=A.user.avatar||'💪';
-  document.getElementById('settingsAv').textContent=A.user.avatar||'💪';
+  document.getElementById('avatarCircle').textContent=A.user.avatar||'dumbbell';
+  document.getElementById('settingsAv').textContent=A.user.avatar||'dumbbell';
   renderAllergiesPanel();
   renderPlanCard();
   document.getElementById('settingsName').textContent=A.user.name||'—';
   document.getElementById('settingsHandle').textContent=A.user.username?'@'+A.user.username:'';
   document.getElementById('settingsEmail').textContent=A.user.email||'—';
-  document.getElementById('settingsTier').textContent=A.tier==='pro'?'PRO PLAN ⚡':A.tier==='basic'?'BASIC PLAN':'FREE PLAN';
+  document.getElementById('settingsTier').textContent=A.tier==='pro'?'PRO PLAN':A.tier==='basic'?'BASIC PLAN':'FREE PLAN';
   document.getElementById('setGoalSub').textContent=A.user.goal||'Not set';
   document.getElementById('setBudgetSub')&&(document.getElementById('setBudgetSub').textContent=A.budgetCustom||A.budget.charAt(0).toUpperCase()+A.budget.slice(1));
 
@@ -3155,7 +3155,7 @@ function checkDailyPlanRefresh(){
     // New day — clear saved HTML so next Continue generates fresh
     const idx=A.plans.indexOf(plan);
     if(idx>=0){ A.plans[idx].savedHTML=null; save(); }
-    toast('New day, new workout ready! Tap Continue to load it. 💪');
+    toast('New day, new workout ready! Tap Continue to load it.');
   }
 }
 
@@ -3196,10 +3196,10 @@ function renderCoachInTarget(container){
   if(lang) A.coachCtx+='\n'+lang;
 
   container.innerHTML='<div class="coach-wrap">'
-    +'<div class="coach-hdr"><div class="coach-av">⚡</div><div><div class="coach-nm">DIFF — Your Coach</div><div class="coach-st">● ONLINE · '+A.tier.toUpperCase()+'</div></div>'
-    +'<label style="margin-left:auto;background:var(--s3);border:1px solid var(--bdr);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:11px;color:var(--txt2);" title="Upload workout/PDF">📎 Upload<input type="file" accept="image/*,.pdf" style="display:none;" onchange="handleCoachUpload(event)"/></label></div>'
+    +'<div class="coach-hdr"><div class="coach-av"><i class="fas fa-bolt"></i></div><div><div class="coach-nm">DIFF — Your Coach</div><div class="coach-st">● ONLINE · '+A.tier.toUpperCase()+'</div></div>'
+    +'<label style="margin-left:auto;background:var(--s3);border:1px solid var(--bdr);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:11px;color:var(--txt2);" title="Upload workout/PDF"><i class="fas fa-paperclip"></i> Upload<input type="file" accept="image/*,.pdf" style="display:none;" onchange="handleCoachUpload(event)"/></label></div>'
     +'<div class="chat-body" id="chatBodyTab"></div>'
-    +'<div class="quick-actions"><button class="qa-btn" onclick="sendCoachMsgTab(\'How am I doing overall?\')">📊 Progress</button><button class="qa-btn" onclick="sendCoachMsgTab(\'What should I improve?\')">💡 Improve</button><button class="qa-btn" onclick="sendCoachMsgTab(\'Give me a pep talk.\')">🔥 Motivate</button><button class="qa-btn" onclick="sendCoachMsgTab(\'Am I training too much?\')">⚠️ Recovery</button></div>'
+    +'<div class="quick-actions"><button class="qa-btn" onclick="sendCoachMsgTab(\'How am I doing overall?\')"><i class="fas fa-chart-bar"></i> Progress</button><button class="qa-btn" onclick="sendCoachMsgTab(\'What should I improve?\')"><i class="fas fa-lightbulb"></i> Improve</button><button class="qa-btn" onclick="sendCoachMsgTab(\'Give me a pep talk.\')"><i class="fas fa-fire"></i> Motivate</button><button class="qa-btn" onclick="sendCoachMsgTab(\'Am I training too much?\')"><i class="fas fa-heartbeat"></i> Recovery</button></div>'
     +'<div class="chat-inp-row"><input class="chat-inp" id="coachInpTab" placeholder="Ask DIFF anything..." onkeydown="if(event.key===\'Enter\')sendCoachMsgTab()"/><button class="chat-send" onclick="sendCoachMsgTab()">→</button></div>'
     +'</div>';
 
@@ -3256,7 +3256,7 @@ async function handleCoachUpload(e){
 
 function updateTierUI(){
   const b=document.getElementById('tierBadge');
-  if(A.tier==='pro'){ b.className='tier-badge'; b.textContent='PRO ⚡'; b.style.background='linear-gradient(135deg,#f5c518,#ff9500)'; }
+  if(A.tier==='pro'){ b.className='tier-badge'; b.textContent='PRO'; b.style.background='linear-gradient(135deg,#f5c518,#ff9500)'; }
   else if(A.tier==='basic'){ b.className='tier-badge'; b.textContent='BASIC'; b.style.background='linear-gradient(135deg,var(--acc),#0099bb)'; b.style.color='#000'; }
   else { b.className='tier-badge free'; b.textContent='FREE'; b.style.background=''; b.style.color=''; }
 }
@@ -3360,7 +3360,7 @@ Analyze this physique reference (could be an anime character, athlete, celebrity
 Be specific and practical. Keep it under 150 words. If it's fictional, base it on their depicted physique.`;
     const result=await ai(prompt,false,'You are a fitness expert. Analyze physique references concisely and practically. Plain text only, no HTML.');
     if(result){
-      refResult.innerHTML='<div style="color:var(--acc);font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:2px;margin-bottom:6px;">📊 PHYSIQUE PROFILE</div>'+result.replace(/\n/g,'<br/>');
+      refResult.innerHTML='<div style="color:var(--acc);font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:2px;margin-bottom:6px;">PHYSIQUE PROFILE</div>'+result.replace(/\n/g,'<br/>');
       // Auto-set as goal
       A.goal=val+' physique';
     }
@@ -3484,10 +3484,10 @@ function genGeoMeals(lat,lon){
   mr.innerHTML='<div class="meals-card"><div style="text-align:center;padding:20px;"><div class="lring" style="margin:0 auto 10px;"></div><div class="ltxt">Loading local dishes...</div></div></div>';
   const priceCtx='IMPORTANT: Use REAL current 2026 Nigerian market prices in NGN. Inflation has been severe — rice is ₦1,200-1,800/cup, eggs ₦300-400 each, chicken ₦2,000-3,500/kg, fish ₦1,500-3,000 each, beans ₦800-1,200/cup, plantain ₦500-800 each. Do NOT use outdated pre-2025 prices. Be honest about costs.';
   return ai('You are a Nigerian fitness nutritionist. Generate a local meal plan for someone near latitude '+lat+', longitude '+lon+'. Goal: '+A.goal+'. '+budgetText+' '+priceCtx+' List 10-12 specific local foods/dishes with: name, brief description, macros (protein/carb/fat), and realistic 2026 NGN price estimate. Include street foods, local markets, and traditional Nigerian dishes where relevant. Format clean HTML using only h3,p,ul,li,strong tags.',false,'You are a Nigerian fitness nutritionist. Return only clean HTML. Use real 2026 NGN prices.')
-    .then(r=>{ mr.innerHTML='<div class="meals-card"><div class="mc-top"><div class="mc-ic">📍</div><div class="mc-ttl">Local Meals Near You</div><div style="margin-left:auto;font-family:\'JetBrains Mono\',monospace;font-size:8px;color:var(--txt3);letter-spacing:1px;">GPS</div></div><div class="pout">'+r+'</div></div>'; })
+    .then(r=>{ mr.innerHTML='<div class="meals-card"><div class="mc-top"><div class="mc-ic"><i class="fas fa-map-marker-alt"></i></div><div class="mc-ttl">Local Meals Near You</div><div style="margin-left:auto;font-family:\'JetBrains Mono\',monospace;font-size:8px;color:var(--txt3);letter-spacing:1px;">GPS</div></div><div class="pout">'+r+'</div></div>'; })
     .catch(e=>{
       mr.innerHTML='<div class="err-box" style="text-align:center;">'
-        +'<div style="font-size:28px;margin-bottom:8px;">📡</div>'
+        +'<div style="font-size:28px;margin-bottom:8px;"><i class="fas fa-wifi" style="color:var(--err);"></i></div>'
         +'<div style="font-weight:700;margin-bottom:4px;">Couldn\'t connect to meal AI</div>'
         +'<div style="font-size:12px;color:var(--txt3);margin-bottom:12px;">'+(e.message||'Check your internet connection and try again.')+'</div>'
         +'<button onclick="genGeoMeals('+lat+','+lon+')" style="background:var(--acc);color:#000;border:none;border-radius:8px;padding:8px 18px;font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:14px;cursor:pointer;letter-spacing:1px;">↺ RETRY</button>'
@@ -3681,13 +3681,13 @@ async function genPremium(){
       const fb=isHome?(FREE_WO_HOME[gk]||FREE_WO_HOME.default):isHybrid?[...(FREE_WO[gk]||FREE_WO.default).slice(0,4),...(FREE_WO_HOME[gk]||FREE_WO_HOME.default).slice(0,4)]:(FREE_WO[gk]||FREE_WO.default);
       renderExList('ptcon-workout',fb,true);
     }
-  } catch(e){ document.getElementById('ptcon-workout').innerHTML='<div class="err-box">⚠️ '+e.message+'</div>'; }
+  } catch(e){ document.getElementById('ptcon-workout').innerHTML='<div class="err-box"><i class="fas fa-exclamation-triangle"></i> '+e.message+'</div>'; }
 
   // Diet
   try {
     const budgetText = A.budgetCustom ? `Budget: ${A.budgetCustom}.` : `Budget: ${A.budget}.`;
     const d=await ai(`Personalized nutrition plan for: Goal: ${A.goal}. ${budgetText} Gender: ${A.user.gender||'unspecified'}. Weight: ${A.sel.weight||'?'}kg. Height: ${A.sel.height||'?'}cm. Age: ${A.sel.age||'?'}. Training: ${A.sel.days} ${A.sel.loc}. Level: ${A.sel.lvl}. Include exact calorie target, macro split in grams, meal timing, best foods, worst foods, 3 key tips. Clean HTML only: h2,h3,p,ul,li,strong,hr.`);
-    document.getElementById('ptcon-diet').innerHTML=`<div class="pout"><div class="ai-pill">⚡ AI GENERATED</div>${d}</div>`;
+    document.getElementById('ptcon-diet').innerHTML=`<div class="pout"><div class="ai-pill"><i class="fas fa-bolt"></i> AI GENERATED</div>${d}</div>`;
   } catch(e){ document.getElementById('ptcon-diet').innerHTML=`<div class="pout">${FREE_DIET}</div>`; }
 
   renderCoach();
@@ -3699,7 +3699,7 @@ async function genPremium(){
 // ─── EXERCISE RENDERING ──────────────────────────────────────────────
 function renderExList(cid, names, isAI){
   const c=document.getElementById(cid);
-  let h=isAI?'<div class="ai-pill">⚡ AI GENERATED</div>':'';
+  let h=isAI?'<div class="ai-pill"><i class="fas fa-bolt"></i> AI GENERATED</div>':'';
   h+='<div class="ex-list">';
   names.forEach((n,i)=>{
     const known=EX[n]||{};
@@ -3848,7 +3848,7 @@ function getExerciseImg(name, muscle){
 
 function renderAIExList(cid, exs){
   const c=document.getElementById(cid);
-  let h='<div class="ai-pill">⚡ AI GENERATED</div><div class="ex-list">';
+  let h='<div class="ai-pill"><i class="fas fa-bolt"></i> AI GENERATED</div><div class="ex-list">';
   exs.forEach((ex,i)=>{
     const known=EX[ex.name]||{};
     const img=known.img||getExerciseImg(ex.name, ex.muscle);
@@ -3862,7 +3862,7 @@ function renderAIExList(cid, exs){
 function buildExCard(name,ex,i){
   const vid='https://www.youtube.com/results?search_query='+encodeURIComponent(name+' exercise tutorial form');
   const timerBtn=ex.timed?'<div class="exbtn timer-active" onclick="toggleExTimer('+i+','+(ex.timerSec||30)+')">⏱ '+(ex.timerSec||30)+'s</div>':'';
-  const imgBtn=ex.img?'<div class="exbtn" onclick="toggleExImg('+i+')">📷</div>':'';
+  const imgBtn=ex.img?'<div class="exbtn" onclick="toggleExImg('+i+')"><i class="fas fa-camera"></i></div>':'';
   const imgHtml=ex.img?'<img class="ex-img" id="ei'+i+'" src="'+ex.img+'" alt="'+name+'" loading="lazy"/>':'';
   return '<div class="ex-card" id="ec'+i+'">'
     +'<div class="ex-top">'
@@ -3996,7 +3996,7 @@ function generateTomorrowWorkout(){
 }
 
 function showEncouragingMessage(){
-  const msgs=['🔥 SAVAGE! All exercises crushed.','💪 That\'s what champions do.','⚡ You\'re BUILT different.','🏆 Perfect execution. No excuses.','✅ Workout complete. Recovery starts now.'];
+  const msgs=['🔥 SAVAGE! All exercises crushed.','💪 That\'s what champions do.',' You\'re BUILT different.','🏆 Perfect execution. No excuses.','✅ Workout complete. Recovery starts now.'];
   const msg=msgs[Math.floor(Math.random()*msgs.length)];
   const card=document.createElement('div');
   card.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--acc);color:#000;padding:28px;border-radius:16px;font-family:Barlow Condensed;font-weight:900;font-size:24px;text-align:center;z-index:9999;box-shadow:0 10px 40px rgba(0,0,0,0.3);letter-spacing:1px;';
@@ -4103,11 +4103,11 @@ CRITICAL: You respond to EXACTLY what was said — never give generic responses.
 
   const c=document.getElementById('ptcon-coach');
   c.innerHTML=`<div class="coach-wrap">
-    <div class="coach-hdr"><div class="coach-av">⚡</div><div><div class="coach-nm">DIFF — Your Coach</div><div class="coach-st">● ONLINE · ${A.tier.toUpperCase()}</div></div></div>
+    <div class="coach-hdr"><div class="coach-av"><i class="fas fa-bolt"></i></div><div><div class="coach-nm">DIFF — Your Coach</div><div class="coach-st">● ONLINE · ${A.tier.toUpperCase()}</div></div></div>
     <div class="chat-body" id="chatBody"></div>
     <div class="typing-ind" id="typingInd"><div class="dots"><span></span><span></span><span></span></div><span>DIFF is thinking...</span></div>
     <div class="quick-row">
-      <div class="qbtn" onclick="qmsg('Just crushed my workout 💪')"><i class="fas fa-check-circle"></i> Crushed it</div>
+      <div class="qbtn" onclick="qmsg('Just crushed my workout!')"><i class="fas fa-check-circle"></i> Crushed it</div>
       <div class="qbtn" onclick="qmsg('I skipped the gym today')"><i class="fas fa-times-circle"></i> Skipped</div>
       <div class="qbtn" onclick="qmsg('I ate junk food today')"><i class="fas fa-burger"></i> Ate bad</div>
       <div class="qbtn" onclick="qmsg('I need motivation right now')"><i class="fas fa-fire"></i> Motivate me</div>
@@ -4180,7 +4180,7 @@ function renderMealsTab(){
 
     <!-- GPS + Manual toggle -->
     <div style="display:flex;gap:8px;margin-bottom:12px;">
-      <button onclick="requestGPS()" style="flex:1;background:var(--acc2);border:1px solid var(--acc);color:var(--acc);border-radius:9px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">📍 Use My Location</button>
+      <button onclick="requestGPS()" style="flex:1;background:var(--acc2);border:1px solid var(--acc);color:var(--acc);border-radius:9px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;"><i class="fas fa-location-crosshairs"></i> Use My Location</button>
       <button onclick="showManualLoc()" style="flex:1;background:var(--s3);border:1px solid var(--bdr2);color:var(--txt3);border-radius:9px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;"><i class="fas fa-search"></i> Search Manually</button>
     </div>
 
@@ -4274,16 +4274,16 @@ function selectLoc(id,labelEnc){
     locPath.region=id;
     locLevel='country';
     setLocOpts((LOC.countries[id]||[]).map(c=>({id:c.id,l:c.l,f:c.f})));
-    updateLocCrumb([{l:'🌍 '+label,lv:'region'}]);
+    updateLocCrumb([{l:''+label,lv:'region'}]);
     document.getElementById('locLvlLbl').textContent='SELECT COUNTRY';
     showMealGenerateBtn();
   } else if(locLevel==='country'){
     locPath.country=id;
     const rLabel=LOC.regions.find(r=>r.id===locPath.region)?.l||'';
-    updateLocCrumb([{l:'🌍 '+rLabel,lv:'region'},{l:'🏳️ '+label,lv:'country'}]);
+    updateLocCrumb([{l:''+rLabel,lv:'region'},{l:''+label,lv:'country'}]);
     if(A.tier!=='free'){
       locLevel='state';
-      setLocOpts((LOC.states[id]||LOC.states.default).map(s=>({id:s,l:s,f:'📍'})));
+      setLocOpts((LOC.states[id]||LOC.states.default).map(s=>({id:s,l:s,f:''})));
       document.getElementById('locLvlLbl').textContent='SELECT STATE / PROVINCE';
     } else { showMealsGate('state'); }
     showMealGenerateBtn();
@@ -4292,10 +4292,10 @@ function selectLoc(id,labelEnc){
     const rLabel=LOC.regions.find(r=>r.id===locPath.region)?.l||'';
     const cAll=Object.values(LOC.countries).flat();
     const cLabel=cAll.find(c=>c.id===locPath.country)?.l||'';
-    updateLocCrumb([{l:'🌍 '+rLabel,lv:'region'},{l:'🏳️ '+cLabel,lv:'country'},{l:'📍 '+label,lv:'state'}]);
+    updateLocCrumb([{l:''+rLabel,lv:'region'},{l:''+cLabel,lv:'country'},{l:''+label,lv:'state'}]);
     if(A.tier==='pro'){
       locLevel='city';
-      setLocOpts((LOC.cities[id]||LOC.cities.default).map(c=>({id:c,l:c,f:'🏙️'})));
+      setLocOpts((LOC.cities[id]||LOC.cities.default).map(c=>({id:c,l:c,f:''})));
       document.getElementById('locLvlLbl').textContent='SELECT CITY';
     } else { showMealsGate('city'); }
     showMealGenerateBtn();
@@ -4303,7 +4303,7 @@ function selectLoc(id,labelEnc){
     locPath.city=id;
     const cAll=Object.values(LOC.countries).flat();
     const cLabel=cAll.find(c=>c.id===locPath.country)?.l||'';
-    updateLocCrumb([...getCrumbItems(),{l:'🏙️ '+label,lv:'city'}]);
+    updateLocCrumb([...getCrumbItems(),{l:''+label,lv:'city'}]);
     locLevel='town';
     document.getElementById('locLvlLbl').textContent='TYPE YOUR AREA / TOWN';
     // Switch to manual text input for town level
@@ -4367,7 +4367,7 @@ function selectManualTown(val){
   document.getElementById('townSuggestions').style.display='none';
   const cAll=Object.values(LOC.countries).flat();
   const cLabel=cAll.find(c=>c.id===locPath.country)?.l||'';
-  updateLocCrumb([...getCrumbItems(),{l:'🏘️ '+val.trim(),lv:'town'}]);
+  updateLocCrumb([...getCrumbItems(),{l:''+val.trim(),lv:'town'}]);
   showMealGenerateBtn();
 }
 
@@ -4419,7 +4419,7 @@ async function genBasicMeals(country,state){
   try {
     const priceCtx=`Use ACCURATE current market prices for ${state}, ${country} as of ${new Date().getFullYear()}. Use real prices a local would pay at local markets, supermarkets and street food vendors right now.`;
     const r=await ai(`Full 7-day meal plan for someone in ${state}, ${country}. ${budgetText} Goal: ${A.goal}. Weight: ${A.sel.weight||'70'}kg. Age: ${A.sel.age||'25'}. ${priceCtx} Use locally available foods. For each day include: breakfast, lunch, dinner, 2 snacks. Add calories and macros (protein/carbs/fat) per meal. Daily totals. Keep budget-friendly. Include pre/post workout meals. Grocery shopping list with current local prices. Clean HTML: h2,h3,p,ul,li,strong,hr only.`,false,null,2500);
-    mr.innerHTML=`<div class="meals-card"><div class="mc-top"><div class="mc-ic">📍</div><div class="mc-ttl">${state} Meal Plan</div><div class="ai-pill" style="margin-left:auto;margin-bottom:0;">⚡ AI</div></div><div class="pout">${r}</div></div>`;
+    mr.innerHTML=`<div class="meals-card"><div class="mc-top"><div class="mc-ic"><i class="fas fa-map-marker-alt"></i></div><div class="mc-ttl">${state} Meal Plan</div><div class="ai-pill" style="margin-left:auto;margin-bottom:0;"><i class="fas fa-bolt"></i> AI</div></div><div class="pout">${r}</div></div>`;
   } catch(e){ mr.innerHTML=`<div class="err-box">Failed to load. Try again.</div>`; }
 }
 
@@ -4433,7 +4433,7 @@ async function genProMeals(country,state,city,town){
   try {
     const priceCtx=`Use ACCURATE current market prices for ${loc} as of ${new Date().getFullYear()}. Reference specific local markets, street vendors, and shops that actually exist in ${city||state}. Use prices a local resident would pay right now — not estimates or outdated figures.`;
     const r=await ai(`Hyper-local 7-day meal plan for ${loc}. ${budgetText} Goal: ${A.goal}. Weight: ${A.sel.weight||'70'}kg. Age: ${A.sel.age||'25'}. ${priceCtx} Reference specific local foods, street vendors, markets and restaurants in ${city||state}. For each day: breakfast, lunch, dinner, 2 snacks with exact calories and macros. Daily totals. Grocery list with current local prices. Pre/post workout meal timing. Supplement suggestions. Make it feel like advice from someone who actually lives in ${city||state}. HTML: h2,h3,p,ul,li,strong,hr only.`,false,null,4096);
-    mr.innerHTML=`<div class="meals-card"><div class="mc-top"><div class="mc-ic">⚡</div><div class="mc-ttl">${city||state} — Pro Meal Plan</div><div class="ai-pill" style="margin-left:auto;margin-bottom:0;">⚡ PRO</div></div><div class="pout">${r}</div></div>`;
+    mr.innerHTML=`<div class="meals-card"><div class="mc-top"><div class="mc-ic"></div><div class="mc-ttl">${city||state} — Pro Meal Plan</div><div class="ai-pill" style="margin-left:auto;margin-bottom:0;"><i class="fas fa-bolt"></i> PRO</div></div><div class="pout">${r}</div></div>`;
   } catch(e){ mr.innerHTML=`<div class="err-box">Failed to load. Try again.</div>`; }
 }
 
@@ -4464,7 +4464,7 @@ function renderTransformTab(){
             <span style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--txt3);letter-spacing:1px;">PICK PHOTO</span>
           </label>
           <label style="background:var(--s3);border:1px solid var(--bdr2);border-radius:12px;padding:18px 12px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--acc)'" onmouseout="this.style.borderColor='var(--bdr2)'" onclick="openTransformCamera(event)">
-            <span style="font-size:28px;">📷</span>
+            <span style="font-size:28px;"><i class="fas fa-camera"></i></span>
             <span style="font-size:12px;font-weight:600;color:var(--txt2);">Camera</span>
             <span style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--txt3);letter-spacing:1px;">TAKE PHOTO</span>
           </label>
@@ -4642,7 +4642,7 @@ function renderProgressPhotos(){
         <div style="font-family:'JetBrains Mono',monospace;font-size:7px;color:#fff;letter-spacing:.5px;">${p.date}</div>
         ${p.weight?`<div style="font-size:8px;color:var(--acc);">${p.weight}kg</div>`:''}
       </div>
-      <button onclick="deletePhoto(${i})" style="position:absolute;top:4px;right:4px;background:rgba(255,77,109,.8);border:none;border-radius:50%;width:18px;height:18px;color:#fff;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+      <button onclick="deletePhoto(${i})" style="position:absolute;top:4px;right:4px;background:rgba(255,77,109,.8);border:none;border-radius:50%;width:18px;height:18px;color:#fff;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;"><i class="fas fa-times"></i></button>
     </div>`).join('');
 }
 
@@ -5310,7 +5310,7 @@ function renderExPrograms(cat){
     +['Beginner','Intermediate','Advanced'].map((diff,i)=>{
       const p=envData[diff];
       if(!p) return '';
-      const bolts='⚡'.repeat(i+1)+'<span style="opacity:.3">'+'⚡'.repeat(2-i)+'</span>';
+      const bolts=''.repeat(i+1)+'<span style="opacity:.3">'+''.repeat(2-i)+'</span>';
       const isActive=_activeProgram&&_activeProgram.cat===cat&&_activeProgram.env===_discEnv&&_activeProgram.difficulty===diff;
       return `<div class="ex-program-card ${isActive?'active':''}" onclick="openProgram('${cat}','${diff}')">
         <img src="${catImg}" style="width:80px;height:80px;object-fit:cover;border-radius:12px;flex-shrink:0;" alt="${cat}"/>
@@ -5575,7 +5575,7 @@ function finishDayWorkout(){
   save(); saveAll();
   exitGuidedWorkout();
   renderActiveChallengeCard();
-  const msgs=['🔥 SAVAGE!','💪 Built different.','⚡ Day '+(_activeProgram.currentDay-1)+' done.','✅ Keep showing up.'];
+  const msgs=['SAVAGE!','Built different.',' Day '+(_activeProgram.currentDay-1)+' done.','Keep showing up.'];
   toast(msgs[Math.floor(Math.random()*msgs.length)]);
   if(_activeProgram.currentDay>_activeProgram.duration){
     toast('🏆 Program complete! You finished all '+_activeProgram.duration+' days!');
@@ -6031,7 +6031,7 @@ function activateDemo(){
   A.tier='pro';
   updateTierUI();
   closeModal();
-  document.getElementById('settingsTier').textContent='PRO PLAN ⚡';
+  document.getElementById('settingsTier').textContent='PRO PLAN';
   document.getElementById('upgradeBannerWrap').innerHTML='';
   save();
   toast('Premium activated! Regenerate your plan to unlock everything.');
@@ -6151,7 +6151,7 @@ function dismissToast(){
 // ─── SETTINGS PANELS ─────────────────────────────────────────────────
 let currentUnit='metric';
 let selectedGoal='';
-let epAvatar=A.user.avatar||'💪';
+let epAvatar=A.user.avatar||'dumbbell';
 
 function openPanel(id){
   const p=document.getElementById(`panel-${id}`);
@@ -6165,10 +6165,10 @@ function openPanel(id){
     document.getElementById('ep-height').value=A.user.height||'';
     document.getElementById('ep-age').value=A.user.age||'';
     const epwg=document.getElementById('ep-weightgoal'); if(epwg) epwg.value=A.user.weightGoal||'';
-    epAvatar=A.user.avatar||'💪';
+    epAvatar=A.user.avatar||'dumbbell';
     const avRow=document.getElementById('ep-avatars');
     if(avRow){
-      avRow.innerHTML=['💪','🦁','⚡','🔥','🏋️','🗡️','👑','🐉'].map(em=>
+      avRow.innerHTML=['💪','🦁','','🔥','🏋️','🗡️','👑','🐉'].map(em=>
         `<div class="av-opt ${epAvatar===em?'active':''}" onclick="pickEpAvatar('${em}',this)"><div class="av-ic">${em}</div></div>`
       ).join('');
     }
