@@ -629,6 +629,9 @@ body[data-fontsize="xlarge"] .ex-name,.pout p,.pout li,.si-lbl{font-size:1.2em;}
 .ex-program-card.active{border-color:var(--acc);background:var(--acc2);}
 .dur-btn{background:var(--s2);border:1px solid var(--bdr);border-radius:10px;padding:9px 16px;color:var(--txt2);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px;transition:all .15s;}
 .dur-btn.active{background:var(--acc2);border-color:var(--acc);color:var(--acc);}
+.music-platform-btn{background:var(--s2);border:1px solid var(--bdr);border-radius:12px;padding:12px 16px;color:var(--txt2);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;transition:all .15s;min-width:72px;line-height:1.8;}
+.music-platform-btn.active{background:var(--acc2);border-color:var(--acc);color:var(--acc);}
+.music-platform-btn:hover{border-color:var(--bdr2);}
 .disc-si{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--txt3);}
 .muscle-chips{display:flex;gap:7px;padding:0 20px;overflow-x:auto;margin-bottom:20px;}
 .mchip{background:var(--s2);border:1px solid var(--bdr);border-radius:20px;padding:7px 14px;cursor:pointer;font-size:12px;font-weight:600;color:var(--txt3);transition:all .2s;white-space:nowrap;flex-shrink:0;}
@@ -5417,6 +5420,101 @@ function startDayWorkout(){
   _gwIndex=0;
   document.getElementById('guidedWorkoutOverlay').style.display='block';
   document.body.style.overflow='hidden';
+  // Show music setup screen first
+  showMusicSetupScreen();
+}
+
+let _workoutMusicLink='';
+let _workoutMusicPlatform='';
+
+function showMusicSetupScreen(){
+  const content=document.getElementById('gwContent');
+  const prog=document.getElementById('gwProgress');
+  if(!content) return;
+  if(prog) prog.textContent='';
+
+  // If user already set music, skip straight to workout
+  const savedLink=localStorage.getItem('bd_workout_music_link')||'';
+  const savedPlatform=localStorage.getItem('bd_workout_music_platform')||'';
+
+  content.innerHTML=`
+    <div style="text-align:center;padding:20px 0;">
+      <i class="fas fa-music" style="font-size:48px;color:var(--acc);margin-bottom:16px;display:block;"></i>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:28px;letter-spacing:1px;margin-bottom:8px;">WORKOUT MUSIC</div>
+      <div style="color:var(--txt2);font-size:13px;margin-bottom:28px;line-height:1.6;">Paste your playlist link and we'll open it in your music app. Music plays in the background while you train.</div>
+
+      <!-- Platform picker -->
+      <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;" id="musicPlatformPicker">
+        <button class="music-platform-btn ${savedPlatform==='spotify'?'active':''}" onclick="selectMusicPlatform('spotify',this)">
+          <i class="fab fa-spotify" style="font-size:20px;color:#1db954;"></i><br/>Spotify
+        </button>
+        <button class="music-platform-btn ${savedPlatform==='apple'?'active':''}" onclick="selectMusicPlatform('apple',this)">
+          <i class="fab fa-apple" style="font-size:20px;"></i><br/>Apple Music
+        </button>
+        <button class="music-platform-btn ${savedPlatform==='youtube'?'active':''}" onclick="selectMusicPlatform('youtube',this)">
+          <i class="fab fa-youtube" style="font-size:20px;color:#ff0000;"></i><br/>YouTube
+        </button>
+        <button class="music-platform-btn ${savedPlatform==='other'?'active':''}" onclick="selectMusicPlatform('other',this)">
+          <i class="fas fa-music" style="font-size:20px;color:var(--acc);"></i><br/>Other
+        </button>
+      </div>
+
+      <!-- Playlist link input -->
+      <div style="margin-bottom:16px;">
+        <input id="musicLinkInp" type="url" placeholder="Paste your playlist link here..." value="${savedLink}" style="width:100%;background:var(--s2);border:1px solid var(--bdr);border-radius:10px;padding:12px 14px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;box-sizing:border-box;" oninput="updateMusicLink(this.value)"/>
+        <div style="font-size:11px;color:var(--txt3);margin-top:6px;font-family:'JetBrains Mono',monospace;" id="musicLinkHint">Copy a playlist link from Spotify, Apple Music or YouTube Music</div>
+      </div>
+
+      <!-- Open music button -->
+      <button id="openMusicBtn" onclick="openWorkoutMusic()" style="width:100%;background:var(--s2);border:1px solid var(--acc);border-radius:12px;padding:13px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:1px;cursor:pointer;color:var(--acc);margin-bottom:10px;display:${savedLink?'block':'none'};">
+        <i class="fas fa-external-link-alt"></i> OPEN PLAYLIST & START
+      </button>
+
+      <button onclick="beginWorkoutNow()" style="width:100%;background:var(--acc);color:#000;border:none;border-radius:12px;padding:14px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;letter-spacing:1px;cursor:pointer;margin-bottom:10px;">
+        <i class="fas fa-play"></i> START WITHOUT MUSIC
+      </button>
+
+      <button onclick="exitGuidedWorkout()" style="width:100%;background:transparent;border:none;color:var(--txt3);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;padding:8px;">
+        Cancel
+      </button>
+    </div>`;
+
+  // Set saved platform
+  if(savedPlatform) _workoutMusicPlatform=savedPlatform;
+  if(savedLink) _workoutMusicLink=savedLink;
+}
+
+function selectMusicPlatform(platform, el){
+  _workoutMusicPlatform=platform;
+  localStorage.setItem('bd_workout_music_platform', platform);
+  document.querySelectorAll('.music-platform-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  const hints={
+    spotify:'Open Spotify → Your Library → pick a playlist → Share → Copy Link',
+    apple:'Open Apple Music → pick a playlist → ··· → Share → Copy Link',
+    youtube:'Open YouTube Music → pick a playlist → Share → Copy Link',
+    other:'Paste any music link — we\'ll open it in your browser'
+  };
+  const hint=document.getElementById('musicLinkHint');
+  if(hint) hint.textContent=hints[platform]||'Paste your playlist link';
+}
+
+function updateMusicLink(val){
+  _workoutMusicLink=val.trim();
+  localStorage.setItem('bd_workout_music_link', _workoutMusicLink);
+  const btn=document.getElementById('openMusicBtn');
+  if(btn) btn.style.display=_workoutMusicLink?'block':'none';
+}
+
+function openWorkoutMusic(){
+  if(!_workoutMusicLink){ toast('Paste a playlist link first.'); return; }
+  // Open the music in a new tab/the music app
+  window.open(_workoutMusicLink, '_blank');
+  // Give user 2 seconds to switch then start workout
+  setTimeout(beginWorkoutNow, 1500);
+}
+
+function beginWorkoutNow(){
   renderGWExercise();
 }
 
